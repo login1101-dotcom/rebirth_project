@@ -195,21 +195,21 @@
 
             <!-- サマリーダッシュボード -->
             <div class="summary-dashboard">
-                <div class="summary-card">
+                <div class="summary-card" id="cardWeight">
                     <span class="label">平均体重 (Weekly)</span>
                     <div class="value">72.6<span class="unit">kg</span></div>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="cardSteps">
                     <span class="label">平均歩数 (Weekly)</span>
                     <div class="value">8,028<span class="unit">歩</span></div>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" id="cardSleep">
                     <span class="label">平均睡眠 (Weekly)</span>
                     <div class="value">6.9<span class="unit">h</span></div>
                 </div>
-                <div class="summary-card">
-                    <span class="label">総トレーニング量</span>
-                    <div class="value">11,114<span class="unit">kg</span></div>
+                <div class="summary-card" id="cardTraining">
+                    <span class="label">トレーニング状況</span>
+                    <div class="value" style="font-size:1.2rem;">最終: 昨日<span class="unit"></span></div>
                 </div>
             </div>
 
@@ -701,6 +701,69 @@
 
             // 初期表示
             renderHabitCalendar('week'); // デフォルトは週間表示
+
+            function updateSummaryColors() {
+                // Helper to set color
+                const setCardColor = (id, hue) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    // HSL Colors
+                    // Bg: Light (L=96%), Border: Medium (L=80%), Text: Dark (L=25%)
+                    el.style.backgroundColor = `hsl(${hue}, 80%, 96%)`;
+                    el.style.border = `1px solid hsl(${hue}, 80%, 80%)`;
+
+                    // Main Text Color
+                    el.style.color = `hsl(${hue}, 90%, 20%)`;
+
+                    // Adjust value text color specifically
+                    const valEl = el.querySelector('.value');
+                    if (valEl) valEl.style.color = `hsl(${hue}, 90%, 25%)`;
+                    const labelEl = el.querySelector('.label');
+                    if (labelEl) labelEl.style.color = `hsl(${hue}, 50%, 40%)`;
+                };
+
+                // 1. Weight (Target 70kg)
+                // 70 -> Green (120), 90 -> Red (0)
+                const weight = 72.6;
+                const weightBest = 70;
+                const weightWorst = 90;
+                let wHue = 120;
+                if (weight > weightBest) {
+                    const diff = weight - weightBest;
+                    const range = weightWorst - weightBest;
+                    let ratio = diff / range; // 2.6 / 20 = 0.13
+                    if (ratio > 1) ratio = 1;
+                    wHue = 120 * (1 - ratio); // 120 * 0.87 = 104
+                }
+                setCardColor('cardWeight', wHue);
+
+                // 2. Steps (Target 6000)
+                // 6000 -> Green (120), 0 -> Red (0)
+                const steps = 8028;
+                const stepsBest = 6000;
+                let sHue = 120;
+                if (steps < stepsBest) {
+                    const ratio = steps / stepsBest;
+                    sHue = 120 * ratio;
+                }
+                setCardColor('cardSteps', sHue);
+
+                // 3. Sleep (Target 8h)
+                // 8 -> Green (120), 0 -> Red (0)
+                const sleep = 6.9;
+                const sleepBest = 8;
+                let slHue = 120;
+                if (sleep < sleepBest) {
+                    const ratio = sleep / sleepBest;
+                    slHue = 120 * ratio; // 6.9/8 * 120 ~= 103
+                }
+                setCardColor('cardSleep', slHue);
+
+                // 4. Training (Recency)
+                // Since data is hardcoded "昨日" -> Green (120)
+                setCardColor('cardTraining', 120);
+            }
+            updateSummaryColors();
 
             // 2-1. Chest Exercise Trends
 
