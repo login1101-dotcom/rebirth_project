@@ -359,6 +359,47 @@
         // Initialize buttons visual state
         setTimelineMode('total');
 
+        // New Function: Update Project Link Buttons with Dates (Stacked Layout)
+        function updateProjectLinks() {
+            for (const key in PROJECT_STATUS) {
+                const p = PROJECT_STATUS[key];
+                const btn = document.getElementById(p.id);
+                if (btn && p.deadline) {
+                    const d = new Date(p.deadline);
+                    const dStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+
+                    // Specific Full Labels (Hardcoded in HTML, but we can override or just use the icon + shorter label from data or keep HTML text?)
+                    // The user wants "Date Above".
+                    // Let's preserve the existing text (which is the main label) and prepend the date in a div.
+                    // But the existing text includes the icon.
+                    // Let's just rebuild the content using the data to be clean, OR parse the existing text.
+                    // Data `p.label` is short (e.g. "ブラインドタッチ"). HTML text is long ("ブラインドタッチを習得する").
+                    // I should probably keep the HTML text for the bottom part if I can, or update Project Data to matched long text.
+                    // Strategy: Read current text, wrap in div. Prepend date div.
+
+                    const currentText = btn.innerText.trim(); // "⌨️ ブラインドタッチを習得する"
+
+                    btn.innerHTML = `
+                        <span style="display:block; font-size:0.75rem; color:#666; margin-bottom:2px; font-weight:normal;">${dStr}までに</span>
+                        <span style="display:block; font-size:1rem; font-weight:bold;">${currentText}</span>
+                    `;
+
+                    // Enforce Flex Column Layout
+                    btn.style.display = 'inline-flex';
+                    btn.style.flexDirection = 'column';
+                    btn.style.alignItems = 'center';
+                    btn.style.justifyContent = 'center';
+                    btn.style.height = 'auto'; // Allow height to grow
+                    btn.style.padding = '8px 16px'; // Adjust padding
+                    btn.style.lineHeight = '1.2';
+                }
+            }
+        }
+
+        // Run once on load
+        updateProjectLinks();
+
+
         function updateTimer() {
             const now = new Date();
             // --- Countdown Target Logic Switching ---
