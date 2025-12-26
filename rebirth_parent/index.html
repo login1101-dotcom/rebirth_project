@@ -746,56 +746,8 @@
         }
 
         // Initialize Project Status Buttons
-        function updateProjectButtons() {
-            if (typeof PROJECT_STATUS === 'undefined') return;
-
-            const achievedContainer = document.getElementById('achieved-container');
-
-            for (const key in PROJECT_STATUS) {
-                const data = PROJECT_STATUS[key];
-                const btn = document.getElementById(data.id);
-                if (btn) {
-                    // Prepend Deadline if exists
-                    if (!btn.querySelector('.deadline-label') && data.deadline && data.percentage < 100) {
-                        const d = new Date(data.deadline);
-                        const dStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}までに`;
-                        const small = document.createElement('small');
-                        small.className = 'deadline-label';
-                        small.style.cssText = "display:block; font-size:0.65rem; color:#666; font-weight:normal; margin-bottom:2px;";
-                        small.innerText = dStr;
-                        btn.insertBefore(small, btn.firstChild);
-                    }
-
-                    // Start progress at 0 for animation effect if desired
-                    btn.classList.add('progress-active');
-                    btn.style.setProperty('--progress', data.percentage + '%');
-
-                    // Check for Completion (100%)
-                    if (data.percentage >= 100) {
-                        // Move to Achieved Section
-                        if (achievedContainer && btn.parentElement !== achievedContainer) {
-                            achievedContainer.appendChild(btn);
-
-                            // Visual enhancements for achieved items
-                            btn.style.border = "2px solid #FFD700"; // Gold border
-                            btn.style.background = "#fffbeb"; // Light yellow bg
-                            btn.style.color = "#d97706"; // darker gold text
-
-                            // Remove deadline label if exists
-                            const lbl = btn.querySelector('.deadline-label');
-                            if (lbl) lbl.remove();
-
-                            btn.innerHTML = "🏆 " + btn.innerText.replace(/^[⌨️🥗🇬🇧✒️🎨📹📖]\s/, ''); // Replace icon with trophy
-                        }
-                    }
-                }
-            }
-        }
-
         setInterval(updateTimer, 1000);
-        // updateTimer(); // Removed duplicate call if it causes issues, but keep logic
         updateTimer();
-        updateProjectButtons();
     </script>
 </body>
 
