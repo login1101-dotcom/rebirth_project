@@ -454,14 +454,20 @@
                 mainContainer.style.display = 'block';
                 // Layout Shift for Projects Mode (Center Column)
                 if (isProjects) {
+                    mainContainer.style.boxSizing = 'border-box';
+                    mainContainer.style.margin = '0'; // Reset auto margin
+                    mainContainer.style.maxWidth = 'none'; // Uncap width
                     mainContainer.style.marginLeft = SIDE_LABEL_WIDTH;
-                    mainContainer.style.width = `calc(100% - ${SIDE_LABEL_WIDTH} - ${RIGHT_LABEL_WIDTH})`;
-                    mainContainer.style.boxSizing = 'border-box'; // Ensure strict sizing
-                    mainContainer.style.padding = '0'; // Ensure no padding affects width
+                    mainContainer.style.marginRight = RIGHT_LABEL_WIDTH;
+                    mainContainer.style.width = 'auto'; // Fill remaining space
+                    mainContainer.style.padding = '0';
                 } else {
-                    mainContainer.style.marginLeft = '0'; // auto
+                    mainContainer.style.margin = '0 auto'; // Restore default
+                    mainContainer.style.maxWidth = '1000px';
                     mainContainer.style.width = '100%';
-                    mainContainer.style.padding = ''; // Reset padding if not in projects mode
+                    mainContainer.style.marginLeft = '';
+                    mainContainer.style.marginRight = '';
+                    mainContainer.style.padding = '';
                 }
             }
 
@@ -470,12 +476,15 @@
                 labelsEl.innerHTML = labelHTML;
                 // Layout Shift for Labels
                 if (isProjects) {
-                    labelsEl.style.marginLeft = SIDE_LABEL_WIDTH;
-                    labelsEl.style.width = `calc(100% - ${SIDE_LABEL_WIDTH} - ${RIGHT_LABEL_WIDTH})`;
-                    labelsEl.style.marginTop = '2px';
                     labelsEl.style.boxSizing = 'border-box';
+                    labelsEl.style.margin = '0';
+                    labelsEl.style.marginLeft = SIDE_LABEL_WIDTH;
+                    labelsEl.style.marginRight = RIGHT_LABEL_WIDTH;
+                    labelsEl.style.width = 'auto';
+                    labelsEl.style.marginTop = '2px';
                 } else {
                     labelsEl.style.marginLeft = '0';
+                    labelsEl.style.marginRight = '0';
                     labelsEl.style.width = '100%';
                     labelsEl.style.marginTop = '6px';
                 }
@@ -493,6 +502,8 @@
 
             // 3. Render Projects (Overlay/Lists)
             if (isProjects) {
+                const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
                 if (projectContainer) {
                     projectContainer.style.display = 'block';
                     projectContainer.style.marginTop = '15px';
@@ -504,40 +515,14 @@
                         const deadline = new Date(p.deadline);
 
                         // Time Calculation
-                        // The gray bar (barWrapper) represents the project's duration relative to the axis.
                         const projectDurationFromAxisStart = deadline - startDate;
                         let widthPercent = (projectDurationFromAxisStart / axisDuration) * 100;
                         if (widthPercent < 0) widthPercent = 0;
                         if (widthPercent > 100) widthPercent = 100;
 
-                        // The red fill (fillDiv) represents the elapsed time relative to the project's duration.
-                        // However, the visual *length* of the red bar should be consistent with the main timeline's elapsed time.
-                        // So, the fill percentage should be (elapsed time from axis start / project duration from axis start) * 100.
-                        // This means fillDiv.style.width = (elapsed / projectDurationFromAxisStart) * 100 + "%"
-                        // But this is relative to the barWrapper's width.
-                        // If barWrapper is 50% of the container, and fillDiv is 50% of barWrapper, it's 25% of container.
-                        // We want the red bar's *absolute* length (in pixels) to be (elapsed / axisDuration) * container_width.
-                        // So, fillDiv's width should be (elapsed / axisDuration) * 100, but applied to the *container's* width.
-                        // Since fillDiv is a child of barWrapper, its width is relative to barWrapper.
-                        // So, fillDiv.width = (elapsed / axisDuration) * 100 / (widthPercent / 100) = (elapsed / axisDuration) / (projectDurationFromAxisStart / axisDuration) * 100
-                        // = (elapsed / projectDurationFromAxisStart) * 100. This is what was there.
-                        // Let's re-evaluate:
-                        // The red bar should visually align with the main timeline's red bar.
-                        // The main timeline's red bar has a width of `mainProgress` percent of `mainContainer`.
-                        // The `barArea` is the full width of the center column.
-                        // The `barWrapper` is `widthPercent` of `barArea`.
-                        // The `fillDiv` is `fillPercent` of `barWrapper`.
-                        // We want the *pixel width* of `fillDiv` to be `(elapsed / axisDuration) * barArea_width`.
-                        // So, `fillDiv.style.width` as a percentage of `barWrapper` should be:
-                        // `((elapsed / axisDuration) * barArea_width) / (widthPercent / 100 * barArea_width) * 100`
-                        // `= (elapsed / axisDuration) / (widthPercent / 100) * 100`
-                        // `= (elapsed / axisDuration) / (projectDurationFromAxisStart / axisDuration) * 100`
-                        // `= (elapsed / projectDurationFromAxisStart) * 100`. This is the original logic.
-                        // The issue might be if `projectDurationFromAxisStart` is 0 or negative, or if `elapsed` is negative.
-                        // Let's ensure `elapsed` is always relative to `startDate` and `projectDurationFromAxisStart` is always positive for the division.
-
+                        // Fill Calculation
                         let fillPercent = 0;
-                        if (projectDurationFromAxisStart > 0) { // Ensure positive duration for division
+                        if (projectDurationFromAxisStart > 0) {
                             fillPercent = (elapsed / projectDurationFromAxisStart) * 100;
                         }
                         if (fillPercent > 100) fillPercent = 100;
@@ -549,7 +534,6 @@
                         let remainText = `あと${remainingDays}日`;
                         if (remainingDays < 0) remainText = "期限切れ";
 
-                        // Use explicit Label and Icon from data
                         const icon = p.icon || "🎯";
                         const fullText = p.label || key;
 
@@ -562,7 +546,7 @@
                         // COL 1: Name (Left)
                         const nameCol = document.createElement('div');
                         nameCol.style.width = SIDE_LABEL_WIDTH;
-                        nameCol.style.minWidth = SIDE_LABEL_WIDTH;
+                        nameCol.style.minWidth = SIDE_LABEL_WIDTH; // Enforce
                         nameCol.style.fontSize = '0.75rem';
                         nameCol.style.color = '#333';
                         nameCol.style.paddingRight = '12px';
@@ -570,18 +554,16 @@
                         nameCol.style.whiteSpace = 'nowrap';
                         nameCol.style.overflow = 'hidden';
                         nameCol.style.textOverflow = 'ellipsis';
-                        nameCol.style.boxSizing = 'border-box'; // Important
+                        nameCol.style.boxSizing = 'border-box';
                         nameCol.innerText = icon + " " + fullText;
 
                         // COL 2: Bar Area (Center - Aligned with Axis)
                         const barArea = document.createElement('div');
                         barArea.style.flex = '1';
                         barArea.style.position = 'relative';
-                        barArea.style.height = '10px'; // Set height here
-                        barArea.style.display = 'flex'; // Ensure centering or align?
+                        barArea.style.height = '10px';
+                        barArea.style.display = 'flex';
                         barArea.style.alignItems = 'center';
-
-                        // The bar wrapper inside needs to start at 0 (left edge of this col) to match axis start
 
                         const barWrapper = document.createElement('div');
                         barWrapper.style.width = widthPercent + "%";
@@ -593,7 +575,7 @@
                         const fillDiv = document.createElement('div');
                         fillDiv.style.width = fillPercent + "%";
                         fillDiv.style.height = "100%";
-                        fillDiv.style.background = "var(--accent)";
+                        fillDiv.style.background = accentColor || "#e94e77";
                         fillDiv.style.transition = "width 1s";
 
                         barWrapper.appendChild(fillDiv);
@@ -602,11 +584,11 @@
                         // COL 3: Deadline Info (Right)
                         const infoCol = document.createElement('div');
                         infoCol.style.width = RIGHT_LABEL_WIDTH;
-                        infoCol.style.minWidth = RIGHT_LABEL_WIDTH;
+                        infoCol.style.minWidth = RIGHT_LABEL_WIDTH; // Enforce
                         infoCol.style.paddingLeft = '12px';
                         infoCol.style.fontSize = '0.75rem';
                         infoCol.style.color = '#666';
-                        infoCol.style.boxSizing = 'border-box'; // Important
+                        infoCol.style.boxSizing = 'border-box';
                         infoCol.innerHTML = `${dStr}まで (${remainText})`;
 
                         // Assemble Row
