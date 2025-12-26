@@ -1,0 +1,180 @@
+/* =========================
+   index専用CSS（start.css）
+========================= */
+
+/* ▼ ヘッダーナビは common.css で統一管理されるようになりました */
+
+/* ★ index / main 共通の外枠（正解） */
+.index-layout {
+  max-width: 1412px;
+  margin: 0 auto;
+}
+
+/* =========================
+   ★ three-col（← 広告が死んでた原因）
+========================= */
+.three-col {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+/* ★ 左右広告（絶対に潰さない） */
+.side-ad {
+  width: 352px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   タイトルカード
+======================== */
+.title-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  margin: 0 auto;
+}
+
+.title-card .card-title {
+  margin: 0;
+  font-size: 36px;
+  color: #000;
+  text-align: center !important;
+  white-space: nowrap;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+/* =========================
+   中央カード
+========================= */
+.center-area {
+  max-width: 800px;
+}
+
+.center-card .card-title {
+  text-align: center !important;
+  padding-left: 0 !important;
+}
+
+.cards-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0;
+}
+
+.center-area .center-card {
+  width: 320px;
+  padding: 15px;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* =========================
+   下部長文
+========================= */
+.content-card {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.content-card h2 {
+  font-size: 28px;
+  color: #00796b;
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #00796b;
+  padding-bottom: 15px;
+}
+
+.content-card h3 {
+  font-size: 24px;
+  color: #00796b;
+  margin-top: 45px;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #00796b;
+  text-align: center;
+}
+
+.content-card p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+/* リストの見た目調整 */
+.content-card ul,
+.content-card ol {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.content-card li {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* TOPに戻る */
+.back-to-top {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.back-to-top a {
+  display: inline-block;
+  padding: 12px 30px;
+  background: #00796b;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.back-to-top a:hover {
+  background: #005a4d;
+}
+
+/* =========================
+   レスポンシブ
+========================= */
+@media (max-width: 768px) {
+  .center-area {
+    width: 100%;
+  }
+
+  .cards-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .center-area .center-card {
+    width: 100%;
+  }
+
+  .content-card {
+    padding: 20px;
+    margin: 20px 10px;
+  }
+}

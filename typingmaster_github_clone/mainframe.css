@@ -1,0 +1,204 @@
+/* =========================
+   mainframe専用CSS（mainframe.css）
+========================= */
+
+/* =========================
+   上部グレーバー（UI本体）
+========================= */
+#topBar {
+  background: #f0f0f0;
+  height: 30px !important;
+  /* ★ 30px: 限界の薄さ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ccc;
+}
+
+/* 中身の幅を広告レイアウトに完全に合わせる */
+.topbar-inner {
+  width: 100%;
+  max-width: 1412px;
+  /* 352*2 + 660 + 24*2 */
+  display: grid;
+  grid-template-columns: 352px 1fr 352px;
+  gap: 24px;
+  align-items: center;
+}
+
+/* 左右（広告の真上に来るように中央揃え） */
+.top-left,
+.top-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-right {
+  gap: 12px;
+}
+
+/* ボタン（上部UI用） */
+#uiLeft>a,
+#uiRight>a,
+.btn-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  min-width: 96px;
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  background: #2196F3;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* 中央UI */
+.top-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ★ これを追加して中央寄せに */
+  gap: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  min-height: 30px;
+}
+
+.top-center select {
+  height: 24px;
+  font-size: 18px;
+  padding: 0 10px;
+  border-radius: 8px;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 10px;
+  background: #4CAF50;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* =========================
+   中央エリア（mainframe）
+========================= */
+.typing-center {
+  min-width: 560px;
+  align-items: center;
+}
+
+/* =========================
+   出題カード
+========================= */
+.question-card {
+  width: 660px;
+  height: 140px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 0px;
+  /* ← これを追加 */
+}
+
+#questionCardPlaying {
+  display: flex;
+}
+
+#questionCardFinished {
+  display: none;
+}
+
+#questionHira {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+}
+
+#questionRoma {
+  font-size: 36px;
+  color: #555;
+  margin: 0;
+}
+
+.finish-text {
+  font-size: 36px;
+  margin: 0;
+}
+
+/* =========================
+   再テスト行
+========================= */
+.retry-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* =========================
+   キーボードカード
+========================= */
+.keyboard-card {
+  padding: 2px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* =========================
+   キーボード配置
+========================= */
+#keyboardBox,
+#futureKeyboardBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================
+   mainframeレスポンシブ
+========================= */
+@media (max-width: 768px) {
+  .typing-center {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .question-card {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* 点滅アニメーション */
+@keyframes flash-border-red {
+
+  0%,
+  100% {
+    border-color: #e2e8f0;
+    box-shadow: none;
+  }
+
+  50% {
+    border-color: #ff4444;
+    /* 明るめの赤 */
+    box-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
+  }
+}
+
+.flash-border {
+  animation: flash-border-red 2s infinite;
+}

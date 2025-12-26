@@ -1,0 +1,197 @@
+/* =========================
+   上キーボード全体
+========================= */
+#keyboardBox {
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 10px;
+}
+
+#keyboardBox .row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 1px 0;
+}
+
+/* 5行目だけ左寄せ */
+#keyboardBox .row-5 {
+  justify-content: flex-start;
+}
+
+#keyboardBox .key {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #fff;
+  margin: 2px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+/* レベル別の練習ガイド（キーボード1専用）
+   下の未来キーボードの配色を参考に指ごとの色を設定 */
+
+/* 人差指 (Pink系) - 未来キーボードの left-index/right-index に合わせる */
+#keyboardBox .key.guide-index {
+  background-color: #fce4ec;
+}
+
+/* 中指 (Orange系) - 未来キーボードの left-middle/right-middle に合わせる */
+#keyboardBox .key.guide-middle {
+  background-color: #fff3e0;
+}
+
+/* 薬指 (Green系) - 未来キーボードの left-ring/right-ring に合わせる */
+#keyboardBox .key.guide-ring {
+  background-color: #e8f5e9;
+}
+
+/* 小指 (Blue系) - 未来キーボードの left-pinky/right-pinky に合わせる */
+#keyboardBox .key.guide-pinky {
+  background-color: #e3f2fd;
+}
+
+/* 親指 (Purple系) - 未来キーボードの thumb に合わせる */
+#keyboardBox .key.guide-thumb {
+  background-color: #ede7f6;
+}
+
+/* =========================
+   ホームキー周辺（基本）
+========================= */
+#keyboardBox .key[data-key="A"],
+#keyboardBox .key[data-key="S"],
+#keyboardBox .key[data-key="D"],
+#keyboardBox .key[data-key="K"],
+#keyboardBox .key[data-key="L"],
+#keyboardBox .key[data-key=";"] {
+  border: 1px solid #222;
+}
+
+/* =========================
+   最重要ホームキー（F / J）
+========================= */
+#keyboardBox .key[data-key="F"],
+#keyboardBox .key[data-key="J"] {
+  border: 2px solid #222;
+}
+
+/* =========================
+   ★ 準ホームキー（4 R V / 7 U M）
+========================= */
+#keyboardBox .key[data-key="4"],
+#keyboardBox .key[data-key="R"],
+#keyboardBox .key[data-key="V"],
+#keyboardBox .key[data-key="7"],
+#keyboardBox .key[data-key="U"],
+#keyboardBox .key[data-key="M"] {
+  border: 2px solid #222;
+}
+
+/* =========================
+   サイズ調整
+========================= */
+#keyboardBox .key[data-key="1"] {
+  width: 60px;
+}
+
+#keyboardBox .key[data-key="Ctrl"] {
+  width: 50px;
+}
+
+#keyboardBox .key[data-key="Cmd"],
+#keyboardBox .key[data-key="英数"],
+#keyboardBox .key[data-key="かな"] {
+  width: 50px;
+}
+
+#keyboardBox .key[data-key="Space"] {
+  width: 160px;
+}
+
+#keyboardBox .key[data-key="Shift"] {
+  width: 73px;
+}
+
+#keyboardBox .key[data-key="Enter"][data-row="2"] {
+  width: 60px;
+}
+
+#keyboardBox .key[data-key="Enter"][data-row="3"] {
+  width: 50px;
+}
+
+#keyboardBox .key[data-key="Caps"] {
+  font-size: 16px;
+}
+
+/* =========================
+   アクティブキー (未来キーボードの #ffeb3b に合わせる)
+========================= */
+#keyboardBox .key.active {
+  background: #ffeb3b !important;
+  font-weight: bold;
+}
+
+/* =========================
+   【縦】境界線（キー基準）
+   5|6 / T|Y / G|H / B|N
+========================= */
+#keyboardBox .key[data-key="5"]::after,
+#keyboardBox .key[data-key="T"]::after,
+#keyboardBox .key[data-key="G"]::after,
+#keyboardBox .key[data-key="B"]::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  width: 5px;
+  height: calc(100% + 4px);
+  background: red;
+  pointer-events: none;
+}
+
+/* =========================
+   【横】行間の接続線
+========================= */
+#keyboardBox .row-1::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 81px);
+  bottom: -3px;
+  width: 29px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}
+
+#keyboardBox .row-2::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 57px);
+  bottom: -3px;
+  width: 15px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}
+
+#keyboardBox .row-3::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 47px);
+  bottom: -3px;
+  width: 27px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}

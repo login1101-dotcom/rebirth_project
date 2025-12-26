@@ -1,0 +1,209 @@
+/* =========================
+   未来キーボード全体
+========================= */
+#futureKeyboardBox {
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 10px;
+  margin-top: 0;
+}
+
+#futureKeyboardBox .row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 1px 0;
+}
+
+#futureKeyboardBox .row-5 {
+  justify-content: flex-start;
+}
+
+#futureKeyboardBox .key {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #fff;
+  margin: 2px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   ホームキー周辺（基本）
+========================= */
+#futureKeyboardBox .key[data-key="A"],
+#futureKeyboardBox .key[data-key="S"],
+#futureKeyboardBox .key[data-key="D"],
+#futureKeyboardBox .key[data-key="K"],
+#futureKeyboardBox .key[data-key="L"],
+#futureKeyboardBox .key[data-key=";"] {
+  border: 1px solid #222;
+}
+
+/* =========================
+   最重要ホームキー（F / J）
+========================= */
+#futureKeyboardBox .key[data-key="F"],
+#futureKeyboardBox .key[data-key="J"] {
+  border: 2px solid #222;
+}
+
+/* =========================
+   準ホームキー（4 R V / 7 U M）
+========================= */
+#futureKeyboardBox .key[data-key="4"],
+#futureKeyboardBox .key[data-key="R"],
+#futureKeyboardBox .key[data-key="V"],
+#futureKeyboardBox .key[data-key="7"],
+#futureKeyboardBox .key[data-key="U"],
+#futureKeyboardBox .key[data-key="M"] {
+  border: 2px solid #222;
+}
+
+/* =========================
+   サイズ調整
+========================= */
+#futureKeyboardBox .key[data-key="1"] {
+  width: 60px;
+}
+
+#futureKeyboardBox .key[data-key="Ctrl"] {
+  width: 50px;
+}
+
+#futureKeyboardBox .key[data-key="Cmd"],
+#futureKeyboardBox .key[data-key="英数"],
+#futureKeyboardBox .key[data-key="かな"] {
+  width: 50px;
+}
+
+#futureKeyboardBox .key[data-key="Space"] {
+  width: 160px;
+}
+
+#futureKeyboardBox .key[data-key="Shift"] {
+  width: 73px;
+}
+
+#futureKeyboardBox .key[data-key="Enter"][data-row="2"] {
+  width: 60px;
+}
+
+#futureKeyboardBox .key[data-key="Enter"][data-row="3"] {
+  width: 50px;
+}
+
+#futureKeyboardBox .key[data-key="Caps"] {
+  font-size: 16px;
+}
+
+/* =========================
+   指ごとの色
+========================= */
+#futureKeyboardBox .key[data-finger="left-pinky"] {
+  background: #e3f2fd;
+}
+
+#futureKeyboardBox .key[data-finger="left-ring"] {
+  background: #e8f5e9;
+}
+
+#futureKeyboardBox .key[data-finger="left-middle"] {
+  background: #fff3e0;
+}
+
+#futureKeyboardBox .key[data-finger="left-index"] {
+  background: #fce4ec;
+}
+
+#futureKeyboardBox .key[data-finger="right-index"] {
+  background: #fce4ec;
+}
+
+#futureKeyboardBox .key[data-finger="right-middle"] {
+  background: #fff3e0;
+}
+
+#futureKeyboardBox .key[data-finger="right-ring"] {
+  background: #e8f5e9;
+}
+
+#futureKeyboardBox .key[data-finger="right-pinky"] {
+  background: #e3f2fd;
+}
+
+#futureKeyboardBox .key[data-finger="thumb"] {
+  background: #ede7f6;
+}
+
+/* =========================
+   次キー
+========================= */
+#futureKeyboardBox .key.active {
+  background: #ffeb3b;
+}
+
+/* =========================
+   縦の境界線
+========================= */
+#futureKeyboardBox .key[data-key="5"]::after,
+#futureKeyboardBox .key[data-key="T"]::after,
+#futureKeyboardBox .key[data-key="G"]::after,
+#futureKeyboardBox .key[data-key="B"]::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  width: 5px;
+  height: calc(100% + 4px);
+  background: red;
+  pointer-events: none;
+}
+
+/* =========================
+   横の接続線（完全一致）
+========================= */
+
+/* row-1：5|6 → T|Y */
+#futureKeyboardBox .row-1::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 81px);
+  bottom: -3px;
+  width: 29px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}
+
+/* row-2：T|Y → G|H */
+#futureKeyboardBox .row-2::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 57px);
+  bottom: -3px;
+  width: 15px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}
+
+/* row-3：G|H → B|N ★これが欠けていた */
+#futureKeyboardBox .row-3::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 47px);
+  bottom: -3px;
+  width: 27px;
+  height: 6px;
+  background: red;
+  pointer-events: none;
+}
