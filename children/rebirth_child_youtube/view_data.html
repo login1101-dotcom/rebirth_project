@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ進捗 | Typing Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+</head>
+
+<body>
+        <header>
+        <div class="container header-inner">
+            <a href="index.html" class="site-brand"><span>🎬</span> My YouTube Studio<span
+                    style="font-size: 1.0rem; color: #334155; margin-left: 15px; font-weight: 600; letter-spacing: 0.05em;">もっといい世界へ</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a class=" " href="index.html">ホーム</a></li>
+                    <li><a class="nav-process " href="category_process.html">撮影編集過程記録</a></li>
+                    <li><a class="nav-tools active" href="category_tools.html">使用ツール</a></li>
+                    <li><a class="nav-works " href="category_works.html">完成作品</a></li>
+                    <li><a class="nav-view-data " href="view_data.html">データ表示</a></li>
+                    <li><a class=" " href="../../rebirth_parent/index.html">← Project Hub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main-layout">
+        <main class="content-area">
+            <!-- Roadmap & Progress Widget -->
+            <section class="dashboard-card" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">
+                    現在の進捗 (Current Status)</h2>
+
+                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem;">Phase 1:
+                            初級1（人差し指のみ）クリア済</span>
+                        <span style="font-weight: 700; color: #0284c7; font-size: 1.5rem;">0%</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div
+                        style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; margin-bottom: 1.5rem;">
+                        <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WPM & Accuracy Charts -->
+            <section class="dashboard-card" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">
+                    スキル成長記録 (WPM & Accuracy Log)</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                    <!-- WPM Chart Container -->
+                    <div style="background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <canvas id="wpmChart" height="250"></canvas>
+                    </div>
+
+                    <!-- Accuracy Chart Container -->
+                    <div style="background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <canvas id="accuracyChart" height="200"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Load Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        
+        <script>
+            // Data Configured via Python Script
+            
+            // Chart 1: Monetization Requirements
+            const ctx1 = document.getElementById('wpmChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Start', 'Now', 'Goal'],
+                    datasets: 
+            [{
+                label: 'Subscribers (Goal: 1000)',
+                data: [0, 12, 1000],
+                borderColor: '#ef4444',
+                yAxisID: 'y'
+            }, {
+                label: 'Watch Hours (Goal: 4000)',
+                data: [0, 5, 4000],
+                borderColor: '#3b82f6',
+                yAxisID: 'y1'
+            }]
+        
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Monetization Requirements' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, display: true, position: 'left' },
+                        // Add y1 for potential dual axis usage (Health, YouTube)
+                        y1: { beginAtZero: true, display: false, position: 'right', grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+
+            // Chart 2: Revenue (JPY)
+            const ctx2 = document.getElementById('accuracyChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+             label: 'Monthly Revenue',
+             data: [0, 0, 0, 0, 0, 0],
+             borderColor: '#fbbf24',
+             backgroundColor: 'rgba(251, 191, 36, 0.2)',
+             fill: true
+        }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Revenue (JPY)' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+            
+            // Activate Dual Axis if needed (Health, YouTube)
+            // Validating logic: check if datasets have yAxisID
+            if (JSON.stringify(
+            [{
+                label: 'Subscribers (Goal: 1000)',
+                data: [0, 12, 1000],
+                borderColor: '#ef4444',
+                yAxisID: 'y'
+            }, {
+                label: 'Watch Hours (Goal: 4000)',
+                data: [0, 5, 4000],
+                borderColor: '#3b82f6',
+                yAxisID: 'y1'
+            }]
+        ).includes('y1')) {
+                Chart.getChart("wpmChart").options.scales.y1.display = true;
+                Chart.getChart("wpmChart").update();
+            }
+        </script>
+    
+                <aside class="sidebar">
+
+            <!-- Author Widget -->
+            <div class="widget profile-widget">
+                <div class="profile-img"></div> <!-- Placeholder image -->
+                <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">Creator 55</h3>
+                <p style="font-size:0.9rem; color:var(--text-light); line-height:1.6;">
+                    動画制作スキル習得中。<br>現在の目標：登録者1000人
+                </p>
+            </div>
+
+            <!-- AdSense Widget (Top) -->
+            <div class="widget">
+                <h4 class="widget-label"
+                    style="font-size:0.7rem; color:#999; margin-bottom:0.5rem; text-transform:uppercase;">Sponsored</h4>
+                <div class="adsense-placeholder">
+                    Ads Display
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="widget">
+                <h3 class="widget-title">Categories</h3>
+                <div id="category-list"></div>
+            </div>
+
+        </aside>
+    </div>
+    <footer class="child-footer">
+        <div class="container">
+            <p>&copy; 2025 Typing Lab | Re:Birth 55 Project</p>
+        </div>
+    </footer>
+<script src="sidebar.js"></script>
+</body>
+
+</html>

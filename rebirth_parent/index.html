@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Birth 55 | 51歳からの人生再生プロジェクト</title>
+    <meta name="description" content="51歳からの人生再生プロジェクト。日々の記録と成長をデータで可視化する実験ドキュメンタリー。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" class="logo">Re:Birth <span>55</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#manifesto">挑戦の覚悟</a></li>
+                    <li><a href="#projects">挑戦している事</a></li>
+                    <li><a href="#bucketlist">やりたい事リスト</a></li>
+                    <li><a href="#achieved-list">達成したこと</a></li>
+                    <li><a href="policy.html">サイトポリシー</a></li>
+                    <li><a href="contact.html">連絡先</a></li>
+                    <li><a href="board.html">BBS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container" style="display:block;">
+            <h1>51歳からの<br>人生再生プロジェクト</h1>
+            <p>遅すぎることはない。データと実験で、自分を再構築する物語。</p>
+
+            <div id="countdown-container" style="margin: 1rem 0;">
+                <div
+                    style="font-size: 1.2rem; color: #333; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 700;">
+                    55歳の誕生日までに</div>
+                <div
+                    style="display: flex; justify-content: center; gap: 0.8rem; align-items: baseline; flex-wrap: wrap; font-family: var(--font-serif); color: var(--primary);">
+                    <div style="display: flex; align-items: baseline;"><span id="cd-years"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">年</span></div>
+                    <div style="display: flex; align-items: baseline;"><span id="cd-months"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">ヶ月</span></div>
+                    <div style="display: flex; align-items: baseline;"><span id="cd-days"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">日</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-hours"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">時間</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-minutes"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">分</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-seconds"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">秒</span></div>
+                </div>
+                <!-- Progress Bar Container -->
+                <div style="width: 100%; max-width: 1000px; margin: 0.5rem auto 0; position: relative; height: 12px;">
+
+                    <!-- The Actual Bar (Track & Fill & Ticks) -->
+                    <div
+                        style="width: 100%; height: 100%; background: #efefef; border: 1px solid #ccc; border-radius: 3px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); z-index: 1;">
+
+                        <!-- Year Separators inside -->
+                        <div
+                            style="position:absolute; left:25%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                        </div>
+                        <div
+                            style="position:absolute; left:50%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                        </div>
+                        <div
+                            style="position:absolute; left:75%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                        </div>
+
+                        <!-- Progress Fill -->
+                        <div id="time-progress-bar"
+                            style="width: 0%; height: 100%; background: var(--accent); opacity: 1; transition: width 1s linear; z-index: 1;">
+                        </div>
+
+                        <!-- Month Ticks (Clipped Half-in) -->
+                        <!-- Height 8px, Bottom -4px -> Top half visible inside, Bottom half clipped -->
+                        <div
+                            style="position: absolute; left: 0; width: 100%; height: 8px; bottom: -4px; pointer-events: none; z-index: 3;">
+                            <div
+                                style="width: 100%; height: 100%; background-image: repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48));">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Labels -->
+                <div
+                    style="display: flex; justify-content: space-between; max-width: 1000px; margin: 6px auto 0; font-size: 0.8rem; color: #999; font-family: var(--font-sans);">
+                    <span>51歳</span>
+                    <span>52歳</span>
+                    <span>53歳</span>
+                    <span>54歳</span>
+                    <span>55歳</span>
+                </div>
+            </div>
+
+            <div id="projects" style="margin-top: 1.5rem; scroll-margin-top: 80px;">
+                <p
+                    style="font-size: 1.2rem; color: #333; font-weight: 700; margin-bottom: 1rem; letter-spacing: 0.05em;">
+                    挑戦している事
+                </p>
+                <div
+                    style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 100%; margin: 0 auto;">
+                    <a href="../children/rebirth_child_typing/index.html" class="btn-sm" id="btn-typing">
+                        ⌨️ ブラインドタッチを習得する
+                    </a>
+                    <a href="../children/rebirth_child_health/index.html" class="btn-sm" id="btn-health">
+                        🥗 見た目のいい健康な体を手にいれる
+                    </a>
+                    <a href="../children/rebirth_child_english/index.html" class="btn-sm" id="btn-english">
+                        🇬🇧 使える英語を身につける
+                    </a>
+                    <a href="../children/rebirth_child_novel/index.html" class="btn-sm" id="btn-novel">
+                        ✒️ 小説家やエッセイストになる
+                    </a>
+                    <a href="../children/rebirth_child_manga/index.html" class="btn-sm" id="btn-manga">
+                        🎨 漫画家になる
+                    </a>
+                    <a href="../children/rebirth_child_youtube/index.html" class="btn-sm" id="btn-youtube">
+                        📹 動画作家として生活できる収益を得る
+                    </a>
+                    <a href="../children/rebirth_child_reading/index.html" class="btn-sm" id="btn-reading">
+                        📖 難しい名著を理解する
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="manifesto" class="manifesto">
+        <div class="container" style="display:block;">
+            <h2 class="section-title">挑戦の覚悟</h2>
+            <div class="manifesto-content"
+                style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <p>人生の折り返し地点である50歳。<br>
+                    多くの人が年齢を理由に「守り」に入ったり「挑戦」を諦める年齢です。<br>
+                    確かに、体はあちこちガタがきて、体力ばかりか気力も下がり、自由な時間もなかったりします。<br>
+                    しかし、私はあえてここから「攻め」に転じ「挑戦」を開始します。</p>
+
+                <p>Re:Birth 55は、単なる日記ではありません。<br>
+                    これは、スキル習得、健康改善、資産形成など、人生のあらゆる要素を「実験」と捉え、そのプロセスと結果をデータとして公開するドキュメンタリープロジェクトです。</p>
+
+                <p>私はこれまでの人生、精一杯やってきたつもりでした。<br>
+                    しかし、結局何も習得できず何も手にできませんでした。<br>
+                    自分はこういうものだ、と諦めるのは簡単です。<br>
+                    生まれが悪かった、遺伝子が悪かった、環境が悪かった、選択を失敗した。<br>
+                    言い訳はいくらでも湧いてきます。<br>
+                    なぜならそれらは確かにそうだった側面もあるからです。<br>
+                    しかし、それらについて言い訳をしたところで、何も得るものはないどころか、<br>
+                    自分で自分の人生をさらに悪くするばかりです。</p>
+
+                <p>私は挑戦し失敗するたびに傷つき砕かれ逃げグセがつきました。<br>
+                    これは人生の手垢のようなもので、なかなか落とすことができません。<br>
+                    むしろその手垢一つ一つが、私の生きた証でもあります。</p>
+
+                <p>まず、やめることは何か。<br>
+                    言い訳をやめる。<br>
+                    不平不満をやめる。</p>
+
+                <p>では、開始することは何か。<br>
+                    挑戦。</p>
+
+                <p>続けることは何か。<br>
+                    挑戦。</p>
+
+                <p>今世界には８０億人以上の人間がいて、我々はそのほとんどの人を知りません。<br>
+                    知らないまま生きて、知らないまま死んでいきます。<br>
+                    私一人が何をどうしようと、79億9999万990人くらいには、何も関係がないのです。</p>
+
+                <p>私はずっと覚えて生きてきました。<br>
+                    自分を曝け出してきづつくことに怯え、<br>
+                    愛するものを失うことに怯え, <br>
+                    見知らぬ人たちからの誹謗中傷にさえ怯えてきました。<br>
+                    その結果、<br>
+                    自分の可能性を試す機会を失い、<br>
+                    愛する人をつくる事もできず、<br>
+                    やりたいことのひとつもしてこなかったのです。</p>
+
+                <p>なんと愚かな歩みだったかと今にして思います。<br>
+                    ５０歳を過ぎると、目もかすみ、関節は意味不明に痛んで動かなくなります。<br>
+                    公私共に成功とは程遠い人生を歩んだ結果、<br>
+                    金はなく健康もなく人脈もない人生になりました。<br>
+                    笑いたい人は笑えばいい。<br>
+                    これが事実、私の人生です。</p>
+
+                <p>体が動かなくなっていて、心身の衰えを実感し始めた結果、<br>
+                    私は死を意識するようになりました。<br>
+                    そこでようやく気づきました。<br>
+                    私は何にも命をかけてこなかったのだ、と。<br>
+                    ただ安全に、ただ出来そうなことだけを、ただ一所懸命にやっていたのです。</p>
+
+                <p>歌手やスポーツ選手に対して、ずっと不公平感を感じていました。<br>
+                    ただ才能があっただけで、チヤホヤされいい気になり自分の思い通りの富と名声を得て、<br>
+                    愛され崇拝されているのだ、と。<br>
+                    漫画家、小説家、俳優などもそうです。<br>
+                    そういう人々に対し, 挑戦しない人間が汚れた部屋の片隅から妬み嫉みを飛ばしていたのです。<br>
+                    なんとむなしい人生でしょうか。</p>
+
+                <p>私には、２つの選択肢がありました。<br>
+                    これまで通りの人生を歩むか、<br>
+                    それとも、<br>
+                    そうでない人生を歩むか、<br>
+                    です。</p>
+
+                <p>正直、もういつ死んでもおかしくない年齢です。<br>
+                    実際、友人知人でもすでに亡くなってしまった方は何人もいますし、<br>
+                    ニュースなどでも50歳に達せず亡くなる方も多くいます。<br>
+                    命があると感謝を、私は忘れていたのです。<br>
+                    自分の境遇に比べ、あの人はどうだこうだと言うことに、<br>
+                    一ミリの値打ちもありません。<br>
+                    頭の片隅ではわかっていたその事が、心ではわかっていませんでした。</p>
+
+                <p>私はいろいろあって、職を失いました。<br>
+                    元々結婚もせず、子供もつくらず、一人で生きていたので、<br>
+                    自己の存在価値、アイデンティティのほとんどすべては仕事にあります。<br>
+                    それすらなくなった今、私にはもはや何もないのです。<br>
+                    命以外は。</p>
+
+                <p>そう。<br>
+                    私はまだ生きています。<br>
+                    この後、生きていけるのかはわかりません。<br>
+                    しかし、あれだけ希死念慮が強かった私なのに、<br>
+                    不思議と今、生きようとする力が湧いています。<br>
+                    残念ながら希死念慮自体はなくなっておらず、時折顔を出します。<br>
+                    それも内包し、自分と認めて生きていくしかないと言うことを<br>
+                    そろそろ認められそうな気配もあります。</p>
+
+                <p>ともあれ私は生きている。<br>
+                    そして、この後半生というものがあるのだとしたら、<br>
+                    ただ生きる人生ではなく、「挑戦」する人生を生きるのだと決めたのです。</p>
+
+                <p>そして私は、自分の生きた証を残すために、<br>
+                    成功も失敗も、すべてをコンテンツに変えていくことにしました。<br>
+                    それらが収益化させようという思いもあります。<br>
+                    １番の目的は、挑戦の結果自分がなりたい自分になる事。<br>
+                    期限は55歳の誕生日。<br>
+                    今（2025.12.23）に51歳ですからあと4年もありません。<br>
+                    私の挑戦のリアルな記録が、同世代の誰かの背中を押すきっかけになれば幸いです。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="bucketlist" class="projects" style="background-color: #f0f2f5; border-top: 1px solid var(--border);">
+        <div class="container" style="display:block; padding: 4rem 2rem;">
+            <h2 class="section-title">やりたい事リスト</h2>
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 900px; margin: 0 auto;">
+                <span class="btn-sm">❤️ 好きな人をつくる</span>
+                <span class="btn-sm">🤝 友達と遊ぶ</span>
+                <span class="btn-sm">✈️ 旅行で感動する</span>
+                <span class="btn-sm">✨ おしゃれする</span>
+                <span class="btn-sm">📣 誰かを励ます</span>
+                <span class="btn-sm">🌟 人気を博す</span>
+                <span class="btn-sm">🗻 富士山に登る</span>
+                <span class="btn-sm">🇯🇵 日本一周</span>
+                <span class="btn-sm">🎵 オリジナル曲制作</span>
+                <span class="btn-sm">📚 書斎を整える</span>
+                <span class="btn-sm">🍱 美味しいものを極める</span>
+                <span class="btn-sm">🌏 海外ロングステイ</span>
+                <span class="btn-sm">🖼️ 個展を開催</span>
+                <span class="btn-sm">🍳 最高の朝食を毎日</span>
+                <span class="btn-sm">✉️ 感謝の手紙を送る</span>
+                <span class="btn-sm">🔥 最後の日まで挑戦</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 達成したことリスト -->
+    <section id="achieved-list" class="projects" style="background-color: #fff; border-top: 1px solid var(--border);">
+        <div class="container" style="display:block; padding: 4rem 2rem;">
+            <h2 class="section-title">達成したこと</h2>
+            <p style="text-align:center; color:#999; margin-bottom:1rem; font-size:0.9rem;">
+                挑戦の結果、完了したプロジェクトがここに移動します。
+            </p>
+            <div id="achieved-container"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 100%; margin: 0 auto; min-height: 50px;">
+                <!-- 達成アイテムはここに自動移動 -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="display:block;">
+            <div class="footer-links">
+                <a href="profile.html">Profile</a>
+                <a href="contact.html">Contact</a>
+                <a href="policy.html">Site Policy</a>
+            </div>
+            <p class="copyright">&copy; 2025 Re:Birth 55 Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="project_data.js"></script>
+    <script>
+        function updateTimer() {
+            const targetDate = new Date("2029-11-01T00:00:00");
+            const now = new Date();
+
+            if (now >= targetDate) {
+                document.getElementById('countdown-container').innerHTML = "HAPPY 55th BIRTHDAY!";
+                return;
+            }
+
+            let t = new Date(targetDate);
+            let n = new Date(now);
+
+            let y = t.getFullYear() - n.getFullYear();
+            let m = t.getMonth() - n.getMonth();
+            let d = t.getDate() - n.getDate();
+
+            let h = t.getHours() - n.getHours();
+            let min = t.getMinutes() - n.getMinutes();
+            let s = t.getSeconds() - n.getSeconds();
+
+            if (s < 0) { s += 60; min--; }
+            if (min < 0) { min += 60; h--; }
+            if (h < 0) { h += 24; d--; }
+            if (d < 0) {
+                m--;
+                let prevMonthDate = new Date(t.getFullYear(), t.getMonth(), 0);
+                d += prevMonthDate.getDate();
+            }
+            if (m < 0) { m += 12; y--; }
+
+            document.getElementById('cd-years').innerText = y;
+            document.getElementById('cd-months').innerText = m;
+            document.getElementById('cd-days').innerText = d;
+            document.getElementById('cd-hours').innerText = h.toString().padStart(2, '0');
+            document.getElementById('cd-minutes').innerText = min.toString().padStart(2, '0');
+            document.getElementById('cd-seconds').innerText = s.toString().padStart(2, '0');
+
+            // Calculate Period Progress (From 51st Birthday to 55th Birthday)
+            const startDate = new Date("2025-11-01T00:00:00"); // 51st Birthday
+            const totalDuration = targetDate - startDate;
+            const elapsed = now - startDate;
+            let progressPercent = (elapsed / totalDuration) * 100;
+
+            // Clamp value
+            if (progressPercent < 0) progressPercent = 0;
+            if (progressPercent > 100) progressPercent = 100;
+
+            document.getElementById('time-progress-bar').style.width = progressPercent + "%";
+        }
+
+        // Initialize Project Status Buttons
+        function updateProjectButtons() {
+            if (typeof PROJECT_STATUS === 'undefined') return;
+
+            const achievedContainer = document.getElementById('achieved-container');
+
+            for (const key in PROJECT_STATUS) {
+                const data = PROJECT_STATUS[key];
+                const btn = document.getElementById(data.id);
+                if (btn) {
+                    // Start progress at 0 for animation effect if desired
+                    btn.classList.add('progress-active');
+                    btn.style.setProperty('--progress', data.percentage + '%');
+
+                    // Check for Completion (100%)
+                    if (data.percentage >= 100) {
+                        // Move to Achieved Section
+                        if (achievedContainer && btn.parentElement !== achievedContainer) {
+                            achievedContainer.appendChild(btn);
+
+                            // Visual enhancements for achieved items
+                            btn.style.border = "2px solid #FFD700"; // Gold border
+                            btn.style.background = "#fffbeb"; // Light yellow bg
+                            btn.style.color = "#d97706"; // darker gold text
+                            btn.innerHTML = "🏆 " + btn.innerText.replace(/^[⌨️🥗🇬🇧✒️🎨📹📖]\s/, ''); // Replace icon with trophy
+                        }
+                    }
+                }
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+        updateProjectButtons();
+    </script>
+</body>
+
+</html>
