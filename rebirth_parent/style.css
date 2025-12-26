@@ -85,7 +85,8 @@ nav a:hover {
 
 /* Hero Section */
 .hero {
-    padding: 2.5rem 0;
+    padding: 20px 0 2.5rem;
+    /* Top reduced to 20px */
     text-align: center;
     background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
 }
@@ -149,7 +150,8 @@ nav a:hover {
 
 /* Projects Hub */
 .projects {
-    padding: 2rem 0;
+    padding: 2rem 0 20px;
+    /* Bottom reduced to 20px */
     scroll-margin-top: 70px;
 }
 
