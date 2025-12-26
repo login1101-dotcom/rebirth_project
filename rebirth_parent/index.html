@@ -402,6 +402,7 @@
             const projectContainer = document.getElementById('project-bars-container');
             const labelsEl = document.getElementById('timeline-labels');
             const ticks = document.querySelector('#timeline-ticks div');
+            console.log(ticks)
             const sepEl = document.getElementById('timeline-separators');
 
             // Ensure Labels are visually below the Main Bar (if not already)
@@ -416,7 +417,10 @@
             // Determine Axis Mode
             const isTotal = timelineMode === 'total';
             const isProjects = timelineMode === 'projects';
-            const SIDE_LABEL_WIDTH = '100px';
+
+            // Layout Constants
+            const SIDE_LABEL_WIDTH = '220px';
+            const RIGHT_LABEL_WIDTH = '220px';
 
             // 1. Calculate Axis Range
             if (isTotal) {
@@ -449,10 +453,10 @@
             // 2. Render Main Timeline (Always Visible) & Handle Layout Shifts
             if (mainContainer) {
                 mainContainer.style.display = 'block';
-                // Layout Shift for Projects Mode (Left Column for labels)
+                // Layout Shift for Projects Mode (Center Column)
                 if (isProjects) {
                     mainContainer.style.marginLeft = SIDE_LABEL_WIDTH;
-                    mainContainer.style.width = `calc(100% - ${SIDE_LABEL_WIDTH})`;
+                    mainContainer.style.width = `calc(100% - ${SIDE_LABEL_WIDTH} - ${RIGHT_LABEL_WIDTH})`;
                 } else {
                     mainContainer.style.marginLeft = '0'; // auto
                     mainContainer.style.width = '100%';
@@ -465,8 +469,8 @@
                 // Layout Shift for Labels
                 if (isProjects) {
                     labelsEl.style.marginLeft = SIDE_LABEL_WIDTH;
-                    labelsEl.style.width = `calc(100% - ${SIDE_LABEL_WIDTH})`;
-                    labelsEl.style.marginTop = '2px'; // Tighter to bar
+                    labelsEl.style.width = `calc(100% - ${SIDE_LABEL_WIDTH} - ${RIGHT_LABEL_WIDTH})`;
+                    labelsEl.style.marginTop = '2px';
                 } else {
                     labelsEl.style.marginLeft = '0';
                     labelsEl.style.width = '100%';
@@ -488,7 +492,7 @@
             if (isProjects) {
                 if (projectContainer) {
                     projectContainer.style.display = 'block';
-                    projectContainer.style.marginTop = '15px'; // Separation from axis labels
+                    projectContainer.style.marginTop = '15px';
                     projectContainer.innerHTML = ''; // Clear
 
                     for (const key in PROJECT_STATUS) {
@@ -517,71 +521,85 @@
                         let remainText = `あと${remainingDays}日`;
                         if (remainingDays < 0) remainText = "期限切れ";
 
-                        // Icon & Label
+                        // Icon & Label extraction
                         const btn = document.getElementById(p.id);
                         let icon = "🎯";
+                        let fullText = p.label || key;
                         if (btn) {
-                            const match = btn.innerText.match(/^[^\s]+/);
-                            if (match) icon = match[0];
+                            // Try to get the text without the icon first
+                            // The button html might be like: <small>...</small>ICON Text
+                            // We want just the "Text" part.
+                            // Let's grab innerText and clean it.
+                            let raw = btn.innerText;
+                            // Remove date label at start if exists (added by previous logic)
+                            // "2026...までに" matches the start
+                            raw = raw.replace(/^\d{4}\.\d{1,2}\.\d{1,2}までに\n?/, '');
+                            // Remove icon at start
+                            // Icons are usually emoji or specific chars. 
+                            const match = raw.match(/^([⌨️🥗🇬🇧✒️🎨📹📖])\s*(.*)/);
+                            if (match) {
+                                icon = match[1];
+                                fullText = match[2];
+                            } else {
+                                fullText = raw;
+                            }
                         }
-                        const labelText = p.label || key; // Use Japanese label
 
-                        // DOM Construction: Flex Row
+                        // DOM Construction: Flex Row 3-Col
                         const row = document.createElement('div');
                         row.style.display = 'flex';
-                        row.style.alignItems = 'center'; // Center vertically
-                        row.style.marginBottom = '8px';
+                        row.style.alignItems = 'center';
+                        row.style.marginBottom = '12px';
 
-                        // LEFT COL: Name
+                        // COL 1: Name (Left)
                         const nameCol = document.createElement('div');
                         nameCol.style.width = SIDE_LABEL_WIDTH;
                         nameCol.style.minWidth = SIDE_LABEL_WIDTH;
                         nameCol.style.fontSize = '0.75rem';
-                        nameCol.style.fontWeight = 'bold';
-                        nameCol.style.color = '#555';
-                        nameCol.style.paddingRight = '10px';
+                        nameCol.style.color = '#333';
+                        nameCol.style.paddingRight = '12px';
                         nameCol.style.textAlign = 'right';
                         nameCol.style.whiteSpace = 'nowrap';
                         nameCol.style.overflow = 'hidden';
                         nameCol.style.textOverflow = 'ellipsis';
-                        nameCol.innerText = icon + " " + labelText;
+                        nameCol.innerText = icon + " " + fullText;
 
-                        // RIGHT COL: Bar Area
+                        // COL 2: Bar Area (Center - Aligned with Axis)
                         const barArea = document.createElement('div');
                         barArea.style.flex = '1';
                         barArea.style.position = 'relative';
+                        // The bar wrapper inside needs to start at 0 (left edge of this col) to match axis start
 
-                        // Info Text (Above Bar? Or inside? Let's keep above for clarity)
-                        const infoText = document.createElement('div');
-                        infoText.style.fontSize = '0.7rem';
-                        infoText.style.color = '#888';
-                        infoText.style.marginBottom = '2px';
-                        infoText.innerHTML = `${dStr} (${remainText})`;
-
-                        // Bar Wrapper
                         const barWrapper = document.createElement('div');
                         barWrapper.style.width = widthPercent + "%";
-                        barWrapper.style.height = "8px";
+                        barWrapper.style.height = "10px";
                         barWrapper.style.background = "#e0e0e0";
-                        barWrapper.style.borderRadius = "4px";
+                        barWrapper.style.borderRadius = "5px";
                         barWrapper.style.overflow = "hidden";
 
-                        // Fill
                         const fillDiv = document.createElement('div');
                         fillDiv.style.width = fillPercent + "%";
                         fillDiv.style.height = "100%";
-                        fillDiv.style.background = "var(--accent)"; // Maybe differentiate colors per category later?
+                        fillDiv.style.background = "var(--accent)";
                         fillDiv.style.transition = "width 1s";
 
                         barWrapper.appendChild(fillDiv);
-
-                        // Assemble Right Col
-                        barArea.appendChild(infoText);
                         barArea.appendChild(barWrapper);
+
+                        // COL 3: Deadline Info (Right)
+                        const infoCol = document.createElement('div');
+                        infoCol.style.width = RIGHT_LABEL_WIDTH;
+                        infoCol.style.minWidth = RIGHT_LABEL_WIDTH;
+                        infoCol.style.paddingLeft = '12px';
+                        infoCol.style.fontSize = '0.75rem';
+                        infoCol.style.color = '#666';
+                        infoCol.innerHTML = `${dStr}まで (${remainText})`;
+
 
                         // Assemble Row
                         row.appendChild(nameCol);
                         row.appendChild(barArea);
+                        row.appendChild(infoCol);
 
                         projectContainer.appendChild(row);
                     }
