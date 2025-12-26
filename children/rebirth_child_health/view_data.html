@@ -582,57 +582,104 @@
                 container.innerHTML = '';
 
                 const now = new Date("2025-12-26T12:00:00"); // 基準日固定
-                let daysToShow = 7;
-                let gridStyle = "grid-template-columns: repeat(7, 1fr);";
 
-                if (range === 'month') {
-                    daysToShow = 30;
-                    gridStyle = "grid-template-columns: repeat(7, 1fr);";
-                } else if (range === 'year') {
-                    daysToShow = 90; // 簡易的に3ヶ月分
-                    gridStyle = "grid-template-columns: repeat(15, 1fr); font-size: 0.7rem;";
-                }
+                if (range === 'year') {
+                    // --- 年間ビュー（月ごとの達成率） ---
+                    container.style.cssText = `display:grid; gap:8px; margin-top:10px; grid-template-columns: repeat(4, 1fr);`;
 
-                container.style.cssText = `display:grid; gap:8px; margin-top:10px; ${gridStyle}`;
+                    // 1月〜12月のダミーデータ生成（12月だけリアルっぽく）
+                    const months = [
+                        { m: 1, rate: 0 }, { m: 2, rate: 0 }, { m: 3, rate: 0 },
+                        { m: 4, rate: 0 }, { m: 5, rate: 20 }, { m: 6, rate: 45 },
+                        { m: 7, rate: 60 }, { m: 8, rate: 80 }, { m: 9, rate: 75 },
+                        { m: 10, rate: 90 }, { m: 11, rate: 85 }, { m: 12, rate: 95 }
+                    ];
 
-                // 生成
-                for (let i = daysToShow - 1; i >= 0; i--) {
-                    const d = new Date(now);
-                    d.setDate(d.getDate() - i);
-                    const dateStr = d.toISOString().split('T')[0];
-                    const dayNum = d.getDate();
+                    months.forEach(d => {
+                        let bgColor = "#f8fafc";
+                        let borderColor = "#e2e8f0";
+                        let textColor = "#94a3b8";
 
-                    const log = mealLogs[dateStr];
-                    let content = `<div style="color:#ccc;">-</div>`;
-                    let bgColor = "#f8fafc";
-                    let borderColor = "#e2e8f0";
-
-                    if (log) {
-                        if (log.isCook) {
-                            content = "🍳";
-                            bgColor = "#dcfce7"; // Green Light
-                            borderColor = "#86efac";
-                        } else {
-                            content = "🙆"; // 記録はあるが外食
-                            bgColor = "#fff7ed"; // Orange Light
-                            borderColor = "#fdba74";
+                        // 達成率に応じた色分け（オレンジ系）
+                        if (d.rate > 0) {
+                            textColor = "#0f172a";
+                            if (d.rate >= 80) { bgColor = "#ea580c"; borderColor = "#c2410c"; textColor = "white"; } // Excellent (Strong Orange)
+                            else if (d.rate >= 60) { bgColor = "#fdba74"; borderColor = "#fb923c"; } // Good
+                            else { bgColor = "#ffedd5"; borderColor = "#fdba74"; } // Normal
                         }
+
+                        const cell = document.createElement('div');
+                        cell.style.cssText = `
+                            background: ${bgColor};
+                            border: 1px solid ${borderColor};
+                            border-radius: 8px;
+                            padding: 8px 2px;
+                            text-align: center;
+                            font-weight: bold;
+                            color: ${textColor};
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 50px;
+                        `;
+                        cell.innerHTML = `
+                            <div style="font-size:0.75rem; opacity:0.8;">${d.m}月</div>
+                            <div style="font-size:1.1rem;">${d.rate > 0 ? d.rate + '%' : '-'}</div>
+                        `;
+                        container.appendChild(cell);
+                    });
+
+                } else {
+                    // --- 週間・月間ビュー（日次ログ） ---
+                    let daysToShow = 7;
+                    let gridStyle = "grid-template-columns: repeat(7, 1fr);";
+
+                    if (range === 'month') {
+                        daysToShow = 30;
+                        gridStyle = "grid-template-columns: repeat(7, 1fr);";
                     }
 
-                    const cell = document.createElement('div');
-                    cell.style.cssText = `
-                        background: ${bgColor};
-                        border: 1px solid ${borderColor};
-                        border-radius: 8px;
-                        padding: 8px 4px;
-                        text-align: center;
-                        font-weight: bold;
-                    `;
-                    cell.innerHTML = `
-                        <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">${d.getMonth() + 1}/${dayNum}</div>
-                        <div style="font-size:1.2rem;">${content}</div>
-                    `;
-                    container.appendChild(cell);
+                    container.style.cssText = `display:grid; gap:8px; margin-top:10px; ${gridStyle}`;
+
+                    for (let i = daysToShow - 1; i >= 0; i--) {
+                        const d = new Date(now);
+                        d.setDate(d.getDate() - i);
+                        const dateStr = d.toISOString().split('T')[0];
+                        const dayNum = d.getDate();
+
+                        const log = mealLogs[dateStr];
+                        let content = `<div style="color:#ccc;">-</div>`;
+                        let bgColor = "#f8fafc";
+                        let borderColor = "#e2e8f0";
+
+                        if (log) {
+                            if (log.isCook) {
+                                content = "🍳";
+                                bgColor = "#dcfce7"; // Green Light
+                                borderColor = "#86efac";
+                            } else {
+                                content = "🙆"; // 記録はあるが外食
+                                bgColor = "#fff7ed"; // Orange Light
+                                borderColor = "#fdba74";
+                            }
+                        }
+
+                        const cell = document.createElement('div');
+                        cell.style.cssText = `
+                            background: ${bgColor};
+                            border: 1px solid ${borderColor};
+                            border-radius: 8px;
+                            padding: 8px 4px;
+                            text-align: center;
+                            font-weight: bold;
+                        `;
+                        cell.innerHTML = `
+                            <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">${d.getMonth() + 1}/${dayNum}</div>
+                            <div style="font-size:1.2rem;">${content}</div>
+                        `;
+                        container.appendChild(cell);
+                    }
                 }
             }
 
