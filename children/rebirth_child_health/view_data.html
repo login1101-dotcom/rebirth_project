@@ -600,12 +600,28 @@
                         let borderColor = "#e2e8f0";
                         let textColor = "#94a3b8";
 
-                        // 達成率に応じた色分け（オレンジ系）
+                        // 達成率に応じた色分け（緑＝高、黄＝中、赤オレ＝低）
                         if (d.rate > 0) {
                             textColor = "#0f172a";
-                            if (d.rate >= 80) { bgColor = "#ea580c"; borderColor = "#c2410c"; textColor = "white"; } // Excellent (Strong Orange)
-                            else if (d.rate >= 60) { bgColor = "#fdba74"; borderColor = "#fb923c"; } // Good
-                            else { bgColor = "#ffedd5"; borderColor = "#fdba74"; } // Normal
+
+                            if (d.rate >= 80) {
+                                // High: Light Green
+                                bgColor = "#dcfce7";
+                                borderColor = "#86efac";
+                                textColor = "#14532d";
+                            }
+                            else if (d.rate >= 60) {
+                                // Mid: Yellow
+                                bgColor = "#fef9c3";
+                                borderColor = "#fde047";
+                                textColor = "#854d0e";
+                            }
+                            else {
+                                // Low: Red-Orange
+                                bgColor = "#ffedd5";
+                                borderColor = "#fdba74";
+                                textColor = "#9a3412";
+                            }
                         }
 
                         const cell = document.createElement('div');
