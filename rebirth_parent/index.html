@@ -66,22 +66,33 @@
                             style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
                             style="font-size: 1rem; margin-left: 2px;">秒</span></div>
                 </div>
+                <!-- Toggle Buttons -->
+                <div style="display: flex; justify-content: flex-end; gap: 8px; max-width: 1000px; margin: 0 auto 4px;">
+                    <button onclick="setTimelineMode('total')" id="btn-mode-total"
+                        style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #eee; border-radius: 4px; cursor: pointer; color:#666;">全体</button>
+                    <button onclick="setTimelineMode('year')" id="btn-mode-year"
+                        style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">1年</button>
+                </div>
+
                 <!-- Progress Bar Container -->
-                <div style="width: 100%; max-width: 1000px; margin: 0.5rem auto 0; position: relative; height: 12px;">
+                <div style="width: 100%; max-width: 1000px; margin: 0 auto; position: relative; height: 12px;">
 
                     <!-- The Actual Bar (Track & Fill & Ticks) -->
                     <div
                         style="width: 100%; height: 100%; background: #efefef; border: 1px solid #ccc; border-radius: 3px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); z-index: 1;">
 
-                        <!-- Year Separators inside -->
-                        <div
-                            style="position:absolute; left:25%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
-                        </div>
-                        <div
-                            style="position:absolute; left:50%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
-                        </div>
-                        <div
-                            style="position:absolute; left:75%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                        <!-- Year Separators inside (Only for total mode) -->
+                        <div id="timeline-separators"
+                            style="width:100%; height:100%; position:absolute; top:0; left:0; pointer-events:none;">
+                            <div
+                                style="position:absolute; left:25%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                            </div>
+                            <div
+                                style="position:absolute; left:50%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                            </div>
+                            <div
+                                style="position:absolute; left:75%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                            </div>
                         </div>
 
                         <!-- Progress Fill -->
@@ -89,9 +100,8 @@
                             style="width: 0%; height: 100%; background: var(--accent); opacity: 1; transition: width 1s linear; z-index: 1;">
                         </div>
 
-                        <!-- Month Ticks (Clipped Half-in) -->
-                        <!-- Height 8px, Bottom -4px -> Top half visible inside, Bottom half clipped -->
-                        <div
+                        <!-- Month Ticks -->
+                        <div id="timeline-ticks"
                             style="position: absolute; left: 0; width: 100%; height: 8px; bottom: -4px; pointer-events: none; z-index: 3;">
                             <div
                                 style="width: 100%; height: 100%; background-image: repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48));">
@@ -101,7 +111,7 @@
                 </div>
 
                 <!-- Labels -->
-                <div
+                <div id="timeline-labels"
                     style="display: flex; justify-content: space-between; max-width: 1000px; margin: 6px auto 0; font-size: 0.8rem; color: #999; font-family: var(--font-sans);">
                     <span>51歳</span>
                     <span>52歳</span>
@@ -309,10 +319,36 @@
 
     <script src="project_data.js"></script>
     <script>
-        function updateTimer() {
-            const targetDate = new Date("2029-11-01T00:00:00");
-            const now = new Date();
+        let timelineMode = 'total'; // 'total' or 'year'
 
+        function setTimelineMode(mode) {
+            timelineMode = mode;
+            // Update button styles
+            const btnTotal = document.getElementById('btn-mode-total');
+            const btnYear = document.getElementById('btn-mode-year');
+
+            if (mode === 'total') {
+                btnTotal.style.background = '#eee';
+                btnTotal.style.fontWeight = 'bold';
+                btnYear.style.background = '#fff';
+                btnYear.style.fontWeight = 'normal';
+            } else {
+                btnTotal.style.background = '#fff';
+                btnTotal.style.fontWeight = 'normal';
+                btnYear.style.background = '#eee';
+                btnYear.style.fontWeight = 'bold';
+            }
+            updateTimer(); // Re-render immediately
+        }
+
+        // Initialize buttons visual state
+        setTimelineMode('total');
+
+        function updateTimer() {
+            const now = new Date();
+            const targetDate = new Date("2029-11-01T00:00:00"); // 55th Birthday
+
+            // --- Countdown Display (Always to 55) ---
             if (now >= targetDate) {
                 document.getElementById('countdown-container').innerHTML = "HAPPY 55th BIRTHDAY!";
                 return;
@@ -346,9 +382,62 @@
             document.getElementById('cd-minutes').innerText = min.toString().padStart(2, '0');
             document.getElementById('cd-seconds').innerText = s.toString().padStart(2, '0');
 
-            // Calculate Period Progress (From 51st Birthday to 55th Birthday)
-            const startDate = new Date("2025-11-01T00:00:00"); // 51st Birthday
-            const totalDuration = targetDate - startDate;
+            // --- Timeline Logic ---
+            let startDate, endDate;
+            let showSeparators = false;
+            let labelHTML = '';
+
+            if (timelineMode === 'total') {
+                startDate = new Date("2025-11-01T00:00:00"); // 51st Birthday
+                endDate = targetDate; // 55th Birthday
+                showSeparators = true;
+                labelHTML = `
+                    <span>51歳</span>
+                    <span>52歳</span>
+                    <span>53歳</span>
+                    <span>54歳</span>
+                    <span>55歳</span>
+                `;
+                // Grid for 4 years (48 months)
+                document.querySelector('#timeline-ticks div').style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
+
+            } else {
+                // Year Mode: Current Age -> Next Age
+                // Calculate current age start date
+                // Birthday is Nov 1st
+                const currentYear = now.getFullYear();
+                const birthdayThisYear = new Date(currentYear, 10, 1); // Nov 1
+
+                if (now >= birthdayThisYear) {
+                    // Currently after birthday, so age spans from this year to next
+                    startDate = birthdayThisYear;
+                    endDate = new Date(currentYear + 1, 10, 1);
+                    // Calculate current age
+                    const age = currentYear - 1974; // Born in 1974 (51 in 2025)
+                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                } else {
+                    // Before birthday, so age spans from last year to this year
+                    startDate = new Date(currentYear - 1, 10, 1);
+                    endDate = birthdayThisYear;
+                    const age = currentYear - 1 - 1974;
+                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                }
+
+                showSeparators = false;
+                // Grid for 12 months
+                document.querySelector('#timeline-ticks div').style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+            }
+
+            // Update Separators visibility
+            const sepEl = document.getElementById('timeline-separators');
+            if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
+
+            // Update Labels
+            const labelsEl = document.getElementById('timeline-labels');
+            if (labelsEl) labelsEl.innerHTML = labelHTML;
+
+            // Calculate Progress
+            const totalDuration = endDate - startDate;
             const elapsed = now - startDate;
             let progressPercent = (elapsed / totalDuration) * 100;
 
@@ -391,9 +480,12 @@
         }
 
         setInterval(updateTimer, 1000);
+        // updateTimer(); // Removed duplicate call if it causes issues, but keep logic
         updateTimer();
         updateProjectButtons();
     </script>
 </body>
+
+</html>
 
 </html>
