@@ -13,9 +13,9 @@ directories = {
 
 base_path = '/Users/jono/Desktop/rebirth_project/children'
 
-# Regex to match the small tag containing "by Re:Birth 55"
-# Allowing for flexible attributes and whitespace
-pattern = re.compile(r'<small\s+[^>]*>by Re:Birth 55</small>', re.IGNORECASE)
+# Regex to match the span containing the old slogan
+# Looking for the span with margin-left: 15px which is characteristic of the current slogans
+pattern = re.compile(r'<span\s+style="[^"]*margin-left:\s*15px[^"]*">.*?</span>', re.DOTALL)
 
 for dirname, goal_text in directories.items():
     dir_path = os.path.join(base_path, dirname)
