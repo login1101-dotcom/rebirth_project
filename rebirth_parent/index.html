@@ -465,7 +465,7 @@
 
             // Layout Constants - Unified for perfect alignment
             const LEFT_COL_WIDTH = '220px';
-            const RIGHT_COL_WIDTH = '240px';
+            const RIGHT_COL_WIDTH = '300px';
 
 
             let startDate, endDate;
@@ -539,7 +539,7 @@
                     hCol1.style.boxSizing = 'border-box';
                     hCol1.style.fontWeight = 'bold';
                     hCol1.style.color = '#555';
-                    hCol1.style.fontSize = '0.75rem';
+                    hCol1.style.fontSize = '0.85rem';
                     hCol1.innerText = `${currentAge}歳`;
 
                     // Col 2: Bar
@@ -587,13 +587,15 @@
                     hCol3.style.boxSizing = 'border-box';
                     hCol3.style.display = 'flex';
                     hCol3.style.alignItems = 'center';
-                    hCol3.style.justifyContent = 'space-between';
+                    hCol3.style.gap = '8px'; // Gap between label and buttons
+                    hCol3.style.justifyContent = 'flex-start'; // Left align content
 
                     const endAgeLabel = document.createElement('span');
                     endAgeLabel.innerText = `${nextAge}歳`;
                     endAgeLabel.style.fontWeight = 'bold';
                     endAgeLabel.style.color = '#555';
-                    endAgeLabel.style.fontSize = '0.75rem';
+                    endAgeLabel.style.fontSize = '0.85rem';
+                    endAgeLabel.style.whiteSpace = 'nowrap';
 
                     hCol3.appendChild(endAgeLabel);
 
@@ -606,8 +608,8 @@
                         // Reset styles for this context
                         btnContainer.style.width = 'auto';
                         btnContainer.style.marginBottom = '0';
-                        btnContainer.style.transform = 'scale(0.9)';
-                        btnContainer.style.transformOrigin = 'right center';
+                        btnContainer.style.transform = 'scale(1)'; // Reset scale
+                        btnContainer.style.marginLeft = 'auto'; // Push to right
                     }
 
                     headerRow.appendChild(hCol1);
@@ -643,7 +645,7 @@
                         const col1 = document.createElement('div');
                         col1.style.width = LEFT_COL_WIDTH;
                         col1.style.minWidth = LEFT_COL_WIDTH;
-                        col1.style.fontSize = '0.75rem';
+                        col1.style.fontSize = '0.85rem';
                         col1.style.color = '#333';
                         col1.style.paddingRight = '12px';
                         col1.style.textAlign = 'right';
@@ -696,13 +698,17 @@
                         col3.style.width = RIGHT_COL_WIDTH;
                         col3.style.minWidth = RIGHT_COL_WIDTH;
                         col3.style.paddingLeft = '8px';
-                        col3.style.fontSize = '0.7rem';
+                        col3.style.fontSize = '0.85rem';
                         col3.style.color = '#666';
                         col3.style.boxSizing = 'border-box';
-                        // Stacked layout: Date top, Remain bottom
+                        col3.style.display = 'flex';
+                        col3.style.alignItems = 'baseline';
+                        col3.style.gap = '8px';
+
+                        // Single Line Layout
                         col3.innerHTML = `
-                            <div style="font-weight:bold; color:#555;">${dStr}まで</div>
-                            <div style="font-size:0.9em; color:#888;">(${remainText})</div>
+                            <span style="font-weight:bold; color:#555;">${dStr}まで</span>
+                            <span style="font-size:0.9em; color:#888;">(${remainText})</span>
                         `;
 
                         row.appendChild(col1);
