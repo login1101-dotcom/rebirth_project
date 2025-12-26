@@ -12,7 +12,7 @@ const PROJECT_STATUS = {
         id: "btn-health",
         percentage: 5,
         detail: "Start",
-        deadline: "2027-01-01"
+        deadline: "2026-08-01"
     },
 
     // 3. English Gym (0-100%)
@@ -20,7 +20,7 @@ const PROJECT_STATUS = {
         id: "btn-english",
         percentage: 10,
         detail: "Foundation",
-        deadline: "2028-11-01"
+        deadline: "2026-10-31"
     },
 
     // 4. Novel Studio (0-100%)
@@ -28,7 +28,7 @@ const PROJECT_STATUS = {
         id: "btn-novel",
         percentage: 1,
         detail: "Conception",
-        deadline: "2026-12-31"
+        deadline: "2026-04-15"
     },
 
     // 5. Manga Lab (0-100%)
@@ -36,7 +36,7 @@ const PROJECT_STATUS = {
         id: "btn-manga",
         percentage: 1,
         detail: "Practice",
-        deadline: "2027-06-30"
+        deadline: "2026-09-15"
     },
 
     // 6. YouTube Studio (0-100%)
@@ -44,7 +44,7 @@ const PROJECT_STATUS = {
         id: "btn-youtube",
         percentage: 0,
         detail: "Setup",
-        deadline: "2026-11-01"
+        deadline: "2026-07-20"
     },
 
     // 7. Deep Reading (0-100%, 10% per book)
@@ -52,6 +52,6 @@ const PROJECT_STATUS = {
         id: "btn-reading",
         percentage: 2,
         detail: "First Book",
-        deadline: "2029-11-01"
+        deadline: "2026-11-01"
     }
 };

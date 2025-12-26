@@ -401,46 +401,107 @@
             const mainContainer = document.getElementById('main-timeline-container');
             const projectContainer = document.getElementById('project-bars-container');
             const labelsEl = document.getElementById('timeline-labels');
+            const ticks = document.querySelector('#timeline-ticks div');
+            const sepEl = document.getElementById('timeline-separators');
 
-            if (timelineMode === 'projects') {
-                // Hide Main, Show Projects
-                if (mainContainer) mainContainer.style.display = 'none';
-                if (labelsEl) labelsEl.style.display = 'none';
+            let startDate, endDate;
+            let showSeparators = false;
+            let labelHTML = '';
+
+            // Determine Axis Mode
+            const isTotal = timelineMode === 'total';
+            const isProjects = timelineMode === 'projects';
+
+            // 1. Calculate Axis Range
+            if (isTotal) {
+                // Total Mode: 51 -> 55
+                startDate = new Date("2025-11-01T00:00:00");
+                endDate = targetDate;
+                showSeparators = true;
+                labelHTML = `
+                    <span>51歳</span>
+                    <span>52歳</span>
+                    <span>53歳</span>
+                    <span>54歳</span>
+                    <span>55歳</span>
+                `;
+                if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
+            } else {
+                // Year Mode (OR Projects Mode where we force 1 Year axis)
+                const currentYear = now.getFullYear();
+                const birthdayThisYear = new Date(currentYear, 10, 1);
+
+                if (now >= birthdayThisYear) {
+                    startDate = birthdayThisYear;
+                    endDate = new Date(currentYear + 1, 10, 1);
+                    const age = currentYear - 1974;
+                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                } else {
+                    startDate = new Date(currentYear - 1, 10, 1);
+                    endDate = birthdayThisYear;
+                    const age = currentYear - 1 - 1974;
+                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                }
+                showSeparators = false;
+                if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+            }
+
+            // 2. Render Main Timeline (Always Visible)
+            if (mainContainer) mainContainer.style.display = 'block';
+            if (labelsEl) {
+                labelsEl.style.display = 'flex';
+                labelsEl.innerHTML = labelHTML;
+            }
+            if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
+
+            const axisDuration = endDate - startDate;
+            const elapsed = now - startDate;
+            let mainProgress = (elapsed / axisDuration) * 100;
+            if (mainProgress < 0) mainProgress = 0;
+            if (mainProgress > 100) mainProgress = 100;
+
+            document.getElementById('time-progress-bar').style.width = mainProgress + "%";
+
+
+            // 3. Render Projects (Overlay/Lists)
+            if (isProjects) {
                 if (projectContainer) {
                     projectContainer.style.display = 'block';
-                    projectContainer.innerHTML = ''; // Clear prior render
-
-                    // Base Start Date (51st Birthday)
-                    const baseStart = new Date("2025-11-01T00:00:00");
+                    projectContainer.innerHTML = ''; // Clear
 
                     for (const key in PROJECT_STATUS) {
                         const p = PROJECT_STATUS[key];
                         if (!p.deadline) continue;
-
                         const deadline = new Date(p.deadline);
 
-                        // Progress Calculation for TIME
-                        const totalDuration = deadline - baseStart;
-                        const elapsed = now - baseStart;
-                        let percent = (elapsed / totalDuration) * 100;
-                        if (percent < 0) percent = 0;
-                        if (percent > 100) percent = 100;
+                        // Calculate metrics relative to the Axis (1 Year)
+                        // Bar Wrapper Width (Deadline Position on the axis)
+                        const projectDurationFromAxisStart = deadline - startDate;
+                        let widthPercent = (projectDurationFromAxisStart / axisDuration) * 100;
 
+                        // Ensure width is within bounds of the axis
+                        if (widthPercent < 0) widthPercent = 0;
+                        if (widthPercent > 100) widthPercent = 100;
+
+                        // Fill (Progress relative to Project Duration from Axis Start, constrained by Now)
+                        const projectTotalDuration = deadline - startDate; // Duration from axis start to project deadline
+                        let fillPercent = 0;
+                        if (projectTotalDuration > 0) {
+                            const elapsedForProject = now - startDate;
+                            fillPercent = (elapsedForProject / projectTotalDuration) * 100;
+                        }
+
+                        // Cap fill at 100% of the project's own bar, and not less than 0
+                        if (fillPercent > 100) fillPercent = 100;
+                        if (fillPercent < 0) fillPercent = 0;
+
+                        // UI Setup
                         const dStr = `${deadline.getFullYear()}.${(deadline.getMonth() + 1)}.${deadline.getDate()}`;
+                        const remainingDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                        let remainText = `あと${remainingDays}日`;
+                        if (remainingDays < 0) remainText = "期限切れ";
 
-                        // Row
-                        const row = document.createElement('div');
-                        row.style.marginBottom = '12px';
-
-                        // Label Row
-                        const labelRow = document.createElement('div');
-                        labelRow.style.display = 'flex';
-                        labelRow.style.justifyContent = 'space-between';
-                        labelRow.style.fontSize = '0.75rem';
-                        labelRow.style.marginBottom = '2px';
-                        labelRow.style.color = '#666';
-
-                        // Icon extraction from existing button if possible
+                        // Icon
                         const btn = document.getElementById(p.id);
                         let icon = "🎯";
                         if (btn) {
@@ -448,82 +509,43 @@
                             if (match) icon = match[0];
                         }
 
-                        // Remaining days
-                        const remainingDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
-                        let remainText = `残り${remainingDays}日`;
-                        if (remainingDays < 0) remainText = "期限切れ";
+                        // DOM Construction
+                        const row = document.createElement('div');
+                        row.style.marginBottom = '8px';
 
-                        labelRow.innerHTML = `<span>${icon} ${dStr} まで (${remainText})</span> <span style="font-weight:bold;">${Math.floor(percent)}%</span>`;
+                        // Label
+                        const labelRow = document.createElement('div');
+                        labelRow.style.display = 'flex';
+                        labelRow.style.justifyContent = 'space-between';
+                        labelRow.style.fontSize = '0.75rem';
+                        labelRow.style.marginBottom = '2px';
+                        labelRow.style.color = '#666';
+                        labelRow.innerHTML = `<span>${icon} ${dStr} (${remainText})</span>`;
 
-                        // Bar Container
-                        const barCont = document.createElement('div');
-                        barCont.style.cssText = "width:100%; height:8px; background:#efefef; border-radius:4px; overflow:hidden; position:relative;";
+                        // Bar Wrapper (Gray - representing Plan/Deadline)
+                        const barWrapper = document.createElement('div');
+                        barWrapper.style.width = widthPercent + "%";
+                        barWrapper.style.height = "8px";
+                        barWrapper.style.background = "#e0e0e0";
+                        barWrapper.style.borderRadius = "4px";
+                        barWrapper.style.position = "relative";
+                        barWrapper.style.overflow = "hidden";
 
-                        // Fill
-                        const fill = document.createElement('div');
-                        fill.style.cssText = `width:${percent}%; height:100%; background:var(--accent);`;
+                        // Fill (Accent - representing Progress/Now)
+                        const fillDiv = document.createElement('div');
+                        fillDiv.style.width = fillPercent + "%";
+                        fillDiv.style.height = "100%";
+                        fillDiv.style.background = "var(--accent)";
+                        fillDiv.style.transition = "width 1s";
 
-                        barCont.appendChild(fill);
+                        barWrapper.appendChild(fillDiv);
                         row.appendChild(labelRow);
-                        row.appendChild(barCont);
+                        row.appendChild(barWrapper);
                         projectContainer.appendChild(row);
                     }
                 }
-
             } else {
-                // Show Main, Hide Projects
-                if (mainContainer) mainContainer.style.display = 'block';
-                if (labelsEl) labelsEl.style.display = 'flex';
                 if (projectContainer) projectContainer.style.display = 'none';
-
-                let startDate, endDate;
-                let showSeparators = false;
-                let labelHTML = '';
-
-                if (timelineMode === 'total') {
-                    startDate = new Date("2025-11-01T00:00:00");
-                    endDate = targetDate;
-                    showSeparators = true;
-                    labelHTML = `
-                        <span>51歳</span>
-                        <span>52歳</span>
-                        <span>53歳</span>
-                        <span>54歳</span>
-                        <span>55歳</span>
-                    `;
-                    const ticks = document.querySelector('#timeline-ticks div');
-                    if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
-
-                } else {
-                    // Year Mode
-                    const currentYear = now.getFullYear();
-                    const birthdayThisYear = new Date(currentYear, 10, 1);
-                    if (now >= birthdayThisYear) {
-                        startDate = birthdayThisYear;
-                        endDate = new Date(currentYear + 1, 10, 1);
-                        const age = currentYear - 1974;
-                        labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
-                    } else {
-                        startDate = new Date(currentYear - 1, 10, 1);
-                        endDate = birthdayThisYear;
-                        const age = currentYear - 1 - 1974;
-                        labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
-                    }
-                    showSeparators = false;
-                    const ticks = document.querySelector('#timeline-ticks div');
-                    if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
-                }
-
-                const sepEl = document.getElementById('timeline-separators');
-                if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
-                if (labelsEl) labelsEl.innerHTML = labelHTML;
-
-                const totalDuration = endDate - startDate;
-                const elapsed = now - startDate;
-                let progressPercent = (elapsed / totalDuration) * 100;
-                if (progressPercent < 0) progressPercent = 0;
-                if (progressPercent > 100) progressPercent = 100;
-                document.getElementById('time-progress-bar').style.width = progressPercent + "%";
             }
         }
 
