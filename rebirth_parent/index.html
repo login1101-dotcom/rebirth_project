@@ -354,9 +354,6 @@
             } else if (mode === 'year' && btnYear) {
                 btnYear.style.background = '#eee';
                 btnYear.style.fontWeight = 'bold';
-            } else if (mode === 'projects' && btnProjects) {
-                btnProjects.style.background = '#eee';
-                btnProjects.style.fontWeight = 'bold';
             }
             updateTimer(); // Re-render immediately
         }
@@ -366,15 +363,31 @@
 
         function updateTimer() {
             const now = new Date();
-            const targetDate = new Date("2029-11-01T00:00:00"); // 55th Birthday
+            // --- Countdown Target Logic Switching ---
+            let currentTargetDate;
+            const isTotal = timelineMode === 'total';
+            const isYear = timelineMode === 'year'; // This now triggers the 8-bar layout
 
-            // --- Countdown Display (Always to 55) ---
-            if (now >= targetDate) {
-                document.getElementById('countdown-container').innerHTML = "HAPPY 55th BIRTHDAY!";
+            if (isTotal) {
+                currentTargetDate = new Date("2029-11-01T00:00:00"); // 55th Birthday
+            } else {
+                // Year Mode: Target is Next Birthday
+                const cYear = now.getFullYear();
+                const bDay = new Date(cYear, 10, 1);
+                if (now >= bDay) {
+                    currentTargetDate = new Date(cYear + 1, 10, 1);
+                } else {
+                    currentTargetDate = bDay;
+                }
+            }
+
+            // --- Countdown Display ---
+            if (now >= currentTargetDate) {
+                document.getElementById('countdown-container').innerHTML = isTotal ? "HAPPY 55th BIRTHDAY!" : "HAPPY BIRTHDAY!";
                 return;
             }
 
-            let t = new Date(targetDate);
+            let t = new Date(currentTargetDate);
             let n = new Date(now);
 
             let y = t.getFullYear() - n.getFullYear();
@@ -411,13 +424,10 @@
             const ticks = document.querySelector('#timeline-ticks div');
             const sepEl = document.getElementById('timeline-separators');
 
-            // Determine Axis Mode
-            const isTotal = timelineMode === 'total';
-            const isProjects = timelineMode === 'projects';
-
             // Layout Constants - Unified for perfect alignment
             const LEFT_COL_WIDTH = '220px';
-            const RIGHT_COL_WIDTH = '240px'; // Made slightly wider to fit buttons + label comfortably
+            const RIGHT_COL_WIDTH = '240px';
+
 
             let startDate, endDate;
             let showSeparators = false;
@@ -427,7 +437,7 @@
             // 1. Calculate Axis Range & Ages
             if (isTotal) {
                 startDate = new Date("2025-11-01T00:00:00");
-                endDate = targetDate;
+                endDate = new Date("2029-11-01T00:00:00");
                 showSeparators = true;
                 labelHTML = `<span>51歳</span><span>52歳</span><span>53歳</span><span>54歳</span><span>55歳</span>`;
                 if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
@@ -457,8 +467,8 @@
             if (mainProgress > 100) mainProgress = 100;
 
             // 2. Render Logic Switching
-            if (isProjects) {
-                // --- PROJECTS MODE (8 Uniform Rows) ---
+            if (isYear) {
+                // --- YEAR MODE (FORMERLY PROJECTS MODE - 8 Uniform Rows) ---
 
                 // Hide Standard Top Elements
                 if (mainContainer) mainContainer.style.display = 'none';
