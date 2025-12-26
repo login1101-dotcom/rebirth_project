@@ -411,59 +411,20 @@
             const ticks = document.querySelector('#timeline-ticks div');
             const sepEl = document.getElementById('timeline-separators');
 
-            // 0. Inject specific Project Mode labels if not present
-            let projLabelLeft = document.getElementById('proj-label-left');
-            // Create a wrapper for the top right group if not exists
-            let topRightGroup = document.getElementById('top-right-group');
-            let projLabelRight = document.getElementById('proj-label-right');
-
-            if (!projLabelLeft && topWrapper) {
-                projLabelLeft = document.createElement('div');
-                projLabelLeft.id = 'proj-label-left';
-                projLabelLeft.style.display = 'none';
-                topWrapper.appendChild(projLabelLeft);
-            }
-            // Create Top Right Group Wrapper
-            if (!topRightGroup && topWrapper) {
-                topRightGroup = document.createElement('div');
-                topRightGroup.id = 'top-right-group';
-                topWrapper.appendChild(topRightGroup);
-            }
-            // Move LabelRight and BtnContainer into Group if they aren't already or create new
-            if (!projLabelRight && topRightGroup) {
-                projLabelRight = document.createElement('div');
-                projLabelRight.id = 'proj-label-right';
-                topRightGroup.appendChild(projLabelRight);
-            } else if (projLabelRight && topRightGroup && projLabelRight.parentElement !== topRightGroup) {
-                topRightGroup.appendChild(projLabelRight);
-            }
-            // Ensure button container is inside the group or topWrapper?
-            // To align perfectly, we want [Left 220] [Bar Flex] [Right 160].
-            // So [Right 160] must contain [52yo] [Buttons].
-            if (topRightGroup && btnContainer && btnContainer.parentElement !== topRightGroup) {
-                topRightGroup.appendChild(btnContainer);
-            }
-
-            // Ensure Labels are visually below the Main Bar (if not already)
-            if (mainContainer && labelsEl && mainContainer.nextElementSibling !== labelsEl) {
-                if (topWrapper && topWrapper.nextElementSibling !== labelsEl) {
-                    topWrapper.parentNode.insertBefore(labelsEl, topWrapper.nextElementSibling);
-                }
-            }
-
-            let startDate, endDate;
-            let showSeparators = false;
-            let labelHTML = '';
-
             // Determine Axis Mode
             const isTotal = timelineMode === 'total';
             const isProjects = timelineMode === 'projects';
 
-            // Layout Constants
-            const SIDE_LABEL_WIDTH = '220px';
-            const RIGHT_LABEL_WIDTH = '160px'; // Reduced to increase bar length (from 220 to 160 = +60px bar)
+            // Layout Constants - Unified for perfect alignment
+            const LEFT_COL_WIDTH = '220px';
+            const RIGHT_COL_WIDTH = '240px'; // Made slightly wider to fit buttons + label comfortably
 
-            // 1. Calculate Axis Range
+            let startDate, endDate;
+            let showSeparators = false;
+            let labelHTML = '';
+            let currentAge, nextAge;
+
+            // 1. Calculate Axis Range & Ages
             if (isTotal) {
                 startDate = new Date("2025-11-01T00:00:00");
                 endDate = targetDate;
@@ -477,123 +438,17 @@
                 if (now >= birthdayThisYear) {
                     startDate = birthdayThisYear;
                     endDate = new Date(currentYear + 1, 10, 1);
-                    const age = currentYear - 1974;
-                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                    currentAge = currentYear - 1974;
                 } else {
                     startDate = new Date(currentYear - 1, 10, 1);
                     endDate = birthdayThisYear;
-                    const age = currentYear - 1 - 1974;
-                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                    currentAge = currentYear - 1 - 1974;
                 }
+                nextAge = currentAge + 1;
+                labelHTML = `<span>${currentAge}歳</span><span>${nextAge}歳</span>`;
                 showSeparators = false;
                 if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
             }
-
-            // 2. Render Main Timeline (Header Layout Control)
-            if (topWrapper && btnContainer && mainContainer) {
-                mainContainer.style.display = 'block';
-
-                if (isProjects) {
-                    // FLEX ROW LAYOUT
-                    topWrapper.style.display = 'flex';
-                    topWrapper.style.alignItems = 'center';
-                    topWrapper.style.width = '100%';
-                    topWrapper.style.maxWidth = 'none';
-                    topWrapper.style.marginBottom = '2px';
-
-                    // 1. Left Label (220px)
-                    if (projLabelLeft) {
-                        projLabelLeft.innerText = labelHTML.match(/<span>(.*?)<\/span>/)[1].replace(/<[^>]*>/g, '');
-                        projLabelLeft.style.display = 'block';
-                        projLabelLeft.style.width = SIDE_LABEL_WIDTH;
-                        projLabelLeft.style.minWidth = SIDE_LABEL_WIDTH;
-                        projLabelLeft.style.textAlign = 'right';
-                        projLabelLeft.style.paddingRight = '12px';
-                        projLabelLeft.style.boxSizing = 'border-box';
-                        projLabelLeft.style.fontWeight = 'bold';
-                        projLabelLeft.style.color = '#555';
-                        projLabelLeft.style.order = '1';
-                    }
-
-                    // 2. Bar (Flex 1)
-                    mainContainer.style.flex = '1';
-                    mainContainer.style.width = 'auto';
-                    mainContainer.style.margin = '0';
-                    mainContainer.style.padding = '0';
-                    mainContainer.style.marginRight = '0';
-                    mainContainer.style.order = '2';
-
-                    // 3. Right Group (160px) - Contains 52yo + Buttons
-                    if (topRightGroup) {
-                        topRightGroup.style.display = 'flex';
-                        topRightGroup.style.width = RIGHT_LABEL_WIDTH;
-                        topRightGroup.style.minWidth = RIGHT_LABEL_WIDTH;
-                        topRightGroup.style.justifyContent = 'space-between'; // Spread label and buttons
-                        topRightGroup.style.alignItems = 'center';
-                        topRightGroup.style.paddingLeft = '8px';
-                        topRightGroup.style.boxSizing = 'border-box';
-                        topRightGroup.style.order = '3';
-
-                        // Right Label Text
-                        const matches = labelHTML.matchAll(/<span>(.*?)<\/span>/g);
-                        let lastLabel = "";
-                        for (const m of matches) lastLabel = m[1];
-
-                        // Buttons
-                        btnContainer.style.order = '2';
-                        btnContainer.style.marginBottom = '0';
-                        btnContainer.style.transform = 'scale(0.9)'; // Slightly smaller buttons to fit
-                        btnContainer.style.transformOrigin = 'right center';
-
-                        if (projLabelRight) {
-                            projLabelRight.innerText = lastLabel;
-                            projLabelRight.style.fontWeight = 'bold';
-                            projLabelRight.style.color = '#555';
-                            projLabelRight.style.whiteSpace = 'nowrap';
-                            projLabelRight.style.marginRight = '4px';
-                            projLabelRight.style.order = '1';
-                        }
-                    }
-
-                } else {
-                    // STANDARD BLOCK LAYOUT
-                    topWrapper.style.display = 'block';
-                    topWrapper.style.maxWidth = '1000px';
-                    topWrapper.style.marginBottom = '0';
-
-                    if (projLabelLeft) projLabelLeft.style.display = 'none';
-                    if (topRightGroup) {
-                        // Move button container back to top wrapper if it was moved
-                        if (btnContainer.parentElement === topRightGroup) {
-                            topWrapper.appendChild(btnContainer);
-                        }
-                        topRightGroup.style.display = 'none';
-                    }
-
-                    btnContainer.style.width = 'auto'; // Auto fit
-                    btnContainer.style.marginBottom = '4px';
-                    btnContainer.style.order = 'unset';
-                    btnContainer.style.transform = 'none';
-
-                    mainContainer.style.width = '100%';
-                    mainContainer.style.margin = '0';
-                    mainContainer.style.order = 'unset';
-                }
-            }
-
-            if (labelsEl) {
-                if (isProjects) {
-                    labelsEl.style.display = 'none';
-                } else {
-                    labelsEl.style.display = 'flex';
-                    labelsEl.innerHTML = labelHTML;
-                    labelsEl.style.marginLeft = '0';
-                    labelsEl.style.marginRight = '0';
-                    labelsEl.style.width = '100%';
-                    labelsEl.style.marginTop = '6px';
-                }
-            }
-            if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
 
             const axisDuration = endDate - startDate;
             const elapsed = now - startDate;
@@ -601,39 +456,126 @@
             if (mainProgress < 0) mainProgress = 0;
             if (mainProgress > 100) mainProgress = 100;
 
-            document.getElementById('time-progress-bar').style.width = mainProgress + "%";
-
-
-            // 3. Render Projects (Overlay/Lists)
+            // 2. Render Logic Switching
             if (isProjects) {
-                const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+                // --- PROJECTS MODE (8 Uniform Rows) ---
+
+                // Hide Standard Top Elements
+                if (mainContainer) mainContainer.style.display = 'none';
+                if (labelsEl) labelsEl.style.display = 'none';
+                if (topWrapper) {
+                    topWrapper.style.display = 'none'; // We will not use the wrapper, we build everything in projectContainer
+                }
 
                 if (projectContainer) {
                     projectContainer.style.display = 'block';
-                    projectContainer.style.marginTop = '15px';
-                    projectContainer.innerHTML = ''; // Clear
+                    projectContainer.style.marginTop = '0'; // No margin needed as we are replacing the top
+                    projectContainer.innerHTML = ''; // Clear existing
 
+                    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+                    // --- ROW 1: The "1-Year" Timeline (As formatted row) ---
+                    const headerRow = document.createElement('div');
+                    headerRow.style.display = 'flex';
+                    headerRow.style.alignItems = 'center';
+                    headerRow.style.marginBottom = '12px';
+                    headerRow.style.height = '24px'; // Fixed height for alignment
+
+                    // Col 1: Start Age
+                    const hCol1 = document.createElement('div');
+                    hCol1.style.width = LEFT_COL_WIDTH;
+                    hCol1.style.minWidth = LEFT_COL_WIDTH;
+                    hCol1.style.textAlign = 'right';
+                    hCol1.style.paddingRight = '12px';
+                    hCol1.style.boxSizing = 'border-box';
+                    hCol1.style.fontWeight = 'bold';
+                    hCol1.style.color = '#555';
+                    hCol1.style.fontSize = '0.75rem';
+                    hCol1.innerText = `${currentAge}歳`;
+
+                    // Col 2: Bar
+                    const hCol2 = document.createElement('div');
+                    hCol2.style.flex = '1';
+                    hCol2.style.position = 'relative';
+                    hCol2.style.height = '12px'; // Main bar slightly thicker? Or same? Let's match: 10px
+                    hCol2.style.display = 'flex';
+                    hCol2.style.alignItems = 'center';
+
+                    const hBarWrapper = document.createElement('div');
+                    hBarWrapper.style.width = "100%";
+                    hBarWrapper.style.height = "100%"; // Fill height
+                    hBarWrapper.style.background = "#efefef"; // Match main timeline track
+                    hBarWrapper.style.border = "1px solid #ccc";
+                    hBarWrapper.style.borderRadius = "3px";
+                    hBarWrapper.style.overflow = "hidden";
+
+                    const hFill = document.createElement('div');
+                    hFill.style.width = mainProgress + "%";
+                    hFill.style.height = "100%";
+                    hFill.style.background = accentColor;
+                    hFill.style.transition = "width 1s";
+
+                    // Add ticks to the main 1-year dummy bar for realism?
+                    const hTicks = document.createElement('div');
+                    hTicks.style.position = 'absolute';
+                    hTicks.style.left = '0';
+                    hTicks.style.bottom = '0';
+                    hTicks.style.width = '100%';
+                    hTicks.style.height = '50%';
+                    hTicks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+                    hTicks.style.zIndex = '2';
+                    hTicks.style.pointerEvents = 'none';
+
+                    hBarWrapper.appendChild(hFill);
+                    hBarWrapper.appendChild(hTicks);
+                    hCol2.appendChild(hBarWrapper);
+
+                    // Col 3: End Age + Buttons
+                    const hCol3 = document.createElement('div');
+                    hCol3.style.width = RIGHT_COL_WIDTH;
+                    hCol3.style.minWidth = RIGHT_COL_WIDTH;
+                    hCol3.style.paddingLeft = '8px';
+                    hCol3.style.boxSizing = 'border-box';
+                    hCol3.style.display = 'flex';
+                    hCol3.style.alignItems = 'center';
+                    hCol3.style.justifyContent = 'space-between';
+
+                    const endAgeLabel = document.createElement('span');
+                    endAgeLabel.innerText = `${nextAge}歳`;
+                    endAgeLabel.style.fontWeight = 'bold';
+                    endAgeLabel.style.color = '#555';
+                    endAgeLabel.style.fontSize = '0.75rem';
+
+                    hCol3.appendChild(endAgeLabel);
+
+                    // Move Buttons Here
+                    if (btnContainer) {
+                        // Ensure btnContainer is not already a child of hCol3 to prevent errors
+                        if (btnContainer.parentElement !== hCol3) {
+                            hCol3.appendChild(btnContainer);
+                        }
+                        // Reset styles for this context
+                        btnContainer.style.width = 'auto';
+                        btnContainer.style.marginBottom = '0';
+                        btnContainer.style.transform = 'scale(0.9)';
+                        btnContainer.style.transformOrigin = 'right center';
+                    }
+
+                    headerRow.appendChild(hCol1);
+                    headerRow.appendChild(hCol2);
+                    headerRow.appendChild(hCol3);
+                    projectContainer.appendChild(headerRow);
+
+
+                    // --- ROWS 2-8: Projects ---
                     for (const key in PROJECT_STATUS) {
                         const p = PROJECT_STATUS[key];
                         if (!p.deadline) continue;
                         const deadline = new Date(p.deadline);
 
-                        // Time Calculation
                         const projectDurationFromAxisStart = deadline - startDate;
-
-                        // New Logic: Bar is always 100% width (The full year)
-                        let widthPercent = 100;
-
-                        // But we want to indicate the DEADLINE. 
-                        // Calc deadline position %
                         let deadlinePosPercent = (projectDurationFromAxisStart / axisDuration) * 100;
 
-                        // Fill Calculation
-                        let fillPercent = (elapsed / axisDuration) * 100;
-                        if (fillPercent > 100) fillPercent = 100;
-                        if (fillPercent < 0) fillPercent = 0;
-
-                        // UI Setup
                         const dStr = `${deadline.getFullYear()}.${(deadline.getMonth() + 1)}.${deadline.getDate()}`;
                         const remainingDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
                         let remainText = `あと${remainingDays}日`;
@@ -642,89 +584,111 @@
                         const icon = p.icon || "🎯";
                         const fullText = p.label || key;
 
-                        // DOM Construction: Flex Row 3-Col
                         const row = document.createElement('div');
                         row.style.display = 'flex';
                         row.style.alignItems = 'center';
                         row.style.marginBottom = '12px';
+                        row.style.height = '24px'; // Match header height
 
-                        // COL 1: Name (Left)
-                        const nameCol = document.createElement('div');
-                        nameCol.style.width = SIDE_LABEL_WIDTH;
-                        nameCol.style.minWidth = SIDE_LABEL_WIDTH; // Enforce
-                        nameCol.style.fontSize = '0.75rem';
-                        nameCol.style.color = '#333';
-                        nameCol.style.paddingRight = '12px';
-                        nameCol.style.textAlign = 'right';
-                        nameCol.style.whiteSpace = 'nowrap';
-                        nameCol.style.overflow = 'hidden';
-                        nameCol.style.textOverflow = 'ellipsis';
-                        nameCol.style.boxSizing = 'border-box';
-                        nameCol.innerText = icon + " " + fullText;
+                        // Col 1
+                        const col1 = document.createElement('div');
+                        col1.style.width = LEFT_COL_WIDTH;
+                        col1.style.minWidth = LEFT_COL_WIDTH;
+                        col1.style.fontSize = '0.75rem';
+                        col1.style.color = '#333';
+                        col1.style.paddingRight = '12px';
+                        col1.style.textAlign = 'right';
+                        col1.style.whiteSpace = 'nowrap';
+                        col1.style.overflow = 'hidden';
+                        col1.style.textOverflow = 'ellipsis';
+                        col1.style.boxSizing = 'border-box';
+                        col1.innerText = icon + " " + fullText;
 
-                        // COL 2: Bar Area (Center - Aligned with Axis)
-                        const barArea = document.createElement('div');
-                        barArea.style.flex = '1';
-                        barArea.style.position = 'relative';
-                        barArea.style.height = '10px';
-                        barArea.style.display = 'flex';
-                        barArea.style.alignItems = 'center';
+                        // Col 2
+                        const col2 = document.createElement('div');
+                        col2.style.flex = '1';
+                        col2.style.position = 'relative';
+                        col2.style.height = '10px'; // Bar height
+                        col2.style.display = 'flex';
+                        col2.style.alignItems = 'center';
 
                         const barWrapper = document.createElement('div');
-                        barWrapper.style.width = widthPercent + "%";
-                        barWrapper.style.height = "10px";
+                        barWrapper.style.width = "100%";
+                        barWrapper.style.height = "100%";
                         barWrapper.style.background = "#e0e0e0";
                         barWrapper.style.borderRadius = "5px";
                         barWrapper.style.overflow = "hidden";
-                        barWrapper.style.position = "relative"; // For deadline marker
+                        barWrapper.style.position = "relative";
 
-                        // Progress Fill
                         const fillDiv = document.createElement('div');
-                        fillDiv.style.width = fillPercent + "%";
+                        fillDiv.style.width = mainProgress + "%"; // Sync with main time
                         fillDiv.style.height = "100%";
                         fillDiv.style.background = accentColor || "#e94e77";
                         fillDiv.style.transition = "width 1s";
-                        fillDiv.style.zIndex = "1"; // Ensure fill is behind marker
+                        fillDiv.style.zIndex = "1";
 
-                        // Deadline Marker
                         const marker = document.createElement('div');
                         marker.style.position = 'absolute';
                         marker.style.left = deadlinePosPercent + "%";
                         marker.style.top = "0";
                         marker.style.bottom = "0";
-                        marker.style.width = "2px";
-                        marker.style.background = "#666";
-                        marker.style.zIndex = "2"; // Ensure marker is on top of fill
-                        marker.style.borderLeft = "1px dotted #666"; // Dotted line style
-                        marker.style.width = "0"; // Make it a line, not a block
+                        marker.style.width = "0";
+                        marker.style.borderLeft = "2px dotted #555";
+                        marker.style.zIndex = "2";
 
                         barWrapper.appendChild(fillDiv);
                         if (deadlinePosPercent >= 0 && deadlinePosPercent <= 100) {
                             barWrapper.appendChild(marker);
                         }
+                        col2.appendChild(barWrapper);
 
-                        barArea.appendChild(barWrapper);
+                        // Col 3
+                        const col3 = document.createElement('div');
+                        col3.style.width = RIGHT_COL_WIDTH;
+                        col3.style.minWidth = RIGHT_COL_WIDTH;
+                        col3.style.paddingLeft = '8px';
+                        col3.style.fontSize = '0.7rem';
+                        col3.style.color = '#666';
+                        col3.style.boxSizing = 'border-box';
+                        col3.innerHTML = `${dStr}まで (${remainText})`;
 
-                        // COL 3: Deadline Info (Right)
-                        const infoCol = document.createElement('div');
-                        infoCol.style.width = RIGHT_LABEL_WIDTH;
-                        infoCol.style.minWidth = RIGHT_LABEL_WIDTH; // Enforce
-                        infoCol.style.paddingLeft = '12px';
-                        infoCol.style.fontSize = '0.7rem'; // Slightly smaller to fit
-                        infoCol.style.color = '#666';
-                        infoCol.style.boxSizing = 'border-box';
-                        infoCol.innerHTML = `${dStr}まで (${remainText})`;
-
-                        // Assemble Row
-                        row.appendChild(nameCol);
-                        row.appendChild(barArea);
-                        row.appendChild(infoCol);
-
+                        row.appendChild(col1);
+                        row.appendChild(col2);
+                        row.appendChild(col3);
                         projectContainer.appendChild(row);
                     }
                 }
+
             } else {
+                // --- TOTAL / YEAR MODE (Standard) ---
+
+                // Restore elements
+                if (topWrapper) topWrapper.style.display = 'block';
+                if (mainContainer) mainContainer.style.display = 'block';
+                if (labelsEl) labelsEl.style.display = 'flex';
                 if (projectContainer) projectContainer.style.display = 'none';
+
+                // Restore Buttons to Top Wrapper standard position
+                // The original HTML structure has btnContainer as a direct child of topWrapper.
+                // We need to ensure it's moved back there if it was moved to hCol3.
+                if (topWrapper && btnContainer && btnContainer.parentElement !== topWrapper) {
+                    // Find the original position or a suitable one.
+                    // Assuming btnContainer should be before mainContainer within topWrapper.
+                    topWrapper.insertBefore(btnContainer, mainContainer);
+                }
+
+                // Reset Button Styles
+                if (btnContainer) {
+                    btnContainer.style.width = 'auto';
+                    btnContainer.style.marginBottom = '4px';
+                    btnContainer.style.transform = 'none';
+                    btnContainer.style.justifyContent = 'flex-end'; // Restore default alignment if changed
+                }
+
+                // Standard Mode Main Bar Logic (using existing variables)
+                if (labelsEl) labelsEl.innerHTML = labelHTML;
+                if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
+                document.getElementById('time-progress-bar').style.width = mainProgress + "%";
             }
         }
 
