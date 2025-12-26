@@ -404,6 +404,11 @@
             const ticks = document.querySelector('#timeline-ticks div');
             const sepEl = document.getElementById('timeline-separators');
 
+            // Ensure Labels are visually below the Main Bar (if not already)
+            if (mainContainer && labelsEl && mainContainer.nextElementSibling !== labelsEl) {
+                mainContainer.parentNode.insertBefore(labelsEl, mainContainer.nextElementSibling);
+            }
+
             let startDate, endDate;
             let showSeparators = false;
             let labelHTML = '';
@@ -411,6 +416,7 @@
             // Determine Axis Mode
             const isTotal = timelineMode === 'total';
             const isProjects = timelineMode === 'projects';
+            const SIDE_LABEL_WIDTH = '100px';
 
             // 1. Calculate Axis Range
             if (isTotal) {
@@ -418,13 +424,7 @@
                 startDate = new Date("2025-11-01T00:00:00");
                 endDate = targetDate;
                 showSeparators = true;
-                labelHTML = `
-                    <span>51歳</span>
-                    <span>52歳</span>
-                    <span>53歳</span>
-                    <span>54歳</span>
-                    <span>55歳</span>
-                `;
+                labelHTML = `<span>51歳</span><span>52歳</span><span>53歳</span><span>54歳</span><span>55歳</span>`;
                 if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
             } else {
                 // Year Mode (OR Projects Mode where we force 1 Year axis)
@@ -446,11 +446,32 @@
                 if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
             }
 
-            // 2. Render Main Timeline (Always Visible)
-            if (mainContainer) mainContainer.style.display = 'block';
+            // 2. Render Main Timeline (Always Visible) & Handle Layout Shifts
+            if (mainContainer) {
+                mainContainer.style.display = 'block';
+                // Layout Shift for Projects Mode (Left Column for labels)
+                if (isProjects) {
+                    mainContainer.style.marginLeft = SIDE_LABEL_WIDTH;
+                    mainContainer.style.width = `calc(100% - ${SIDE_LABEL_WIDTH})`;
+                } else {
+                    mainContainer.style.marginLeft = '0'; // auto
+                    mainContainer.style.width = '100%';
+                }
+            }
+
             if (labelsEl) {
                 labelsEl.style.display = 'flex';
                 labelsEl.innerHTML = labelHTML;
+                // Layout Shift for Labels
+                if (isProjects) {
+                    labelsEl.style.marginLeft = SIDE_LABEL_WIDTH;
+                    labelsEl.style.width = `calc(100% - ${SIDE_LABEL_WIDTH})`;
+                    labelsEl.style.marginTop = '2px'; // Tighter to bar
+                } else {
+                    labelsEl.style.marginLeft = '0';
+                    labelsEl.style.width = '100%';
+                    labelsEl.style.marginTop = '6px';
+                }
             }
             if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
 
@@ -467,6 +488,7 @@
             if (isProjects) {
                 if (projectContainer) {
                     projectContainer.style.display = 'block';
+                    projectContainer.style.marginTop = '15px'; // Separation from axis labels
                     projectContainer.innerHTML = ''; // Clear
 
                     for (const key in PROJECT_STATUS) {
@@ -475,23 +497,17 @@
                         const deadline = new Date(p.deadline);
 
                         // Calculate metrics relative to the Axis (1 Year)
-                        // Bar Wrapper Width (Deadline Position on the axis)
                         const projectDurationFromAxisStart = deadline - startDate;
                         let widthPercent = (projectDurationFromAxisStart / axisDuration) * 100;
-
-                        // Ensure width is within bounds of the axis
                         if (widthPercent < 0) widthPercent = 0;
                         if (widthPercent > 100) widthPercent = 100;
 
-                        // Fill (Progress relative to Project Duration from Axis Start, constrained by Now)
-                        const projectTotalDuration = deadline - startDate; // Duration from axis start to project deadline
+                        const projectTotalDuration = deadline - startDate;
                         let fillPercent = 0;
                         if (projectTotalDuration > 0) {
                             const elapsedForProject = now - startDate;
                             fillPercent = (elapsedForProject / projectTotalDuration) * 100;
                         }
-
-                        // Cap fill at 100% of the project's own bar, and not less than 0
                         if (fillPercent > 100) fillPercent = 100;
                         if (fillPercent < 0) fillPercent = 0;
 
@@ -501,46 +517,72 @@
                         let remainText = `あと${remainingDays}日`;
                         if (remainingDays < 0) remainText = "期限切れ";
 
-                        // Icon
+                        // Icon & Label
                         const btn = document.getElementById(p.id);
                         let icon = "🎯";
                         if (btn) {
                             const match = btn.innerText.match(/^[^\s]+/);
                             if (match) icon = match[0];
                         }
+                        const labelText = p.label || key; // Use Japanese label
 
-                        // DOM Construction
+                        // DOM Construction: Flex Row
                         const row = document.createElement('div');
+                        row.style.display = 'flex';
+                        row.style.alignItems = 'center'; // Center vertically
                         row.style.marginBottom = '8px';
 
-                        // Label
-                        const labelRow = document.createElement('div');
-                        labelRow.style.display = 'flex';
-                        labelRow.style.justifyContent = 'space-between';
-                        labelRow.style.fontSize = '0.75rem';
-                        labelRow.style.marginBottom = '2px';
-                        labelRow.style.color = '#666';
-                        labelRow.innerHTML = `<span>${icon} ${dStr} (${remainText})</span>`;
+                        // LEFT COL: Name
+                        const nameCol = document.createElement('div');
+                        nameCol.style.width = SIDE_LABEL_WIDTH;
+                        nameCol.style.minWidth = SIDE_LABEL_WIDTH;
+                        nameCol.style.fontSize = '0.75rem';
+                        nameCol.style.fontWeight = 'bold';
+                        nameCol.style.color = '#555';
+                        nameCol.style.paddingRight = '10px';
+                        nameCol.style.textAlign = 'right';
+                        nameCol.style.whiteSpace = 'nowrap';
+                        nameCol.style.overflow = 'hidden';
+                        nameCol.style.textOverflow = 'ellipsis';
+                        nameCol.innerText = icon + " " + labelText;
 
-                        // Bar Wrapper (Gray - representing Plan/Deadline)
+                        // RIGHT COL: Bar Area
+                        const barArea = document.createElement('div');
+                        barArea.style.flex = '1';
+                        barArea.style.position = 'relative';
+
+                        // Info Text (Above Bar? Or inside? Let's keep above for clarity)
+                        const infoText = document.createElement('div');
+                        infoText.style.fontSize = '0.7rem';
+                        infoText.style.color = '#888';
+                        infoText.style.marginBottom = '2px';
+                        infoText.innerHTML = `${dStr} (${remainText})`;
+
+                        // Bar Wrapper
                         const barWrapper = document.createElement('div');
                         barWrapper.style.width = widthPercent + "%";
                         barWrapper.style.height = "8px";
                         barWrapper.style.background = "#e0e0e0";
                         barWrapper.style.borderRadius = "4px";
-                        barWrapper.style.position = "relative";
                         barWrapper.style.overflow = "hidden";
 
-                        // Fill (Accent - representing Progress/Now)
+                        // Fill
                         const fillDiv = document.createElement('div');
                         fillDiv.style.width = fillPercent + "%";
                         fillDiv.style.height = "100%";
-                        fillDiv.style.background = "var(--accent)";
+                        fillDiv.style.background = "var(--accent)"; // Maybe differentiate colors per category later?
                         fillDiv.style.transition = "width 1s";
 
                         barWrapper.appendChild(fillDiv);
-                        row.appendChild(labelRow);
-                        row.appendChild(barWrapper);
+
+                        // Assemble Right Col
+                        barArea.appendChild(infoText);
+                        barArea.appendChild(barWrapper);
+
+                        // Assemble Row
+                        row.appendChild(nameCol);
+                        row.appendChild(barArea);
+
                         projectContainer.appendChild(row);
                     }
                 }
