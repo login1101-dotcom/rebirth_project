@@ -239,7 +239,9 @@
                                             09:00頃 バナナ<br>
                                             10:24 みかん<br>
                                             11:00 サンドイッチ 1/2 (重)<br>
-                                            13:20 バナナ
+                                            13:20 バナナ<br>
+                                            19:00頃 とんかつ1、からあげ1、こめx2、たまねぎあげ、あたま
+
                                         </div>
                                     </td>
                                     <td><span class="status-badge-mini bg-ok">OK</span></td>
@@ -453,7 +455,7 @@
                         <div
                             style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
                             <span style="font-size: 0.9rem; color: var(--text-light);">一週間平均睡眠時間</span>
-                            <div style="font-size: 1.8rem; font-weight: 800; color: #8b5cf6;">6h 54m</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: #8b5cf6;">7h 08m</div>
                         </div>
                     </div>
                     <div class="data-card">
@@ -468,6 +470,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>12/26</td>
+                                    <td>21:30</td>
+                                    <td>05:30</td>
+                                    <td>8h 0m</td>
+                                </tr>
                                 <tr>
                                     <td>12/25</td>
                                     <td>23:30</td>
@@ -528,8 +536,8 @@
                         <ul style="list-style:none; line-height:1.8; font-size:0.95rem;">
                             <li>⏳ <strong>歩数:</strong> 計測中...</li>
                             <li>running <strong>活動:</strong> 日中活動中</li>
-                            <li>✅ <strong>食事:</strong> サンドイッチ、みかん、バナナ (小分け食)</li>
-                            <li>⏳ <strong>睡眠:</strong> --</li>
+                            <li>✅ <strong>食事:</strong> サンドイッチ、バナナ等 (小分け食)、夜:とんかつ・からあげ等</li>
+                            <li>✅ <strong>睡眠:</strong> 21:30 - 05:30 (8h) ※23:30に中途覚醒</li>
                         </ul>
                     </div>
                     <div class="data-card" style="background: white;">
@@ -982,10 +990,10 @@
             new Chart(document.getElementById('sleepDurationChart'), {
                 type: 'line',
                 data: {
-                    labels: ['12/19', '12/20', '12/21', '12/22', '12/23', '12/24', '12/25'],
+                    labels: ['12/20', '12/21', '12/22', '12/23', '12/24', '12/25', '12/26'],
                     datasets: [{
                         label: '睡眠時間(h)',
-                        data: [6.5, 7.2, 7.0, 6.8, 6.9, 7.0, 7.0],
+                        data: [7.2, 7.0, 6.8, 6.9, 7.0, 7.0, 8.0],
                         borderColor: '#8b5cf6',
                         fill: true,
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
