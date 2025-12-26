@@ -229,36 +229,53 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>12/27</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（マヨ・ケチャップ・シーチキン）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
                                     <td>12/26 13:20</td>
                                     <td>
                                         <div style="font-size:0.85rem; line-height:1.4;">
-                                            04:13 サンドイッチ 1/2 (軽)<br>
+                                            &lt;朝食&gt;<br>
+                                            サンドイッチ（ハンバーグ・野菜・マヨ・ケチャップ・チーズ・キャベツ）<br>
+                                            おにぎり（しゃけフレーク・しょうゆ・のり）<br>
+                                            <br>
+                                            &lt;間食&gt;<br>
                                             04:30 みかん<br>
-                                            05:30 サンドイッチ 1/2 (重)<br>
-                                            07:17 サンドイッチ 1/2 (軽)<br>
                                             09:00頃 バナナ<br>
                                             10:24 みかん<br>
-                                            11:00 サンドイッチ 1/2 (重)<br>
                                             13:20 バナナ<br>
-                                            19:00頃 とんかつ1、からあげ1、こめx2、たまねぎあげ、あたま
-
+                                            <br>
+                                            &lt;夕食 19:00頃&gt;<br>
+                                            とんかつ1、からあげ1、こめx2、たまねぎあげ、あたま
                                         </div>
                                     </td>
                                     <td><span class="status-badge-mini bg-ok">OK</span></td>
                                 </tr>
                                 <tr>
                                     <td>12/25 08:30</td>
-                                    <td>オートミール、納豆、卵</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（マヨ・ケチャップ・チーズ・キャベツ）<br>
+                                            おにぎり（しゃけフレーク・しょうゆ・のり）<br>
+                                            オートミール、納豆、卵
+                                        </div>
+                                    </td>
                                     <td><span class="status-badge-mini bg-ok">OK</span></td>
                                 </tr>
                                 <tr>
                                     <td>12/24 11:00</td>
                                     <td>
                                         <div style="font-size:0.85rem; line-height:1.4;">
-                                            08:30 サンドイッチ 1<br>
-                                            09:00 バナナ 1<br>
-                                            10:30 おにぎり 1<br>
-                                            11:00 サンドイッチ 2
+                                            サンドイッチ（シーチキンマヨ・チーズ・レタス）<br>
+                                            おにぎり（シーチキン・塩）<br>
+                                            バナナ 1
                                         </div>
                                     </td>
                                     <td><span class="status-badge-mini bg-ok">OK</span></td>
@@ -267,6 +284,26 @@
                                     <td>12/24 12:30</td>
                                     <td>鯖の塩焼き定食</td>
                                     <td><span class="status-badge-mini bg-ng">外食</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/23</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（シーチキンマヨ）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/22</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（シーチキンマヨ）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -576,10 +613,11 @@
             // --- Habit Tracker Logic ---
             // 仮想データ（本来はサーバーやテーブルから取得）
             const mealLogs = {
+                "2025-12-27": { hasLog: true, isCook: true },
                 "2025-12-26": { hasLog: true, isCook: true },
                 "2025-12-25": { hasLog: true, isCook: true },
-                "2025-12-24": { hasLog: true, isCook: true }, // 外食なしに修正されたため
-                "2025-12-23": { hasLog: true, isCook: false }, // 仮: この日は外食ありとする
+                "2025-12-24": { hasLog: true, isCook: true },
+                "2025-12-23": { hasLog: true, isCook: true },
                 "2025-12-22": { hasLog: true, isCook: true },
                 "2025-12-21": { hasLog: true, isCook: true },
                 "2025-12-20": { hasLog: true, isCook: true },
