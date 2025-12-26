@@ -270,7 +270,23 @@
                         </table>
                     </div>
                     <div class="data-card">
-                        <canvas id="dietFreqChart" height="200"></canvas>
+                        <h3>継続トラッカー
+                            <div class="toggle-group" style="display:inline-flex; gap:5px; float:right;">
+                                <button onclick="renderHabitCalendar('week')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">週間</button>
+                                <button onclick="renderHabitCalendar('month')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">月間</button>
+                                <button onclick="renderHabitCalendar('year')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">年間</button>
+                            </div>
+                        </h3>
+                        <div id="habitCalendar" style="display:grid; gap:8px; margin-top:10px;">
+                            <!-- JSで生成 -->
+                        </div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:10px; text-align:right;">
+                            <span style="margin-right:10px;">🙆 記録あり</span>
+                            <span>🍳 自炊OK</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -549,32 +565,81 @@
                 });
             }
 
-            // 1. Diet Frequency
-            new Chart(document.getElementById('dietFreqChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['記録', '自炊', '低糖質'],
-                    datasets: [{
-                        label: '直近7日間の達成数',
-                        data: [7, 6, 5],
-                        backgroundColor: '#15803d'
-                    }]
-                },
-                options: {
-                    plugins: { title: { display: true, text: '食事管理の継続率' } },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: true,
-                                color: '#94a3b8',
-                                lineWidth: 1
-                            }
+            // --- Habit Tracker Logic ---
+            // 仮想データ（本来はサーバーやテーブルから取得）
+            const mealLogs = {
+                "2025-12-26": { hasLog: true, isCook: true },
+                "2025-12-25": { hasLog: true, isCook: true },
+                "2025-12-24": { hasLog: true, isCook: true }, // 外食なしに修正されたため
+                "2025-12-23": { hasLog: true, isCook: false }, // 仮: この日は外食ありとする
+                "2025-12-22": { hasLog: true, isCook: true },
+                "2025-12-21": { hasLog: true, isCook: true },
+                "2025-12-20": { hasLog: true, isCook: true },
+            };
+
+            function renderHabitCalendar(range) {
+                const container = document.getElementById('habitCalendar');
+                container.innerHTML = '';
+
+                const now = new Date("2025-12-26T12:00:00"); // 基準日固定
+                let daysToShow = 7;
+                let gridStyle = "grid-template-columns: repeat(7, 1fr);";
+
+                if (range === 'month') {
+                    daysToShow = 30;
+                    gridStyle = "grid-template-columns: repeat(7, 1fr);";
+                } else if (range === 'year') {
+                    daysToShow = 90; // 簡易的に3ヶ月分
+                    gridStyle = "grid-template-columns: repeat(15, 1fr); font-size: 0.7rem;";
+                }
+
+                container.style.cssText = `display:grid; gap:8px; margin-top:10px; ${gridStyle}`;
+
+                // 生成
+                for (let i = daysToShow - 1; i >= 0; i--) {
+                    const d = new Date(now);
+                    d.setDate(d.getDate() - i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    const dayNum = d.getDate();
+
+                    const log = mealLogs[dateStr];
+                    let content = `<div style="color:#ccc;">-</div>`;
+                    let bgColor = "#f8fafc";
+                    let borderColor = "#e2e8f0";
+
+                    if (log) {
+                        if (log.isCook) {
+                            content = "🍳";
+                            bgColor = "#dcfce7"; // Green Light
+                            borderColor = "#86efac";
+                        } else {
+                            content = "🙆"; // 記録はあるが外食
+                            bgColor = "#fff7ed"; // Orange Light
+                            borderColor = "#fdba74";
                         }
                     }
+
+                    const cell = document.createElement('div');
+                    cell.style.cssText = `
+                        background: ${bgColor};
+                        border: 1px solid ${borderColor};
+                        border-radius: 8px;
+                        padding: 8px 4px;
+                        text-align: center;
+                        font-weight: bold;
+                    `;
+                    cell.innerHTML = `
+                        <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">${d.getMonth() + 1}/${dayNum}</div>
+                        <div style="font-size:1.2rem;">${content}</div>
+                    `;
+                    container.appendChild(cell);
                 }
-            });
+            }
+
+            // 初期表示
+            renderHabitCalendar('week'); // デフォルトは週間表示
+
+            // 2-1. Chest Exercise Trends
 
             // 2-1. Chest Exercise Trends
             new Chart(document.getElementById('chestTrendChart'), {
