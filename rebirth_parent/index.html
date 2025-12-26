@@ -72,10 +72,13 @@
                         style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #eee; border-radius: 4px; cursor: pointer; color:#666;">全体</button>
                     <button onclick="setTimelineMode('year')" id="btn-mode-year"
                         style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">1年</button>
+                    <button onclick="setTimelineMode('projects')" id="btn-mode-projects"
+                        style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">項目</button>
                 </div>
 
                 <!-- Progress Bar Container -->
-                <div style="width: 100%; max-width: 1000px; margin: 0 auto; position: relative; height: 12px;">
+                <div id="main-timeline-container"
+                    style="width: 100%; max-width: 1000px; margin: 0 auto; position: relative; height: 12px;">
 
                     <!-- The Actual Bar (Track & Fill & Ticks) -->
                     <div
@@ -108,6 +111,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Project Bars Container (Hidden by default) -->
+                <div id="project-bars-container"
+                    style="display:none; width: 100%; max-width: 1000px; margin: 10px auto 0;">
+                    <!-- Dynamically populated -->
                 </div>
 
                 <!-- Labels -->
@@ -319,24 +328,30 @@
 
     <script src="project_data.js"></script>
     <script>
-        let timelineMode = 'total'; // 'total' or 'year'
+        let timelineMode = 'total'; // 'total', 'year', 'projects'
 
         function setTimelineMode(mode) {
             timelineMode = mode;
             // Update button styles
             const btnTotal = document.getElementById('btn-mode-total');
             const btnYear = document.getElementById('btn-mode-year');
+            const btnProjects = document.getElementById('btn-mode-projects');
 
-            if (mode === 'total') {
+            // Reset all
+            if (btnTotal) { btnTotal.style.background = '#fff'; btnTotal.style.fontWeight = 'normal'; }
+            if (btnYear) { btnYear.style.background = '#fff'; btnYear.style.fontWeight = 'normal'; }
+            if (btnProjects) { btnProjects.style.background = '#fff'; btnProjects.style.fontWeight = 'normal'; }
+
+            // Set active
+            if (mode === 'total' && btnTotal) {
                 btnTotal.style.background = '#eee';
                 btnTotal.style.fontWeight = 'bold';
-                btnYear.style.background = '#fff';
-                btnYear.style.fontWeight = 'normal';
-            } else {
-                btnTotal.style.background = '#fff';
-                btnTotal.style.fontWeight = 'normal';
+            } else if (mode === 'year' && btnYear) {
                 btnYear.style.background = '#eee';
                 btnYear.style.fontWeight = 'bold';
+            } else if (mode === 'projects' && btnProjects) {
+                btnProjects.style.background = '#eee';
+                btnProjects.style.fontWeight = 'bold';
             }
             updateTimer(); // Re-render immediately
         }
@@ -383,69 +398,133 @@
             document.getElementById('cd-seconds').innerText = s.toString().padStart(2, '0');
 
             // --- Timeline Logic ---
-            let startDate, endDate;
-            let showSeparators = false;
-            let labelHTML = '';
+            const mainContainer = document.getElementById('main-timeline-container');
+            const projectContainer = document.getElementById('project-bars-container');
+            const labelsEl = document.getElementById('timeline-labels');
 
-            if (timelineMode === 'total') {
-                startDate = new Date("2025-11-01T00:00:00"); // 51st Birthday
-                endDate = targetDate; // 55th Birthday
-                showSeparators = true;
-                labelHTML = `
-                    <span>51歳</span>
-                    <span>52歳</span>
-                    <span>53歳</span>
-                    <span>54歳</span>
-                    <span>55歳</span>
-                `;
-                // Grid for 4 years (48 months)
-                document.querySelector('#timeline-ticks div').style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
+            if (timelineMode === 'projects') {
+                // Hide Main, Show Projects
+                if (mainContainer) mainContainer.style.display = 'none';
+                if (labelsEl) labelsEl.style.display = 'none';
+                if (projectContainer) {
+                    projectContainer.style.display = 'block';
+                    projectContainer.innerHTML = ''; // Clear prior render
 
-            } else {
-                // Year Mode: Current Age -> Next Age
-                // Calculate current age start date
-                // Birthday is Nov 1st
-                const currentYear = now.getFullYear();
-                const birthdayThisYear = new Date(currentYear, 10, 1); // Nov 1
+                    // Base Start Date (51st Birthday)
+                    const baseStart = new Date("2025-11-01T00:00:00");
 
-                if (now >= birthdayThisYear) {
-                    // Currently after birthday, so age spans from this year to next
-                    startDate = birthdayThisYear;
-                    endDate = new Date(currentYear + 1, 10, 1);
-                    // Calculate current age
-                    const age = currentYear - 1974; // Born in 1974 (51 in 2025)
-                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
-                } else {
-                    // Before birthday, so age spans from last year to this year
-                    startDate = new Date(currentYear - 1, 10, 1);
-                    endDate = birthdayThisYear;
-                    const age = currentYear - 1 - 1974;
-                    labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                    for (const key in PROJECT_STATUS) {
+                        const p = PROJECT_STATUS[key];
+                        if (!p.deadline) continue;
+
+                        const deadline = new Date(p.deadline);
+
+                        // Progress Calculation for TIME
+                        const totalDuration = deadline - baseStart;
+                        const elapsed = now - baseStart;
+                        let percent = (elapsed / totalDuration) * 100;
+                        if (percent < 0) percent = 0;
+                        if (percent > 100) percent = 100;
+
+                        const dStr = `${deadline.getFullYear()}.${(deadline.getMonth() + 1)}.${deadline.getDate()}`;
+
+                        // Row
+                        const row = document.createElement('div');
+                        row.style.marginBottom = '12px';
+
+                        // Label Row
+                        const labelRow = document.createElement('div');
+                        labelRow.style.display = 'flex';
+                        labelRow.style.justifyContent = 'space-between';
+                        labelRow.style.fontSize = '0.75rem';
+                        labelRow.style.marginBottom = '2px';
+                        labelRow.style.color = '#666';
+
+                        // Icon extraction from existing button if possible
+                        const btn = document.getElementById(p.id);
+                        let icon = "🎯";
+                        if (btn) {
+                            const match = btn.innerText.match(/^[^\s]+/);
+                            if (match) icon = match[0];
+                        }
+
+                        // Remaining days
+                        const remainingDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                        let remainText = `残り${remainingDays}日`;
+                        if (remainingDays < 0) remainText = "期限切れ";
+
+                        labelRow.innerHTML = `<span>${icon} ${dStr} まで (${remainText})</span> <span style="font-weight:bold;">${Math.floor(percent)}%</span>`;
+
+                        // Bar Container
+                        const barCont = document.createElement('div');
+                        barCont.style.cssText = "width:100%; height:8px; background:#efefef; border-radius:4px; overflow:hidden; position:relative;";
+
+                        // Fill
+                        const fill = document.createElement('div');
+                        fill.style.cssText = `width:${percent}%; height:100%; background:var(--accent);`;
+
+                        barCont.appendChild(fill);
+                        row.appendChild(labelRow);
+                        row.appendChild(barCont);
+                        projectContainer.appendChild(row);
+                    }
                 }
 
-                showSeparators = false;
-                // Grid for 12 months
-                document.querySelector('#timeline-ticks div').style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+            } else {
+                // Show Main, Hide Projects
+                if (mainContainer) mainContainer.style.display = 'block';
+                if (labelsEl) labelsEl.style.display = 'flex';
+                if (projectContainer) projectContainer.style.display = 'none';
+
+                let startDate, endDate;
+                let showSeparators = false;
+                let labelHTML = '';
+
+                if (timelineMode === 'total') {
+                    startDate = new Date("2025-11-01T00:00:00");
+                    endDate = targetDate;
+                    showSeparators = true;
+                    labelHTML = `
+                        <span>51歳</span>
+                        <span>52歳</span>
+                        <span>53歳</span>
+                        <span>54歳</span>
+                        <span>55歳</span>
+                    `;
+                    const ticks = document.querySelector('#timeline-ticks div');
+                    if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
+
+                } else {
+                    // Year Mode
+                    const currentYear = now.getFullYear();
+                    const birthdayThisYear = new Date(currentYear, 10, 1);
+                    if (now >= birthdayThisYear) {
+                        startDate = birthdayThisYear;
+                        endDate = new Date(currentYear + 1, 10, 1);
+                        const age = currentYear - 1974;
+                        labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                    } else {
+                        startDate = new Date(currentYear - 1, 10, 1);
+                        endDate = birthdayThisYear;
+                        const age = currentYear - 1 - 1974;
+                        labelHTML = `<span>${age}歳</span><span>${age + 1}歳</span>`;
+                    }
+                    showSeparators = false;
+                    const ticks = document.querySelector('#timeline-ticks div');
+                    if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+                }
+
+                const sepEl = document.getElementById('timeline-separators');
+                if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
+                if (labelsEl) labelsEl.innerHTML = labelHTML;
+
+                const totalDuration = endDate - startDate;
+                const elapsed = now - startDate;
+                let progressPercent = (elapsed / totalDuration) * 100;
+                if (progressPercent < 0) progressPercent = 0;
+                if (progressPercent > 100) progressPercent = 100;
+                document.getElementById('time-progress-bar').style.width = progressPercent + "%";
             }
-
-            // Update Separators visibility
-            const sepEl = document.getElementById('timeline-separators');
-            if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
-
-            // Update Labels
-            const labelsEl = document.getElementById('timeline-labels');
-            if (labelsEl) labelsEl.innerHTML = labelHTML;
-
-            // Calculate Progress
-            const totalDuration = endDate - startDate;
-            const elapsed = now - startDate;
-            let progressPercent = (elapsed / totalDuration) * 100;
-
-            // Clamp value
-            if (progressPercent < 0) progressPercent = 0;
-            if (progressPercent > 100) progressPercent = 100;
-
-            document.getElementById('time-progress-bar').style.width = progressPercent + "%";
         }
 
         // Initialize Project Status Buttons
@@ -458,6 +537,17 @@
                 const data = PROJECT_STATUS[key];
                 const btn = document.getElementById(data.id);
                 if (btn) {
+                    // Prepend Deadline if exists
+                    if (!btn.querySelector('.deadline-label') && data.deadline && data.percentage < 100) {
+                        const d = new Date(data.deadline);
+                        const dStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}までに`;
+                        const small = document.createElement('small');
+                        small.className = 'deadline-label';
+                        small.style.cssText = "display:block; font-size:0.65rem; color:#666; font-weight:normal; margin-bottom:2px;";
+                        small.innerText = dStr;
+                        btn.insertBefore(small, btn.firstChild);
+                    }
+
                     // Start progress at 0 for animation effect if desired
                     btn.classList.add('progress-active');
                     btn.style.setProperty('--progress', data.percentage + '%');
@@ -472,6 +562,11 @@
                             btn.style.border = "2px solid #FFD700"; // Gold border
                             btn.style.background = "#fffbeb"; // Light yellow bg
                             btn.style.color = "#d97706"; // darker gold text
+
+                            // Remove deadline label if exists
+                            const lbl = btn.querySelector('.deadline-label');
+                            if (lbl) lbl.remove();
+
                             btn.innerHTML = "🏆 " + btn.innerText.replace(/^[⌨️🥗🇬🇧✒️🎨📹📖]\s/, ''); // Replace icon with trophy
                         }
                     }
