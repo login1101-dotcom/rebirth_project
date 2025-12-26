@@ -593,15 +593,17 @@
 
                         // Time Calculation
                         const projectDurationFromAxisStart = deadline - startDate;
-                        let widthPercent = (projectDurationFromAxisStart / axisDuration) * 100;
-                        if (widthPercent < 0) widthPercent = 0;
-                        if (widthPercent > 100) widthPercent = 100;
 
-                        // Fill Calculation
-                        let fillPercent = 0;
-                        if (projectDurationFromAxisStart > 0) {
-                            fillPercent = (elapsed / projectDurationFromAxisStart) * 100;
-                        }
+                        // New Logic: Bar is always 100% width (The full year)
+                        let widthPercent = 100;
+
+                        // But we want to indicate the DEADLINE.
+                        // Calc deadline position %
+                        let deadlinePosPercent = (projectDurationFromAxisStart / axisDuration) * 100;
+
+                        // Fill Calculation (Progress relative to YEAR)
+                        // This makes it align with the top bar's red fill.
+                        let fillPercent = (elapsed / axisDuration) * 100;
                         if (fillPercent > 100) fillPercent = 100;
                         if (fillPercent < 0) fillPercent = 0;
 
@@ -640,7 +642,7 @@
                         // barArea needs to match the flex-growing main timeline EXACTLY.
                         // main timeline is flex:1.
                         // Here barArea is flex:1.
-                        // Both are surrounded by 220px on left. 
+                        // Both are surrounded by 220px on left.
                         // Top has [220px] [Flex] [Auto] [Auto].
                         // Bottom has [220px] [Flex] [220px].
                         // THIS WILL MISALIGN RIGHT SIDE if "Auto+Auto" != "220px".
@@ -663,14 +665,33 @@
                         barWrapper.style.background = "#e0e0e0";
                         barWrapper.style.borderRadius = "5px";
                         barWrapper.style.overflow = "hidden";
+                        barWrapper.style.position = "relative"; // For deadline marker
 
+                        // Progress Fill
                         const fillDiv = document.createElement('div');
                         fillDiv.style.width = fillPercent + "%";
                         fillDiv.style.height = "100%";
                         fillDiv.style.background = accentColor || "#e94e77";
                         fillDiv.style.transition = "width 1s";
+                        fillDiv.style.zIndex = "1"; // Ensure fill is behind marker
+
+                        // Deadline Marker
+                        const marker = document.createElement('div');
+                        marker.style.position = 'absolute';
+                        marker.style.left = deadlinePosPercent + "%";
+                        marker.style.top = "0";
+                        marker.style.bottom = "0";
+                        marker.style.width = "2px";
+                        marker.style.background = "#666";
+                        marker.style.zIndex = "2"; // Ensure marker is on top of fill
+                        marker.style.borderLeft = "1px dotted #666"; // Dotted line style
+                        marker.style.width = "0"; // Make it a line, not a block
 
                         barWrapper.appendChild(fillDiv);
+                        if (deadlinePosPercent >= 0 && deadlinePosPercent <= 100) { // Only show if within the current year's axis
+                            barWrapper.appendChild(marker);
+                        }
+
                         barArea.appendChild(barWrapper);
 
                         // COL 3: Deadline Info (Right)
