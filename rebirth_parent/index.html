@@ -411,11 +411,25 @@
             const ticks = document.querySelector('#timeline-ticks div');
             const sepEl = document.getElementById('timeline-separators');
 
+            // 0. Inject specific Project Mode labels if not present
+            let projLabelLeft = document.getElementById('proj-label-left');
+            let projLabelRight = document.getElementById('proj-label-right');
+
+            if (!projLabelLeft && topWrapper) {
+                projLabelLeft = document.createElement('div');
+                projLabelLeft.id = 'proj-label-left';
+                projLabelLeft.style.display = 'none';
+                topWrapper.appendChild(projLabelLeft);
+            }
+            if (!projLabelRight && topWrapper) {
+                projLabelRight = document.createElement('div');
+                projLabelRight.id = 'proj-label-right';
+                projLabelRight.style.display = 'none';
+                topWrapper.appendChild(projLabelRight);
+            }
+
             // Ensure Labels are visually below the Main Bar (if not already)
             if (mainContainer && labelsEl && mainContainer.nextElementSibling !== labelsEl) {
-                // If mainContainer is inside a wrapper, we might need to be careful.
-                // But labelsEl is likely outside the topWrapper.
-                // Let's ensure labelsEl is after topWrapper if it exists
                 if (topWrapper && topWrapper.nextElementSibling !== labelsEl) {
                     topWrapper.parentNode.insertBefore(labelsEl, topWrapper.nextElementSibling);
                 }
@@ -435,14 +449,12 @@
 
             // 1. Calculate Axis Range
             if (isTotal) {
-                // Total Mode: 51 -> 55
                 startDate = new Date("2025-11-01T00:00:00");
                 endDate = targetDate;
                 showSeparators = true;
                 labelHTML = `<span>51歳</span><span>52歳</span><span>53歳</span><span>54歳</span><span>55歳</span>`;
                 if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
             } else {
-                // Year Mode (OR Projects Mode where we force 1 Year axis)
                 const currentYear = now.getFullYear();
                 const birthdayThisYear = new Date(currentYear, 10, 1);
 
@@ -466,66 +478,88 @@
                 mainContainer.style.display = 'block';
 
                 if (isProjects) {
-                    // FLEX ROW LAYOUT: [Buttons (Left)] [Bar (Center)] [Gap (Right)]
+                    // FLEX ROW LAYOUT:
+                    // [51歳 (220px)] [Bar (Flex)] [52歳] [Buttons]
 
-                    // Wrapper: Flex row
+                    // Wrapper
                     topWrapper.style.display = 'flex';
-                    topWrapper.style.alignItems = 'end'; // Align bottom
+                    topWrapper.style.alignItems = 'center';
                     topWrapper.style.width = '100%';
-                    topWrapper.style.maxWidth = 'none'; // Allow full width? No, standard container width
+                    topWrapper.style.maxWidth = 'none';
+                    topWrapper.style.marginBottom = '2px';
 
-                    // Buttons: Left Column
-                    btnContainer.style.width = SIDE_LABEL_WIDTH;
-                    btnContainer.style.minWidth = SIDE_LABEL_WIDTH;
-                    btnContainer.style.flexShrink = '0';
-                    btnContainer.style.marginBottom = '0';
-                    btnContainer.style.paddingRight = '12px';
-                    btnContainer.style.boxSizing = 'border-box';
-                    btnContainer.style.justifyContent = 'flex-end'; // Keep buttons right-aligned in their col
+                    // Left Label (Age Start)
+                    if (projLabelLeft) {
+                        projLabelLeft.innerText = labelHTML.match(/<span>(.*?)<\/span>/)[1].replace(/<[^>]*>/g, '');
+                        projLabelLeft.style.display = 'block';
+                        projLabelLeft.style.width = SIDE_LABEL_WIDTH;
+                        projLabelLeft.style.minWidth = SIDE_LABEL_WIDTH;
+                        projLabelLeft.style.textAlign = 'right';
+                        projLabelLeft.style.paddingRight = '12px';
+                        projLabelLeft.style.boxSizing = 'border-box';
+                        projLabelLeft.style.fontWeight = 'bold';
+                        projLabelLeft.style.color = '#555';
+                        projLabelLeft.style.order = '1';
+                    }
 
-                    // Bar: Center Column
+                    // Bar
                     mainContainer.style.flex = '1';
                     mainContainer.style.width = 'auto';
                     mainContainer.style.margin = '0';
                     mainContainer.style.padding = '0';
+                    mainContainer.style.marginRight = '0'; // Reset previous Logic
+                    mainContainer.style.order = '2';
 
-                    // Right Gap: We need to reserve space on the right?
-                    // Use margin-right on mainContainer
-                    mainContainer.style.marginRight = RIGHT_LABEL_WIDTH;
+                    // Right Label (Age End)
+                    if (projLabelRight) {
+                        const matches = labelHTML.matchAll(/<span>(.*?)<\/span>/g);
+                        let lastLabel = "";
+                        for (const m of matches) lastLabel = m[1];
+
+                        projLabelRight.innerText = lastLabel;
+                        projLabelRight.style.display = 'block';
+                        projLabelRight.style.paddingLeft = '8px';
+                        projLabelRight.style.paddingRight = '8px';
+                        projLabelRight.style.fontWeight = 'bold';
+                        projLabelRight.style.color = '#555';
+                        projLabelRight.style.order = '3';
+                        projLabelRight.style.whiteSpace = 'nowrap';
+                    }
+
+                    // Buttons
+                    btnContainer.style.width = 'auto'; // Auto fit
+                    btnContainer.style.minWidth = '0';
+                    btnContainer.style.marginBottom = '0';
+                    btnContainer.style.paddingRight = '0';
+                    btnContainer.style.order = '4';
+                    btnContainer.style.marginLeft = 'auto'; // Push to far right if needed, but flex order handles it
 
                 } else {
-                    // STANDARD BLOCK LAYOUT: [Buttons (Top Right)] [Bar (Full Width)]
-
-                    // Wrapper: Block
+                    // STANDARD BLOCK LAYOUT
                     topWrapper.style.display = 'block';
                     topWrapper.style.maxWidth = '1000px';
+                    topWrapper.style.marginBottom = '0';
 
-                    // Buttons: Top Right
-                    btnContainer.style.width = 'auto'; // Auto width
-                    btnContainer.style.minWidth = '0';
+                    if (projLabelLeft) projLabelLeft.style.display = 'none';
+                    if (projLabelRight) projLabelRight.style.display = 'none';
+
+                    btnContainer.style.width = 'auto';
                     btnContainer.style.marginBottom = '4px';
-                    btnContainer.style.paddingRight = '0';
-                    btnContainer.style.justifyContent = 'flex-end';
+                    btnContainer.style.order = 'unset'; // Reset order
 
-                    // Bar: Full Width
                     mainContainer.style.width = '100%';
                     mainContainer.style.margin = '0';
-                    mainContainer.style.marginRight = '0';
+                    mainContainer.style.order = 'unset';
                 }
             }
 
             if (labelsEl) {
-                labelsEl.style.display = 'flex';
-                labelsEl.innerHTML = labelHTML;
-                // Layout Shift for Labels
+                // In Projects mode, we use the side labels, so hide the bottom ones
                 if (isProjects) {
-                    labelsEl.style.boxSizing = 'border-box';
-                    labelsEl.style.margin = '0';
-                    labelsEl.style.marginLeft = SIDE_LABEL_WIDTH;
-                    labelsEl.style.marginRight = RIGHT_LABEL_WIDTH;
-                    labelsEl.style.width = 'auto';
-                    labelsEl.style.marginTop = '2px';
+                    labelsEl.style.display = 'none';
                 } else {
+                    labelsEl.style.display = 'flex';
+                    labelsEl.innerHTML = labelHTML;
                     labelsEl.style.marginLeft = '0';
                     labelsEl.style.marginRight = '0';
                     labelsEl.style.width = '100%';
@@ -603,6 +637,21 @@
                         // COL 2: Bar Area (Center - Aligned with Axis)
                         const barArea = document.createElement('div');
                         barArea.style.flex = '1';
+                        // barArea needs to match the flex-growing main timeline EXACTLY.
+                        // main timeline is flex:1.
+                        // Here barArea is flex:1.
+                        // Both are surrounded by 220px on left. 
+                        // Top has [220px] [Flex] [Auto] [Auto].
+                        // Bottom has [220px] [Flex] [220px].
+                        // THIS WILL MISALIGN RIGHT SIDE if "Auto+Auto" != "220px".
+                        // Use GRID or fixed calculations?
+                        // If Top Right (52yo + Buttons) is wider than 220px, the Top Bar shrinks more than Bottom Bar.
+                        // If narrower, Top Bar is wider.
+                        // User wants "Left Edge Aligned".
+                        // Start of Bar = Container Width - Left Width.
+                        // Since Left Width is fixed (220px) for BOTH, the LEFT EDGE will align perfectly regardless of Right side.
+                        // So flex:1 is fine for left alignment.
+
                         barArea.style.position = 'relative';
                         barArea.style.height = '10px';
                         barArea.style.display = 'flex';
