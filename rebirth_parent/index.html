@@ -77,8 +77,6 @@
                             style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #eee; border-radius: 4px; cursor: pointer; color:#666;">全体</button>
                         <button onclick="setTimelineMode('year')" id="btn-mode-year"
                             style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">1年</button>
-                        <button onclick="setTimelineMode('projects')" id="btn-mode-projects"
-                            style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">項目</button>
                     </div>
 
                     <!-- Progress Bar Container -->
@@ -660,7 +658,11 @@
                         col3.style.fontSize = '0.7rem';
                         col3.style.color = '#666';
                         col3.style.boxSizing = 'border-box';
-                        col3.innerHTML = `${dStr}まで (${remainText})`;
+                        // Stacked layout: Date top, Remain bottom
+                        col3.innerHTML = `
+                            <div style="font-weight:bold; color:#555;">${dStr}まで</div>
+                            <div style="font-size:0.9em; color:#888;">(${remainText})</div>
+                        `;
 
                         row.appendChild(col1);
                         row.appendChild(col2);
