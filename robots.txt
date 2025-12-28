@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://rebirth-project.pages.dev/sitemap.xml
