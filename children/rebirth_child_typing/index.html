@@ -75,8 +75,8 @@
                     <div style="font-size:0.8rem; color:#64748b; font-weight:bold; margin-bottom:8px;">合計時間</div>
                     <div
                         style="font-size:2.2rem; color:#3b82f6; font-weight:800; line-height:1; word-break: break-word;">
-                        <span id="val-time-str">0</span><span
-                            style="font-size:0.9rem; margin-left:3px; color:#64748b; font-weight:normal;">秒</span>
+                        <span id="val-time-str">0<span
+                                style="font-size:0.9rem; color:#64748b; font-weight:normal; margin-left:2px;">秒</span></span>
                     </div>
                 </div>
                 <!-- <div class="stat-card" style="text-align:center; flex:1;">
@@ -282,31 +282,30 @@
                 totalTimeSec += (r.timeLimit || 0);
             });
 
-            // 時間フォーマット
-            let timeStr = "0秒";
-            if (totalTimeSec < 60) {
-                timeStr = totalTimeSec + "秒";
-            } else {
-                const min = Math.floor(totalTimeSec / 60);
-                const sec = totalTimeSec % 60;
-                timeStr = min + "分" + (sec > 0 ? sec + "秒" : "");
+            // 時間フォーマット (単位を小さく整形)
+            let timeHtml = "0<span style='font-size:0.9rem; color:#64748b; font-weight:normal; margin-left:2px;'>秒</span>";
+
+            if (totalTimeSec > 0) {
+                if (totalTimeSec < 60) {
+                    timeHtml = `${totalTimeSec}<span style='font-size:0.9rem; color:#64748b; font-weight:normal; margin-left:2px;'>秒</span>`;
+                } else {
+                    const min = Math.floor(totalTimeSec / 60);
+                    const sec = totalTimeSec % 60;
+                    timeHtml = `${min}<span style='font-size:0.9rem; color:#64748b; font-weight:normal; margin-left:2px;'>分</span>`;
+                    if (sec > 0) {
+                        timeHtml += `${sec}<span style='font-size:0.9rem; color:#64748b; font-weight:normal; margin-left:2px;'>秒</span>`;
+                    }
+                }
             }
 
-            // 直近のWPM (最後のスコアから算出)
-            const latest = results[results.length - 1];
-            let currentWPM = 0.0;
-            if (latest && latest.timeLimit > 0) {
-                const chars = latest.score / 10;
-                const mins = latest.timeLimit / 60;
-                currentWPM = (chars / mins).toFixed(1);
-            }
+            // ... (WPM logic) ...
 
             // UI更新
             const valCount = document.getElementById('val-count');
             if (valCount) valCount.textContent = count;
 
             const valTime = document.getElementById('val-time-str');
-            if (valTime) valTime.textContent = timeStr;
+            if (valTime) valTime.innerHTML = timeHtml; // Use innerHTML
 
             const valSpeed = document.getElementById('val-speed');
             if (valSpeed) valSpeed.textContent = currentWPM;
