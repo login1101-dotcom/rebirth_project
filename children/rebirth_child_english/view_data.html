@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1F416P0VQS');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ進捗 | Typing Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+</head>
+
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="site-brand"><span>🇬🇧</span> English Gym<span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">使える英語を身につける</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a class=" " href="index.html">ホーム</a></li>
+                    <li><a class="nav-reading " href="category_reading.html">リーディング</a></li>
+                    <li><a class="nav-listening " href="category_listening.html">リスニング</a></li>
+                    <li><a class="nav-writing " href="category_writing.html">ライティング</a></li>
+                    <li><a class="nav-speaking " href="category_speaking.html">スピーキング</a></li>
+                    <li><a class="nav-view-data " href="view_data.html">データ表示</a></li>
+                    <li><a class=" " href="../../rebirth_parent/index.html">← Project Hub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main-layout">
+        <main class="content-area">
+
+            <div style="margin-bottom:15px; font-size:0.9rem; color:#666;">
+                <span style="font-weight:bold; color:#444; margin-right:8px;">Project Data Center</span>
+                学習データの記録と分析です。クリックして詳細を展開してください。
+            </div>
+
+            <!-- 1. Reading Accordion -->
+            <details class="skill-accordion">
+                <summary class="skill-summary" style="border-left: 5px solid #ef4444;">
+                    <div class="summary-content">
+                        <div class="summary-title">Reading <span class="summary-subtitle">精読・多読・只管朗読</span></div>
+                        <div class="summary-icon">📚</div>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <!-- Reading Tabs -->
+                    <div class="reading-tabs">
+                        <button id="tab-extensive" class="tab-btn active" onclick="renderTab('extensive')">多読
+                            (Extensive)</button>
+                        <button id="tab-intensive" class="tab-btn" onclick="renderTab('intensive')">精読
+                            (Intensive)</button>
+                        <button id="tab-shikan" class="tab-btn" onclick="renderTab('shikan')">只管朗読 (Shikan)</button>
+                    </div>
+
+                    <!-- Reading Content -->
+                    <div id="db-content" class="db-content-area">
+                        <!-- JS renders content here -->
+                    </div>
+                </div>
+            </details>
+
+            <!-- 2. Listening Accordion -->
+            <details class="skill-accordion">
+                <summary class="skill-summary" style="border-left: 5px solid #3b82f6;">
+                    <div class="summary-content">
+                        <div class="summary-title">Listening <span class="summary-subtitle">Song, Tech,
+                                Motivation</span></div>
+                        <div class="summary-icon">🎧</div>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <div id="listening-list" class="db-content-area">
+                        <!-- JS renders content here -->
+                    </div>
+                </div>
+            </details>
+
+            <!-- 3. Writing Accordion -->
+            <details class="skill-accordion">
+                <summary class="skill-summary" style="border-left: 5px solid #10b981;">
+                    <div class="summary-content">
+                        <div class="summary-title">Writing <span class="summary-subtitle">English Essays Only</span>
+                        </div>
+                        <div class="summary-icon">✍️</div>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <div id="writing-list" class="db-content-area">
+                        <!-- JS renders content here -->
+                    </div>
+                </div>
+            </details>
+
+            <!-- 4. Speaking Accordion -->
+            <details class="skill-accordion">
+                <summary class="skill-summary" style="border-left: 5px solid #f59e0b;">
+                    <div class="summary-content">
+                        <div class="summary-title">Speaking <span class="summary-subtitle">Singing, AI, Online
+                                Lesson</span></div>
+                        <div class="summary-icon">🗣️</div>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <div id="speaking-list" class="db-content-area">
+                        <!-- JS renders content here -->
+                    </div>
+                </div>
+            </details>
+
+        </main>
+
+        <!-- Styles for Accordion -->
+        <style>
+            .skill-accordion {
+                background: #fff;
+                border-radius: 8px;
+                border: 1px solid #e2e8f0;
+                margin-bottom: 20px;
+                overflow: hidden;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            }
+
+            .skill-accordion[open] {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .skill-summary {
+                padding: 20px;
+                background: #fff;
+                cursor: pointer;
+                list-style: none;
+                /* Hide default triangle */
+                transition: background 0.2s;
+            }
+
+            .skill-summary:hover {
+                background: #f8fafc;
+            }
+
+            .skill-summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .summary-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .summary-title {
+                font-size: 1.4rem;
+                font-weight: bold;
+                color: #2c3e50;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .summary-subtitle {
+                font-size: 0.9rem;
+                font-weight: normal;
+                color: #888;
+                margin-left: 10px;
+            }
+
+            .summary-icon {
+                font-size: 1.5rem;
+            }
+
+            .accordion-content {
+                padding: 20px;
+                border-top: 1px solid #f0f0f0;
+                background: #fff;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Include Previous DB Styles */
+            .reading-tabs {
+                display: flex;
+                gap: 5px;
+                border-bottom: 2px solid #ddd;
+                margin-bottom: 20px;
+            }
+
+            .tab-btn {
+                padding: 10px 20px;
+                border: none;
+                background: #f0f0f0;
+                cursor: pointer;
+                border-radius: 5px 5px 0 0;
+                font-weight: bold;
+                color: #666;
+                transition: all 0.2s;
+            }
+
+            .tab-btn.active {
+                background: #e11d48;
+                /* Red for Reading */
+                color: white;
+            }
+
+            .tab-btn:hover:not(.active) {
+                background: #e0e0e0;
+            }
+
+            .db-list-item {
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 10px;
+                background: #fff;
+            }
+
+            .item-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin-bottom: 8px;
+            }
+
+            .item-title {
+                font-weight: bold;
+                font-size: 1.1rem;
+                color: #2c3e50;
+            }
+
+            .item-stats {
+                display: flex;
+                gap: 15px;
+                font-size: 0.85rem;
+                background: #f8fafc;
+                padding: 8px;
+                border-radius: 4px;
+            }
+
+            .stat-tag {
+                font-weight: bold;
+                color: #0284c7;
+            }
+
+            .intensive-card {
+                border-left: 4px solid #e11d48;
+            }
+
+            .extensive-card {
+                border-left: 4px solid #0ea5e9;
+            }
+
+            .shikan-card {
+                border-left: 4px solid #16a34a;
+            }
+
+            .btn-sm {
+                font-size: 0.8rem;
+                padding: 4px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                border: 1px solid #ccc;
+                background: #fff;
+            }
+
+            .counter-box {
+                text-align: center;
+                padding: 10px;
+                background: #f0fdf4;
+                border: 1px dashed #16a34a;
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+
+            .count-display {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #16a34a;
+                display: block;
+            }
+        </style>
+
+        <!-- Loading Data Script -->
+        <script src="english_data.js"></script>
+        <script>
+            // Persistence Logic
+            const STORAGE_KEY = 'english_gym_user_data';
+
+            function loadSavedProgress() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    // Update Shikan DataInMemory
+                    if (ENGLISH_DATA.shikan) {
+                        ENGLISH_DATA.shikan.forEach(item => {
+                            if (data[item.id]) {
+                                item.current_count = data[item.id];
+                            }
+                        });
+                    }
+                }
+            }
+
+            function saveProgress(id, count) {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                let data = saved ? JSON.parse(saved) : {};
+                data[id] = count;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            }
+
+            // Tab Logic
+            function renderTab(mode) {
+                const container = document.getElementById('db-content');
+                const tabs = document.querySelectorAll('.tab-btn');
+
+                // Update Active State
+                tabs.forEach(t => t.classList.remove('active'));
+                document.getElementById(`tab-${mode}`).classList.add('active');
+
+                // Clear Container
+                container.innerHTML = '';
+
+                // Check Data
+                if (!ENGLISH_DATA || !ENGLISH_DATA[mode]) {
+                    container.innerHTML = '<p>データが見つかりません。</p>';
+                    return;
+                }
+
+                // LOAD SAVED DATA for Shikan
+                if (mode === 'shikan') {
+                    loadSavedProgress();
+                }
+
+                let items = ENGLISH_DATA[mode] || [];
+
+                // MERGE User Added Data
+                const ADDED_KEY = 'english_gym_added_data';
+                const savedAdded = localStorage.getItem(ADDED_KEY);
+                if (savedAdded) {
+                    const addedList = JSON.parse(savedAdded);
+                    const myItems = addedList.filter(i => i.mode === mode);
+                    // Add to beginning of list
+                    items = myItems.concat(items);
+                }
+
+                if (mode === 'extensive') {
+                    // Render Extensive List
+                    items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'db-list-item extensive-card';
+                        card.innerHTML = `
+                            <div class="item-header">
+                                <span class="item-title">📖 ${item.title}</span>
+                                <span class="item-meta">${item.date}</span>
+                            </div>
+                            <div class="item-stats">
+                                <span>語数: <span class="stat-tag">${item.wordCount} words</span></span>
+                                <span>Time: <span class="stat-tag">${Math.floor(item.timeSec / 60)}m ${item.timeSec % 60}s</span></span>
+                                <span>WPM: <span class="stat-tag">${Math.floor(item.wpm)}</span></span>
+                            </div>
+                            <div class="item-body" style="margin-top:10px; font-style:italic; color:#666; font-size:0.95rem;">
+                                "${item.summary}"
+                            </div>
+                            <div style="font-size:0.8rem; color:#999; margin-top:5px;">
+                                SV推測: ${item.svClear ? '✅ OK' : '⚠️ 不明点あり'} | 推測挑戦: ${item.guessCount}回
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                    // Summary Stats
+                    const totalWords = items.reduce((sum, i) => sum + i.wordCount, 0);
+                    const summary = document.createElement('div');
+                    summary.style.marginBottom = '20px';
+                    summary.innerHTML = `<h3 style="border-bottom:1px solid #ccc; padding-bottom:5px;">Total Reading: <span style="color:#0ea5e9; font-size:1.5em;">${totalWords.toLocaleString()}</span> words</h3>`;
+                    container.insertBefore(summary, container.firstChild);
+
+                } else if (mode === 'intensive') {
+                    // Render Intensive List
+                    items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'db-list-item intensive-card';
+
+                        let analysisHtml = '';
+                        item.analysis.forEach(a => {
+                            analysisHtml += `<div style="background:#fff1f2; padding:5px; margin-top:5px; border-radius:4px; font-size:0.9rem;">
+                                <strong style="color:#e11d48">[${a.type}]</strong> <b>${a.item}</b> : ${a.memo}
+                            </div>`;
+                        });
+
+                        card.innerHTML = `
+                                <div class="item-header">
+                                    <span class="item-title">Source: ${item.source}</span>
+                                    <span class="item-meta">${item.date}</span>
+                                </div>
+                                <div class="item-body" style="font-family:'Georgia', serif; font-size:1.1rem; color:#333; margin-bottom:10px;">
+                                    ${item.full_sentence}
+                                </div>
+                                <div style="text-align:right;">
+                                    <button class="btn-sm toggle-btn">▼ 解説を見る (Open)</button>
+                                    <div class="analysis-box" style="display:none; text-align:left; margin-top:10px;">
+                                        <div style="color:#666; margin-bottom:5px;">訳: ${item.translation}</div>
+                                        ${analysisHtml}
+                                        <div style="margin-top:5px; font-size:0.8rem; color:#888;">📢 ${item.pronunciation_mem}</div>
+                                    </div>
+                                </div>
+                            `;
+
+                        // Add toggle functionality
+                        const btn = card.querySelector('.toggle-btn');
+                        const box = card.querySelector('.analysis-box');
+                        btn.onclick = () => {
+                            if (box.style.display === 'none') {
+                                box.style.display = 'block';
+                                btn.textContent = '▲ 解説を閉じる (Close)';
+                            } else {
+                                box.style.display = 'none';
+                                btn.textContent = '▼ 解説を見る (Open)';
+                            }
+                        };
+
+                        container.appendChild(card);
+                    });
+
+                } else if (mode === 'shikan') {
+                    // Render Shikan List
+                    items.forEach((item, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'db-list-item shikan-card';
+
+                        const percent = Math.floor((item.current_count / item.target_count) * 100);
+
+                        card.innerHTML = `
+                                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                                    <div style="flex:1; min-width:200px;">
+                                        <div class="item-title" style="font-size:1rem; margin-bottom:4px;">🗣️ ${item.title}</div>
+                                        <div style="font-size:0.8rem; color:#666;">Status: ${item.status}</div>
+                                    </div>
+                                    
+                                    <div style="flex:2; display:flex; align-items:center; gap:15px;">
+                                        <div style="flex-grow:1;">
+                                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:2px;">
+                                                <span id="shikan-count-${item.id}" style="font-weight:bold; color:#16a34a;">${item.current_count}</span>
+                                                <span style="color:#999;">/ ${item.target_count}</span>
+                                            </div>
+                                            <div style="width:100%; height:8px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
+                                                <div id="shikan-bar-${item.id}" style="width:${percent}%; height:100%; background:#16a34a; transition: width 0.3s;"></div>
+                                            </div>
+                                        </div>
+                                        <div style="display:flex; gap:5px;">
+                                            <button class="btn-sm" style="padding:2px 10px; color:#16a34a; border-color:#16a34a; font-weight:bold;" onclick="updateCount(${item.id}, ${item.target_count}, 1)">+1</button>
+                                            <button class="btn-sm" style="padding:2px 10px; color:#16a34a; border-color:#16a34a; font-weight:bold;" onclick="updateCount(${item.id}, ${item.target_count}, 5)">+5</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top:10px; padding-top:8px; border-top:1px dashed #eee; font-size:0.85rem; color:#555;">
+                                    <span style="font-weight:bold; color:#16a34a; margin-right:5px;">Note:</span> ${item.notes}
+                                </div>
+                            `;
+                        container.appendChild(card);
+                    });
+                }
+            }
+
+            // Real-time Counter Update Logic
+            // Real-time Counter Update Logic
+            function updateCount(id, target, amount) {
+                // Try to find elements in both tabs
+                const rCount = document.getElementById(`shikan-count-${id}`);
+                const rBar = document.getElementById(`shikan-bar-${id}`);
+                const sCount = document.getElementById(`s-count-${id}`);
+                const sBar = document.getElementById(`s-bar-${id}`);
+
+                // Determine current count from DOM or storage (fallback)
+                // We trust the DOM of the visible element, or fallback to storage logic if needed.
+                // Since this runs on click, at least one DOM element must exist.
+                let current = 0;
+                if (rCount) current = parseInt(rCount.textContent, 10);
+                else if (sCount) current = parseInt(sCount.textContent, 10);
+
+                current += amount;
+
+                // Save to LocalStorage
+                saveProgress(id, current);
+
+                // Update Reading Tab UI if exists
+                if (rCount && rBar) {
+                    rCount.textContent = current;
+                    const percent = Math.min(100, Math.floor((current / target) * 100));
+                    rBar.style.width = `${percent}%`;
+                }
+
+                // Update Speaking Tab UI if exists
+                if (sCount && sBar) {
+                    sCount.textContent = current;
+                    const percent = Math.min(100, Math.floor((current / target) * 100));
+                    sBar.style.width = `${percent}%`;
+                }
+            }
+
+            // Initial Render
+            renderTab('extensive');
+            renderListening();
+            renderSpeaking();
+            renderWriting();
+
+            function renderListening() {
+                const container = document.getElementById('listening-list');
+                if (!ENGLISH_DATA.listening) return;
+
+                const items = ENGLISH_DATA.listening;
+
+                // Summary
+                const totalMin = items.reduce((sum, i) => sum + i.timeMin, 0);
+                const summary = document.createElement('div');
+                summary.style.marginBottom = '20px';
+                summary.innerHTML = `<h3 style="border-bottom:1px solid #ccc; padding-bottom:5px;">Total Listening: <span style="color:#3b82f6; font-size:1.5em;">${totalMin}</span> min</h3>`;
+                container.appendChild(summary);
+
+                items.forEach(item => {
+                    let icon = '🎧';
+                    let bg = '#f8fafc';
+                    let border = '#ccc';
+
+                    if (item.category === 'Song') { icon = '🎵'; bg = '#fff1f2'; border = '#e11d48'; }
+                    else if (item.category === 'Tech') { icon = '🤖'; bg = '#f0f9ff'; border = '#0ea5e9'; }
+                    else if (item.category === 'Motivation') { icon = '🔥'; bg = '#fff7ed'; border = '#f97316'; }
+
+                    let detailsHtml = '';
+
+                    // 1. Phrase Study Block
+                    if (item.phrase_study || item.sound_points) {
+                        let phraseStudyBlock = '';
+                        if (item.phrase_study) {
+                            let pointsHtml = '';
+                            if (item.phrase_study.points) {
+                                item.phrase_study.points.forEach(p => {
+                                    pointsHtml += `<div style="margin-left:10px; font-size:0.85rem; color:#444;">・<b>${p.item}</b>: ${p.memo}</div>`;
+                                });
+                            }
+                            phraseStudyBlock = `
+                                <!-- Phrase -->
+                                <div style="margin-bottom:15px;">
+                                    <div style="font-size:0.8rem; font-weight:bold; color:${border}; margin-bottom:5px;">🧐 Focus Phrase</div>
+                                    <div style="font-family:'Georgia',serif; font-size:1.0rem; color:#333; margin-bottom:5px;">
+                                        "${item.phrase_study.quote}"
+                                    </div>
+                                    <div style="font-size:0.85rem; color:#666; margin-bottom:10px;">
+                                        (訳: ${item.phrase_study.translation})
+                                    </div>
+                                    <div style="background:#f9f9f9; padding:5px; border-radius:4px;">
+                                        ${pointsHtml}
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        let soundCheckBlock = '';
+                        if (item.sound_points && item.sound_points.length > 0) {
+                            let soundPointsHtml = '';
+                            item.sound_points.forEach(s => {
+                                soundPointsHtml += `<div style="margin-left:10px; font-size:0.85rem; color:#d97706;">📢 ${s}</div>`;
+                            });
+                            soundCheckBlock = `
+                                <!-- Sound -->
+                                <div style="margin-bottom:15px;">
+                                    <div style="font-size:0.8rem; font-weight:bold; color:${border}; margin-bottom:5px;">🔊 Sound Check</div>
+                                    <div style="background:#fff7ed; padding:5px; border-radius:4px;">
+                                        ${soundPointsHtml}
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        let externalLink = '';
+                        if (item.phrase_study && item.phrase_study.external_lyrics_url) {
+                            externalLink = `
+                                <div style="text-align:right;">
+                                    <a href="${item.phrase_study.external_lyrics_url}" target="_blank" class="btn-sm" style="text-decoration:none; color:#555;">🔗 歌詞全文 (Genius)</a>
+                                </div>
+                            `;
+                        }
+
+                        detailsHtml = `
+                            <div class="listen-details" style="display:none; margin-top:15px; background:#fff; border:1px dashed ${border}; padding:10px; border-radius:5px;">
+                                ${phraseStudyBlock}
+                                ${soundCheckBlock}
+                                ${externalLink}
+                            </div>
+                        `;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'db-list-item';
+                    card.style.borderLeft = `4px solid ${border}`;
+                    card.innerHTML = `
+                        <div class="item-header">
+                            <span class="item-title">${icon} ${item.title}</span>
+                            <span class="item-meta">${item.date}</span>
+                        </div>
+                        <div class="item-stats" style="background:${bg};">
+                            <span>Category: <span class="stat-tag" style="color:${border}">${item.category}</span></span>
+                            <span>Time: <span class="stat-tag">${item.timeMin} min</span></span>
+                        </div>
+                        <div style="margin-top:10px; font-size:0.9rem; color:#555;">
+                            ${item.memo}
+                        </div>
+
+                        ${detailsHtml ? `
+                        <div style="text-align:right; margin-top:10px;">
+                             <button class="btn-sm toggle-listen-btn" style="color:${border}; border-color:${border};">▼ 詳細・音のポイント (Open)</button>
+                             ${detailsHtml}
+                        </div>` : ''}
+
+                        <div style="margin-top:5px; font-size:0.8rem; color:#999;">
+                            🏷️ ${item.tags.join(', ')}
+                        </div>
+                    `;
+
+                    if (detailsHtml) {
+                        const btn = card.querySelector('.toggle-listen-btn');
+                        const box = card.querySelector('.listen-details');
+                        btn.onclick = () => {
+                            if (box.style.display === 'none') {
+                                box.style.display = 'block';
+                                btn.textContent = '▲ 閉じる (Close)';
+                            } else {
+                                box.style.display = 'none';
+                                btn.textContent = '▼ 詳細・音のポイント (Open)';
+                            }
+                        };
+                    }
+
+                    container.appendChild(card);
+                });
+            }
+
+            function renderSpeaking() {
+                const container = document.getElementById('speaking-list');
+                if (!container) return;
+
+                try {
+                    let speakingItems = ENGLISH_DATA.speaking ? [...ENGLISH_DATA.speaking] : [];
+
+                    // 1. Get Songs from Listening (Auto-sync)
+                    if (ENGLISH_DATA.listening) {
+                        const songs = ENGLISH_DATA.listening
+                            .filter(i => i.category === 'Song')
+                            .map(s => ({
+                                ...s, // Copy all props
+                                category: 'Singing', // Override category
+                                memo: 'Linked from Listening Log' // Add note
+                            }));
+                        speakingItems = [...speakingItems, ...songs];
+                    }
+
+                    // 2. Get Shikan (Auto-sync) - Treat as special "Basic Training" items
+                    if (ENGLISH_DATA.shikan) {
+                        // Load saved progress for display
+                        const savedData = localStorage.getItem('english_gym_user_data');
+                        const savedMap = savedData ? JSON.parse(savedData) : {};
+
+                        const shikanItems = ENGLISH_DATA.shikan.map((s, index) => {
+                            // Apply saved counts
+                            let current = s.current_count;
+                            if (savedMap[s.id]) {
+                                current = savedMap[s.id];
+                            }
+                            return {
+                                ...s,
+                                date: s.date || new Date().toISOString().split('T')[0], // Add a date for sorting, default to today
+                                category: 'Shikan',
+                                itemType: 'shikan-card', // Marker for special rendering
+                                current_count: current,
+                                index: index // Need for updateCount if using index (but better usage is ID)
+                            };
+                        });
+                        speakingItems = [...speakingItems, ...shikanItems];
+                    }
+
+                    if (speakingItems.length === 0) {
+                        container.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No Speaking Data Yet</div>';
+                        return;
+                    }
+
+                    // 3. Sort by Date Desc (Shikan usually has older dates, but we want active ones visible. 
+                    // Let's rely on date for now, but Shikan items might need a 'last_updated' field to float up. 
+                    // For now, simple sort.)
+                    speakingItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                    // 4. Summary Clear
+                    container.innerHTML = '';
+
+                    // Calc total min (including rough estimate for Shikan? Let's exclude Shikan from 'Min' for now as it's 'Counts')
+                    const totalMin = speakingItems.filter(i => i.category !== 'Shikan').reduce((sum, i) => sum + (i.timeMin || 0), 0);
+                    const totalShikan = speakingItems.filter(i => i.category === 'Shikan').reduce((sum, i) => sum + (i.current_count || 0), 0);
+
+                    const summary = document.createElement('div');
+                    summary.style.marginBottom = '20px';
+                    summary.innerHTML = `
+                        <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px;">
+                            Total Speaking: <span style="color:#f59e0b; font-size:1.5em;">${totalMin}</span> min
+                            <span style="font-size:0.8em; color:#666; margin-left:10px;">( + Shikan: ${totalShikan} reps)</span>
+                        </h3>
+                    `;
+                    container.appendChild(summary);
+
+                    // 5. Render
+                    speakingItems.forEach(item => {
+                        // SPECIAL RENDER FOR SHIKAN CARD
+                        if (item.itemType === 'shikan-card') {
+                            const percent = Math.min(100, Math.floor((item.current_count / item.target_count) * 100));
+
+                            const card = document.createElement('div');
+                            card.className = 'db-list-item';
+                            card.style.borderLeft = `4px solid #10b981`; // Green for Shikan
+                            card.innerHTML = `
+                                <div class="item-header">
+                                    <span class="item-title">📖 ${item.title}</span>
+                                    <span class="item-meta">${item.date}</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:5px;">
+                                    <div style="font-size:0.9rem; font-weight:bold; color:#10b981;">
+                                        Count: <span id="s-count-${item.id}" style="font-size:1.4rem;">${item.current_count}</span>
+                                        <span style="font-size:0.8rem; color:#666;"> / ${item.target_count}</span>
+                                    </div>
+                                    <div style="font-size:0.9rem; font-weight:bold; color:#10b981;">${percent}%</div>
+                                </div>
+                                <div style="background:#e5e7eb; border-radius:4px; height:8px; width:100%; margin-bottom:15px; overflow:hidden;">
+                                    <div id="s-bar-${item.id}" style="background:#10b981; height:100%; width:${percent}%; transition:width 0.3s;"></div>
+                                </div>
+                                <style>
+                                    /* Inline style for grid items in shikan card */
+                                    .shikan-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+                                </style>
+                                <div class="shikan-actions">
+                                    <button class="btn-sm" style="background:#10b981; color:#fff; border:none; text-align:center;" 
+                                        onclick="updateCount(${item.id}, ${item.target_count}, 1)">
+                                        +1 (Read)
+                                    </button>
+                                    <button class="btn-sm" style="background:#059669; color:#fff; border:none; text-align:center;" 
+                                        onclick="updateCount(${item.id}, ${item.target_count}, 5)">
+                                        +5 (Batch)
+                                    </button>
+                                </div>
+                                <div style="margin-top:10px; font-size:0.8rem; color:#666;">
+                                    ${item.notes}
+                                </div>
+                            `;
+                            container.appendChild(card);
+                            return; // Skip standard render
+                        }
+
+                        // STANDARD RENDER
+                        let icon = '🗣️';
+                        let bg = '#fffbeb';
+                        let border = '#f59e0b';
+
+                        if (item.category === 'Singing') { icon = '🎵'; bg = '#fff1f2'; border = '#e11d48'; }
+                        else if (item.category === 'AI') { icon = '🤖'; bg = '#f0fdf4'; border = '#16a34a'; }
+                        else if (item.category === 'Lesson') { icon = '🗣️'; bg = '#eff6ff'; border = '#2563eb'; }
+
+                        const card = document.createElement('div');
+                        card.className = 'db-list-item';
+                        card.style.borderLeft = `4px solid ${border}`;
+
+                        // Safety check for tags
+                        const tagsHtml = (item.tags && item.tags.length > 0) ? `🏷️ ${item.tags.join(', ')}` : (item.category === 'Singing' ? 'ℹ️ Auto-Sync' : '');
+
+                        card.innerHTML = `
+                            <div class="item-header">
+                                <span class="item-title">${icon} ${item.title}</span>
+                                <span class="item-meta">${item.date}</span>
+                            </div>
+                            <div class="item-stats" style="background:${bg};">
+                                <span>Category: <span class="stat-tag" style="color:${border}">${item.category}</span></span>
+                                <span>Time: <span class="stat-tag">${item.timeMin} min</span></span>
+                            </div>
+                            <div style="margin-top:10px; font-size:0.9rem; color:#555;">
+                                ${item.memo}
+                            </div>
+                            <div style="margin-top:5px; font-size:0.8rem; color:#999;">
+                                ${tagsHtml}
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                } catch (e) {
+                    console.error("Speaking Render Error:", e);
+                    container.innerHTML = `<div style="padding:20px; color:red;">System Error: ${e.message}</div>`;
+                }
+            }
+
+            function renderWriting() {
+                const container = document.getElementById('writing-list');
+                if (!container) return;
+
+                const items = ENGLISH_DATA.writing || [];
+                if (items.length === 0) {
+                    container.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">No Writing Data Yet</div>';
+                    return;
+                }
+
+                // Sort
+                items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                // Summary
+                const totalWords = items.reduce((sum, i) => sum + (i.wordCount || 0), 0);
+                const summary = document.createElement('div');
+                summary.style.marginBottom = '20px';
+                summary.innerHTML = `
+                    <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px;">
+                        Total Writing: <span style="color:#10b981; font-size:1.5em;">${items.length}</span> posts
+                        <span style="font-size:0.9em; color:#666; margin-left:10px;">(${totalWords.toLocaleString()} words)</span>
+                    </h3>
+                `;
+                container.appendChild(summary);
+
+                // Render
+                items.forEach(item => {
+                    const bg = '#f0fdf4';
+                    const border = '#10b981';
+
+                    const card = document.createElement('div');
+                    card.className = 'db-list-item';
+                    card.style.borderLeft = `4px solid ${border}`;
+
+                    let linkBtn = '';
+                    if (item.url && item.url !== '#') {
+                        linkBtn = `<div style="text-align:right; margin-top:10px;">
+                            <a href="${item.url}" target="_blank" class="btn-sm" style="background:${border}; color:#fff; text-decoration:none;">🔗 Read Article</a>
+                        </div>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="item-header">
+                            <span class="item-title">📝 ${item.title}</span>
+                            <span class="item-meta">${item.date}</span>
+                        </div>
+                        <div class="item-stats" style="background:${bg};">
+                            <span>Words: <span class="stat-tag" style="color:${border}">${item.wordCount}</span></span>
+                            <span>Category: <span class="stat-tag">Essay</span></span>
+                        </div>
+                        <div style="margin-top:10px; font-size:0.9rem; color:#555;">
+                            ${item.memo}
+                        </div>
+                        <div style="margin-top:5px; font-size:0.8rem; color:#999;">
+                            🏷️ ${item.tags.join(', ')}
+                        </div>
+                        ${linkBtn}
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        </script>
+        <aside class="sidebar">
+
+            <!-- Author Widget -->
+            <div class="widget profile-widget">
+                <div class="profile-img"></div> <!-- Placeholder image -->
+                <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">Polyglot 55</h3>
+                <p style="font-size:0.9rem; color:var(--text-light); line-height:1.6;">
+                    51歳からの英語脳構築中。<br>現在の目標：IELTS 7.0
+                </p>
+            </div>
+
+            <!-- AdSense Widget (Top) -->
+            <div class="widget">
+                <h4 class="widget-label"
+                    style="font-size:0.7rem; color:#999; margin-bottom:0.5rem; text-transform:uppercase;">Sponsored</h4>
+                <div class="adsense-placeholder">
+                    Ads Display
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="widget">
+                <h3 class="widget-title">Categories</h3>
+                <div id="category-list"></div>
+            </div>
+
+        </aside>
+    </div>
+    <footer class="child-footer">
+        <div class="container">
+            <p onclick="toggleAdminMode()" style="cursor:pointer;">&copy; 2025 Typing Lab | Re:Birth 55 Project <span
+                    id="visit-counter" style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+        </div>
+    </footer>
+
+    <!-- Admin Controls (Hidden by default) -->
+    <div id="admin-controls"
+        style="display:none; position:fixed; bottom:20px; right:20px; background:rgba(0,0,0,0.8); padding:10px; border-radius:8px; z-index:999;">
+        <div style="color:#fff; font-size:0.8rem; margin-bottom:5px; font-weight:bold;">Admin Mode</div>
+        <button class="btn-sm" style="display:block; width:100%; margin-bottom:5px;"
+            onclick="openAddModal('extensive')">📖 Add Extensive</button>
+        <button class="btn-sm" style="display:block; width:100%;" onclick="openAddModal('shikan')">🗣️ Add
+            Shikan</button>
+    </div>
+
+    <!-- Add Data Modal -->
+    <div id="add-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:#fff; padding:20px; border-radius:8px; width:90%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            <h3 id="modal-title" style="margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">Add Data
+            </h3>
+
+            <form id="add-form" onsubmit="event.preventDefault(); submitData();">
+                <input type="hidden" id="add-mode">
+
+                <div style="margin-bottom:10px;">
+                    <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Date</label>
+                    <input type="date" id="add-date" required
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Title</label>
+                    <input type="text" id="add-title" required
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;"
+                        placeholder="Title...">
+                </div>
+
+                <!-- Extensive Fields -->
+                <div id="fields-extensive" style="display:none;">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div style="margin-bottom:10px;">
+                            <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Words</label>
+                            <input type="number" id="add-words"
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;"
+                                placeholder="e.g. 500">
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Time
+                                (sec)</label>
+                            <input type="number" id="add-time"
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;"
+                                placeholder="e.g. 300">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shikan Fields -->
+                <div id="fields-shikan" style="display:none;">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div style="margin-bottom:10px;">
+                            <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Start
+                                Count</label>
+                            <input type="number" id="add-count" value="0"
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <label style="display:block; font-size:0.8rem; font-weight:bold; color:#666;">Target</label>
+                            <input type="number" id="add-target" value="500"
+                                style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px; text-align:right;">
+                    <button type="button" class="btn-sm" onclick="closeModal()"
+                        style="margin-right:10px;">Cancel</button>
+                    <button type="submit" class="btn-sm"
+                        style="background:var(--primary); color:#fff; border:none;">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="sidebar.js"></script>
+    <script src="counter.js"></script>
+    <script>
+        // Admin Mode Logic
+        function toggleAdminMode() {
+            const current = localStorage.getItem('isAdmin');
+            if (current === 'true') {
+                localStorage.setItem('isAdmin', 'false');
+                alert('Admin Mode: OFF');
+                location.reload();
+            } else {
+                const pass = prompt('Enter Admin Password:');
+                if (pass === 'admin55') {
+                    localStorage.setItem('isAdmin', 'true');
+                    alert('Admin Mode: ON');
+                    location.reload();
+                } else if (pass !== null) {
+                    alert('Wrong Password');
+                }
+            }
+        }
+
+        // Show Admin Controls if Logged In
+        if (localStorage.getItem('isAdmin') === 'true') {
+            document.getElementById('admin-controls').style.display = 'block';
+        }
+
+        // Modal Logic
+        function openAddModal(mode) {
+            document.getElementById('add-modal').style.display = 'flex';
+            document.getElementById('add-mode').value = mode;
+            document.getElementById('add-date').valueAsDate = new Date();
+
+            // Toggle Fields
+            document.getElementById('fields-extensive').style.display = (mode === 'extensive') ? 'block' : 'none';
+            document.getElementById('fields-shikan').style.display = (mode === 'shikan') ? 'block' : 'none';
+
+            document.getElementById('modal-title').innerText = 'Add Data: ' + mode.charAt(0).toUpperCase() + mode.slice(1);
+        }
+
+        function closeModal() {
+            document.getElementById('add-modal').style.display = 'none';
+            document.getElementById('add-form').reset();
+        }
+
+        function submitData() {
+            const mode = document.getElementById('add-mode').value;
+            const date = document.getElementById('add-date').value;
+            const title = document.getElementById('add-title').value;
+
+            const newItem = {
+                id: Date.now(), // Unique ID
+                mode: mode,
+                date: date,
+                title: title
+            };
+
+            if (mode === 'extensive') {
+                newItem.wordCount = parseInt(document.getElementById('add-words').value) || 0;
+                newItem.timeSec = parseInt(document.getElementById('add-time').value) || 0;
+                newItem.wpm = Math.floor(newItem.wordCount / (newItem.timeSec / 60)) || 0;
+                newItem.summary = "User Added Log";
+                newItem.svClear = true;
+                newItem.guessCount = 0;
+            } else if (mode === 'shikan') {
+                newItem.current_count = parseInt(document.getElementById('add-count').value) || 0;
+                newItem.target_count = parseInt(document.getElementById('add-target').value) || 500;
+                newItem.status = "active";
+                newItem.notes = "New Challenge";
+            }
+
+            // Save to LocalStorage
+            const ADDED_KEY = 'english_gym_added_data';
+            const existing = localStorage.getItem(ADDED_KEY);
+            const dataList = existing ? JSON.parse(existing) : [];
+            dataList.push(newItem);
+
+            localStorage.setItem(ADDED_KEY, JSON.stringify(dataList));
+
+            alert('Saved successfully!');
+            closeModal();
+            location.reload(); // Reload to reflect changes
+        }
+    </script>
+</body>
+
+</html>

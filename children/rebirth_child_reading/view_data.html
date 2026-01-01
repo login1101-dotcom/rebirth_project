@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1F416P0VQS');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ進捗 | Typing Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>">
+</head>
+
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="site-brand"><span>📖</span> Deep Reading<span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">難しい名著を理解する</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a class=" " href="index.html">ホーム</a></li>
+                    <li><a class="nav-view-data " href="view_data.html">データ表示</a></li>
+                    <li><a class=" " href="../../rebirth_parent/index.html">← All Projects</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main-layout">
+        <main class="content-area">
+            <!-- Reading Dashboard -->
+
+            <!-- 1. Currently Reading -->
+            <section class="dashboard-card" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; border-bottom: 2px solid #e0e7ff; padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>📖</span> 現在読んでいる本 (Reading Now)
+                </h2>
+
+                <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+                    <!-- Book Cover Placeholder -->
+                    <div
+                        style="width: 120px; height: 180px; background: #e0e7ff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #4338ca; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); flex-shrink: 0;">
+                        📘
+                    </div>
+
+                    <!-- Details -->
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3 style="font-size: 1.4rem; color: #1e293b; margin-bottom: 0.5rem;">影響力の武器 (Influence)</h3>
+                        <p style="color: #64748b; margin-bottom: 1.5rem;">著：ロバート・B・チャルディーニ</p>
+
+                        <!-- Progress -->
+                        <div
+                            style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; font-weight: bold; color: #4338ca;">
+                            <span>156 / 480 ページ</span>
+                            <span>32%</span>
+                        </div>
+                        <div
+                            style="width: 100%; height: 12px; background: #f1f5f9; border-radius: 6px; overflow: hidden;">
+                            <div
+                                style="width: 32%; height: 100%; background: linear-gradient(90deg, #6366f1, #4338ca);">
+                            </div>
+                        </div>
+                        <p style="text-align: right; font-size: 0.85rem; color: #94a3b8; margin-top: 0.5rem;">
+                            最終読書日: 2024/05/20 (昨日)
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Bookshelf (Finished) -->
+            <section class="dashboard-card" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; border-bottom: 2px solid #e0e7ff; padding-bottom: 0.5rem;">
+                    ✅ 読了リスト (Finished Books)
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1.5rem;">
+                    <!-- Items -->
+                    <div style="text-align: center;">
+                        <div
+                            style="height: 140px; background: #f1f5f9; border-radius: 4px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            📕</div>
+                        <div style="font-size: 0.8rem; font-weight: bold; color: #475569;">7つの習慣</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div
+                            style="height: 140px; background: #f1f5f9; border-radius: 4px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            📗</div>
+                        <div style="font-size: 0.8rem; font-weight: bold; color: #475569;">思考の整理学</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div
+                            style="height: 140px; background: #f1f5f9; border-radius: 4px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            📙</div>
+                        <div style="font-size: 0.8rem; font-weight: bold; color: #475569;">FACTFULNESS</div>
+                    </div>
+                    <!-- Placeholder for empty slot -->
+                    <div style="text-align: center; opacity: 0.5;">
+                        <div
+                            style="height: 140px; border: 2px dashed #cbd5e1; border-radius: 4px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                            ➕</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">Next Book</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Reading Logs (Charts) -->
+            <section class="dashboard-card" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1rem; border-bottom: 2px solid #e0e7ff; padding-bottom: 0.5rem;">
+                    📊 読書データログ (Reading Activity)
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <!-- Monthly Pages -->
+                    <div style="background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <h4 style="text-align: center; margin-bottom: 1rem; font-size: 0.9rem; color: #64748b;">月間読書ページ数
+                        </h4>
+                        <canvas id="pagesChart" height="200"></canvas>
+                    </div>
+
+                    <!-- Total Books -->
+                    <div style="background: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <h4 style="text-align: center; margin-bottom: 1rem; font-size: 0.9rem; color: #64748b;">累積読了冊数
+                        </h4>
+                        <canvas id="booksChart" height="200"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Load Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            // Chart 1: Monthly Pages (Bar Chart)
+            const ctxPages = document.getElementById('pagesChart').getContext('2d');
+            new Chart(ctxPages, {
+                type: 'bar',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    datasets: [{
+                        label: '読んだページ数',
+                        data: [350, 420, 280, 500, 450, 600],
+                        backgroundColor: 'rgba(99, 102, 241, 0.6)',
+                        borderColor: '#4338ca',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Chart 2: Cumulative Books (Line Chart)
+            const ctxBooks = document.getElementById('booksChart').getContext('2d');
+            new Chart(ctxBooks, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    datasets: [{
+                        label: '読了冊数',
+                        data: [1, 2, 3, 4, 5, 7],
+                        borderColor: '#ec4899', // Pinkish for contrast or keep Indigo theme
+                        backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, stepSize: 1 }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        </script>
+
+        <aside class="sidebar">
+            <div class="widget profile-widget">
+                <div class="profile-img"></div>
+                <h3 class="widget-title">Admin 55</h3>
+                <p style="font-size:0.9rem; color:var(--text-light);">51歳からのスキル獲得実験中。</p>
+            </div>
+            <div class="widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul style="list-style:none; line-height:2;">
+                    <li><a href="category_daily.html" class="text-daily">練習 (2)</a></li>
+                    <li><a href="category_analysis.html" class="text-analysis">分析 (2)</a></li>
+                    <li><a href="category_tools.html" class="text-tools">使用サイト・ツール (2)</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    <footer class="child-footer">
+        <div class="container">
+            <p>&copy; 2025 Typing Lab | Re:Birth 55 Project <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+        </div>
+    </footer>
+    <script src="counter.js"></script>
+</body>
+
+</html>

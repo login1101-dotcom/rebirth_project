@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1F416P0VQS');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re:Birth 55 | 51歳からの人生再生プロジェクト</title>
+    <meta name="description" content="51歳からの人生再生プロジェクト。日々の記録と成長をデータで可視化する実験ドキュメンタリー。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#" class="logo">Re:Birth <span>55</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#manifesto">挑戦の覚悟</a></li>
+                    <li><a href="#projects">挑戦している事</a></li>
+                    <li><a href="#bucketlist">やりたい事リスト</a></li>
+                    <li><a href="#achieved-list">達成したこと</a></li>
+                    <li><a href="policy.html">サイトポリシー</a></li>
+                    <li><a href="contact.html">連絡先</a></li>
+                    <li><a href="board.html">BBS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container" style="display:block;">
+            <h1>51歳からの<br>人生再生プロジェクト</h1>
+            <p>遅すぎることはない。データと実験で、自分を再構築する物語。</p>
+
+            <div id="countdown-container" style="margin: 1rem 0;">
+                <div
+                    style="font-size: 1.2rem; color: #333; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 700;">
+                    55歳の誕生日までに</div>
+                <div
+                    style="display: flex; justify-content: center; gap: 0.8rem; align-items: baseline; flex-wrap: wrap; font-family: var(--font-serif); color: var(--primary);">
+                    <div style="display: flex; align-items: baseline;"><span id="cd-years"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">年</span></div>
+                    <div style="display: flex; align-items: baseline;"><span id="cd-months"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">ヶ月</span></div>
+                    <div style="display: flex; align-items: baseline;"><span id="cd-days"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">日</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-hours"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">時間</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-minutes"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">分</span></div>
+                    <div style="display: flex; align-items: baseline; color: var(--accent);"><span id="cd-seconds"
+                            style="font-size: 3rem; font-weight: 700; line-height: 1;">--</span><span
+                            style="font-size: 1rem; margin-left: 2px;">秒</span></div>
+                </div>
+                <!-- Toggle Buttons -->
+                <!-- Wrapper for Top Layout (Buttons + Timeline) -->
+                <div id="timeline-top-wrapper" style="max-width: 1000px; margin: 0 auto;">
+
+                    <!-- Mode Buttons -->
+                    <div id="timeline-mode-buttons"
+                        style="display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 4px;">
+                        <button onclick="setTimelineMode('total')" id="btn-mode-total"
+                            style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #eee; border-radius: 4px; cursor: pointer; color:#666;">全体</button>
+                        <button onclick="setTimelineMode('year')" id="btn-mode-year"
+                            style="font-size: 0.75rem; padding: 2px 8px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; color:#666;">1年</button>
+                    </div>
+
+                    <!-- Progress Bar Container -->
+                    <div id="main-timeline-container" style="width: 100%; position: relative; height: 12px;">
+
+                        <!-- The Actual Bar (Track & Fill & Ticks) -->
+                        <div
+                            style="width: 100%; height: 100%; background: #efefef; border: 1px solid #ccc; border-radius: 3px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); z-index: 1;">
+
+                            <!-- Year Separators inside (Only for total mode) -->
+                            <div id="timeline-separators"
+                                style="width:100%; height:100%; position:absolute; top:0; left:0; pointer-events:none;">
+                                <div
+                                    style="position:absolute; left:25%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                                </div>
+                                <div
+                                    style="position:absolute; left:50%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                                </div>
+                                <div
+                                    style="position:absolute; left:75%; top:0; height:100%; width:1px; background:rgba(255,255,255,1); z-index:2;">
+                                </div>
+                            </div>
+
+                            <!-- Progress Fill -->
+                            <div id="time-progress-bar"
+                                style="width: 0%; height: 100%; background: var(--accent); opacity: 1; transition: width 1s linear; z-index: 1;">
+                            </div>
+
+                            <!-- Month Ticks -->
+                            <div id="timeline-ticks"
+                                style="position: absolute; left: 0; width: 100%; height: 8px; bottom: -4px; pointer-events: none; z-index: 3;">
+                                <div
+                                    style="width: 100%; height: 100%; background-image: repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48));">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Bars Container (Hidden by default) -->
+                <div id="project-bars-container"
+                    style="display:none; width: 100%; max-width: 1000px; margin: 10px auto 0;">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Labels -->
+                <div id="timeline-labels"
+                    style="display: flex; justify-content: space-between; max-width: 1000px; margin: 6px auto 0; font-size: 0.8rem; color: #999; font-family: var(--font-sans);">
+                    <span>51歳</span>
+                    <span>52歳</span>
+                    <span>53歳</span>
+                    <span>54歳</span>
+                    <span>55歳</span>
+                </div>
+            </div>
+
+            <div id="projects" style="margin-top: 1.5rem; scroll-margin-top: 80px;">
+                <p
+                    style="font-size: 1.2rem; color: #333; font-weight: 700; margin-bottom: 1rem; letter-spacing: 0.05em;">
+                    挑戦している事
+                </p>
+                <div
+                    style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 100%; margin: 0 auto;">
+                    <a href="../children/rebirth_child_typing/index.html" class="btn-sm" id="btn-typing">
+                        ⌨️ ブラインドタッチを習得する
+                    </a>
+                    <a href="../children/rebirth_child_health/index.html" class="btn-sm" id="btn-health">
+                        🥗 見た目のいい健康な体を手にいれる
+                    </a>
+                    <a href="../children/rebirth_child_english/index.html" class="btn-sm" id="btn-english">
+                        🇬🇧 使える英語を身につける
+                    </a>
+                    <a href="../children/rebirth_child_novel/index.html" class="btn-sm" id="btn-novel">
+                        ✒️ 小説家やエッセイストになる
+                    </a>
+                    <a href="../children/rebirth_child_manga/index.html" class="btn-sm" id="btn-manga">
+                        🎨 漫画家になる
+                    </a>
+                    <a href="../children/rebirth_child_youtube/index.html" class="btn-sm" id="btn-youtube">
+                        📹 動画作家として生活できる収益を得る
+                    </a>
+                    <a href="../children/rebirth_child_reading/index.html" class="btn-sm" id="btn-reading">
+                        📖 難しい名著を理解する
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="manifesto" class="manifesto">
+        <div class="container" style="display:block;">
+            <h2 class="section-title">挑戦の覚悟</h2>
+            <div class="manifesto-content"
+                style="text-align: left; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <p>人生の折り返し地点である50歳。<br>
+                    多くの人が年齢を理由に「守り」に入ったり「挑戦」を諦める年齢です。<br>
+                    確かに、体はあちこちガタがきて、体力ばかりか気力も下がり、自由な時間もなかったりします。<br>
+                    しかし、私はあえてここから「攻め」に転じ「挑戦」を開始します。</p>
+
+                <p>Re:Birth 55は、単なる日記ではありません。<br>
+                    これは、スキル習得、健康改善、資産形成など、人生のあらゆる要素を「実験」と捉え、そのプロセスと結果をデータとして公開するドキュメンタリープロジェクトです。</p>
+
+                <p>私はこれまでの人生、精一杯やってきたつもりでした。<br>
+                    しかし、結局何も習得できず何も手にできませんでした。<br>
+                    自分はこういうものだ、と諦めるのは簡単です。<br>
+                    生まれが悪かった、遺伝子が悪かった、環境が悪かった、選択を失敗した。<br>
+                    言い訳はいくらでも湧いてきます。<br>
+                    なぜならそれらは確かにそうだった側面もあるからです。<br>
+                    しかし、それらについて言い訳をしたところで、何も得るものはないどころか、<br>
+                    自分で自分の人生をさらに悪くするばかりです。</p>
+
+                <p>私は挑戦し失敗するたびに傷つき砕かれ逃げグセがつきました。<br>
+                    これは人生の手垢のようなもので、なかなか落とすことができません。<br>
+                    むしろその手垢一つ一つが、私の生きた証でもあります。</p>
+
+                <p>まず、やめることは何か。<br>
+                    言い訳をやめる。<br>
+                    不平不満をやめる。</p>
+
+                <p>では、開始することは何か。<br>
+                    挑戦。</p>
+
+                <p>続けることは何か。<br>
+                    挑戦。</p>
+
+                <p>今世界には８０億人以上の人間がいて、我々はそのほとんどの人を知りません。<br>
+                    知らないまま生きて、知らないまま死んでいきます。<br>
+                    私一人が何をどうしようと、79億9999万990人くらいには、何も関係がないのです。</p>
+
+                <p>私はずっと覚えて生きてきました。<br>
+                    自分を曝け出してきづつくことに怯え、<br>
+                    愛するものを失うことに怯え, <br>
+                    見知らぬ人たちからの誹謗中傷にさえ怯えてきました。<br>
+                    その結果、<br>
+                    自分の可能性を試す機会を失い、<br>
+                    愛する人をつくる事もできず、<br>
+                    やりたいことのひとつもしてこなかったのです。</p>
+
+                <p>なんと愚かな歩みだったかと今にして思います。<br>
+                    ５０歳を過ぎると、目もかすみ、関節は意味不明に痛んで動かなくなります。<br>
+                    公私共に成功とは程遠い人生を歩んだ結果、<br>
+                    金はなく健康もなく人脈もない人生になりました。<br>
+                    笑いたい人は笑えばいい。<br>
+                    これが事実、私の人生です。</p>
+
+                <p>体が動かなくなっていて、心身の衰えを実感し始めた結果、<br>
+                    私は死を意識するようになりました。<br>
+                    そこでようやく気づきました。<br>
+                    私は何にも命をかけてこなかったのだ、と。<br>
+                    ただ安全に、ただ出来そうなことだけを、ただ一所懸命にやっていたのです。</p>
+
+                <p>歌手やスポーツ選手に対して、ずっと不公平感を感じていました。<br>
+                    ただ才能があっただけで、チヤホヤされいい気になり自分の思い通りの富と名声を得て、<br>
+                    愛され崇拝されているのだ、と。<br>
+                    漫画家、小説家、俳優などもそうです。<br>
+                    そういう人々に対し, 挑戦しない人間が汚れた部屋の片隅から妬み嫉みを飛ばしていたのです。<br>
+                    なんとむなしい人生でしょうか。</p>
+
+                <p>私には、２つの選択肢がありました。<br>
+                    これまで通りの人生を歩むか、<br>
+                    それとも、<br>
+                    そうでない人生を歩むか、<br>
+                    です。</p>
+
+                <p>正直、もういつ死んでもおかしくない年齢です。<br>
+                    実際、友人知人でもすでに亡くなってしまった方は何人もいますし、<br>
+                    ニュースなどでも50歳に達せず亡くなる方も多くいます。<br>
+                    命があると感謝を、私は忘れていたのです。<br>
+                    自分の境遇に比べ、あの人はどうだこうだと言うことに、<br>
+                    一ミリの値打ちもありません。<br>
+                    頭の片隅ではわかっていたその事が、心ではわかっていませんでした。</p>
+
+                <p>私はいろいろあって、職を失いました。<br>
+                    元々結婚もせず、子供もつくらず、一人で生きていたので、<br>
+                    自己の存在価値、アイデンティティのほとんどすべては仕事にあります。<br>
+                    それすらなくなった今、私にはもはや何もないのです。<br>
+                    命以外は。</p>
+
+                <p>そう。<br>
+                    私はまだ生きています。<br>
+                    この後、生きていけるのかはわかりません。<br>
+                    しかし、あれだけ希死念慮が強かった私なのに、<br>
+                    不思議と今、生きようとする力が湧いています。<br>
+                    残念ながら希死念慮自体はなくなっておらず、時折顔を出します。<br>
+                    それも内包し、自分と認めて生きていくしかないと言うことを<br>
+                    そろそろ認められそうな気配もあります。</p>
+
+                <p>ともあれ私は生きている。<br>
+                    そして、この後半生というものがあるのだとしたら、<br>
+                    ただ生きる人生ではなく、「挑戦」する人生を生きるのだと決めたのです。</p>
+
+                <p>そして私は、自分の生きた証を残すために、<br>
+                    成功も失敗も、すべてをコンテンツに変えていくことにしました。<br>
+                    それらが収益化させようという思いもあります。<br>
+                    １番の目的は、挑戦の結果自分がなりたい自分になる事。<br>
+                    期限は55歳の誕生日。<br>
+                    今（2025.12.23）に51歳ですからあと4年もありません。<br>
+                    私の挑戦のリアルな記録が、同世代の誰かの背中を押すきっかけになれば幸いです。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="bucketlist" class="projects" style="background-color: #f0f2f5; border-top: 1px solid var(--border);">
+        <div class="container" style="display:block; padding: 4rem 2rem;">
+            <h2 class="section-title">やりたい事リスト</h2>
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 900px; margin: 0 auto;">
+                <span class="btn-sm">❤️ 好きな人をつくる</span>
+                <span class="btn-sm">🤝 友達と遊ぶ</span>
+                <span class="btn-sm">✈️ 旅行で感動する</span>
+                <span class="btn-sm">✨ おしゃれする</span>
+                <span class="btn-sm">📣 誰かを励ます</span>
+                <span class="btn-sm">🌟 人気を博す</span>
+                <span class="btn-sm">🗻 富士山に登る</span>
+                <span class="btn-sm">🇯🇵 日本一周</span>
+                <span class="btn-sm">🎵 オリジナル曲制作</span>
+                <span class="btn-sm">📚 書斎を整える</span>
+                <span class="btn-sm">🍱 美味しいものを極める</span>
+                <span class="btn-sm">🌏 海外ロングステイ</span>
+                <span class="btn-sm">🖼️ 個展を開催</span>
+                <span class="btn-sm">🍳 最高の朝食を毎日</span>
+                <span class="btn-sm">✉️ 感謝の手紙を送る</span>
+                <span class="btn-sm">🔥 最後の日まで挑戦</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 達成したことリスト -->
+    <section id="achieved-list" class="projects" style="background-color: #fff; border-top: 1px solid var(--border);">
+        <div class="container" style="display:block; padding: 4rem 2rem;">
+            <h2 class="section-title">達成したこと</h2>
+            <p style="text-align:center; color:#999; margin-bottom:1rem; font-size:0.9rem;">
+                挑戦の結果、完了したプロジェクトがここに移動します。
+            </p>
+            <div id="achieved-container"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 100%; margin: 0 auto; min-height: 50px;">
+                <!-- 達成アイテムはここに自動移動 -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="display:block;">
+            <div class="footer-links">
+                <a href="profile.html">Profile</a>
+                <a href="contact.html">Contact</a>
+                <a href="policy.html">Site Policy</a>
+            </div>
+            <p class="copyright">&copy; 2025 Re:Birth 55 Project. All rights reserved. <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem;">訪問数：--</span></p>
+        </div>
+    </footer>
+
+    <script src="project_data.js"></script>
+    <script src="counter.js"></script>
+    <script>
+        let timelineMode = 'total'; // 'total', 'year', 'projects'
+
+        function setTimelineMode(mode) {
+            timelineMode = mode;
+            // Update button styles
+            const btnTotal = document.getElementById('btn-mode-total');
+            const btnYear = document.getElementById('btn-mode-year');
+            const btnProjects = document.getElementById('btn-mode-projects');
+
+            // Reset all
+            if (btnTotal) { btnTotal.style.background = '#fff'; btnTotal.style.fontWeight = 'normal'; }
+            if (btnYear) { btnYear.style.background = '#fff'; btnYear.style.fontWeight = 'normal'; }
+            if (btnProjects) { btnProjects.style.background = '#fff'; btnProjects.style.fontWeight = 'normal'; }
+
+            // Set active
+            if (mode === 'total' && btnTotal) {
+                btnTotal.style.background = '#eee';
+                btnTotal.style.fontWeight = 'bold';
+            } else if (mode === 'year' && btnYear) {
+                btnYear.style.background = '#eee';
+                btnYear.style.fontWeight = 'bold';
+            }
+            updateTimer(); // Re-render immediately
+        }
+
+        // Initialize buttons visual state
+        setTimelineMode('total');
+
+        // New Function: Update Project Link Buttons with Dates (Stacked Layout)
+        function updateProjectLinks() {
+            for (const key in PROJECT_STATUS) {
+                const p = PROJECT_STATUS[key];
+                const btn = document.getElementById(p.id);
+                if (btn && p.deadline) {
+                    const d = new Date(p.deadline);
+                    const dStr = `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+
+                    // Specific Full Labels (Hardcoded in HTML, but we can override or just use the icon + shorter label from data or keep HTML text?)
+                    // The user wants "Date Above".
+                    // Let's preserve the existing text (which is the main label) and prepend the date in a div.
+                    // But the existing text includes the icon.
+                    // Let's just rebuild the content using the data to be clean, OR parse the existing text.
+                    // Data `p.label` is short (e.g. "ブラインドタッチ"). HTML text is long ("ブラインドタッチを習得する").
+                    // I should probably keep the HTML text for the bottom part if I can, or update Project Data to matched long text.
+                    // Strategy: Read current text, wrap in div. Prepend date div.
+
+                    const currentText = btn.innerText.trim(); // "⌨️ ブラインドタッチを習得する"
+
+                    btn.innerHTML = `
+                        <span style="display:block; font-size:0.75rem; color:#666; margin-bottom:2px; font-weight:normal;">${dStr}までに</span>
+                        <span style="display:block; font-size:1rem; font-weight:bold;">${currentText}</span>
+                    `;
+
+                    // Enforce Flex Column Layout
+                    btn.style.display = 'inline-flex';
+                    btn.style.flexDirection = 'column';
+                    btn.style.alignItems = 'center';
+                    btn.style.justifyContent = 'center';
+                    btn.style.height = 'auto'; // Allow height to grow
+                    btn.style.padding = '8px 16px'; // Adjust padding
+                    btn.style.lineHeight = '1.2';
+                }
+            }
+        }
+
+        // Run once on load
+        updateProjectLinks();
+
+
+        function updateTimer() {
+            const now = new Date();
+            // --- Countdown Target Logic Switching ---
+            let currentTargetDate;
+            const isTotal = timelineMode === 'total';
+            const isYear = timelineMode === 'year'; // This now triggers the 8-bar layout
+
+            if (isTotal) {
+                currentTargetDate = new Date("2029-11-01T00:00:00"); // 55th Birthday
+            } else {
+                // Year Mode: Target is Next Birthday
+                const cYear = now.getFullYear();
+                const bDay = new Date(cYear, 10, 1);
+                if (now >= bDay) {
+                    currentTargetDate = new Date(cYear + 1, 10, 1);
+                } else {
+                    currentTargetDate = bDay;
+                }
+            }
+
+            // --- Countdown Display ---
+            if (now >= currentTargetDate) {
+                document.getElementById('countdown-container').innerHTML = isTotal ? "HAPPY 55th BIRTHDAY!" : "HAPPY BIRTHDAY!";
+                return;
+            }
+
+            let t = new Date(currentTargetDate);
+            let n = new Date(now);
+
+            let y = t.getFullYear() - n.getFullYear();
+            let m = t.getMonth() - n.getMonth();
+            let d = t.getDate() - n.getDate();
+
+            let h = t.getHours() - n.getHours();
+            let min = t.getMinutes() - n.getMinutes();
+            let s = t.getSeconds() - n.getSeconds();
+
+            if (s < 0) { s += 60; min--; }
+            if (min < 0) { min += 60; h--; }
+            if (h < 0) { h += 24; d--; }
+            if (d < 0) {
+                m--;
+                let prevMonthDate = new Date(t.getFullYear(), t.getMonth(), 0);
+                d += prevMonthDate.getDate();
+            }
+            if (m < 0) { m += 12; y--; }
+
+            document.getElementById('cd-years').innerText = y;
+            document.getElementById('cd-months').innerText = m;
+            document.getElementById('cd-days').innerText = d;
+            document.getElementById('cd-hours').innerText = h.toString().padStart(2, '0');
+            document.getElementById('cd-minutes').innerText = min.toString().padStart(2, '0');
+            document.getElementById('cd-seconds').innerText = s.toString().padStart(2, '0');
+
+            // --- Timeline Logic ---
+            const topWrapper = document.getElementById('timeline-top-wrapper');
+            const btnContainer = document.getElementById('timeline-mode-buttons');
+            const mainContainer = document.getElementById('main-timeline-container');
+            const projectContainer = document.getElementById('project-bars-container');
+            const labelsEl = document.getElementById('timeline-labels');
+            const ticks = document.querySelector('#timeline-ticks div');
+            const sepEl = document.getElementById('timeline-separators');
+
+            // Layout Constants - Unified for perfect alignment
+            const LEFT_COL_WIDTH = '220px';
+            const RIGHT_COL_WIDTH = '300px';
+
+
+            let startDate, endDate;
+            let showSeparators = false;
+            let labelHTML = '';
+            let currentAge, nextAge;
+
+            // 1. Calculate Axis Range & Ages
+            if (isTotal) {
+                startDate = new Date("2025-11-01T00:00:00");
+                endDate = new Date("2029-11-01T00:00:00");
+                showSeparators = true;
+                labelHTML = `<span>51歳</span><span>52歳</span><span>53歳</span><span>54歳</span><span>55歳</span>`;
+                if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 48))';
+            } else {
+                const currentYear = now.getFullYear();
+                const birthdayThisYear = new Date(currentYear, 10, 1);
+
+                if (now >= birthdayThisYear) {
+                    startDate = birthdayThisYear;
+                    endDate = new Date(currentYear + 1, 10, 1);
+                    currentAge = currentYear - 1974;
+                } else {
+                    startDate = new Date(currentYear - 1, 10, 1);
+                    endDate = birthdayThisYear;
+                    currentAge = currentYear - 1 - 1974;
+                }
+                nextAge = currentAge + 1;
+                labelHTML = `<span>${currentAge}歳</span><span>${nextAge}歳</span>`;
+                showSeparators = false;
+                if (ticks) ticks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+            }
+
+            const axisDuration = endDate - startDate;
+            const elapsed = now - startDate;
+            let mainProgress = (elapsed / axisDuration) * 100;
+            if (mainProgress < 0) mainProgress = 0;
+            if (mainProgress > 100) mainProgress = 100;
+
+            // 2. Render Logic Switching
+            if (isYear) {
+                // --- YEAR MODE (FORMERLY PROJECTS MODE - 8 Uniform Rows) ---
+
+                // Hide Standard Top Elements
+                if (mainContainer) mainContainer.style.display = 'none';
+                if (labelsEl) labelsEl.style.display = 'none';
+                if (topWrapper) {
+                    topWrapper.style.display = 'none'; // We will not use the wrapper, we build everything in projectContainer
+                }
+
+                if (projectContainer) {
+                    projectContainer.style.display = 'block';
+                    projectContainer.style.marginTop = '0'; // No margin needed as we are replacing the top
+                    projectContainer.innerHTML = ''; // Clear existing
+
+                    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+                    // --- ROW 1: The "1-Year" Timeline (As formatted row) ---
+                    const headerRow = document.createElement('div');
+                    headerRow.style.display = 'flex';
+                    headerRow.style.alignItems = 'center';
+                    headerRow.style.marginBottom = '12px';
+                    headerRow.style.height = '24px'; // Fixed height for alignment
+
+                    // Col 1: Start Age
+                    const hCol1 = document.createElement('div');
+                    hCol1.style.width = LEFT_COL_WIDTH;
+                    hCol1.style.minWidth = LEFT_COL_WIDTH;
+                    hCol1.style.textAlign = 'right';
+                    hCol1.style.paddingRight = '12px';
+                    hCol1.style.boxSizing = 'border-box';
+                    hCol1.style.fontWeight = 'bold';
+                    hCol1.style.color = '#555';
+                    hCol1.style.fontSize = '0.85rem';
+                    hCol1.innerText = `${currentAge}歳`;
+
+                    // Col 2: Bar
+                    const hCol2 = document.createElement('div');
+                    hCol2.style.flex = '1';
+                    hCol2.style.position = 'relative';
+                    hCol2.style.height = '12px'; // Main bar slightly thicker? Or same? Let's match: 10px
+                    hCol2.style.display = 'flex';
+                    hCol2.style.alignItems = 'center';
+
+                    const hBarWrapper = document.createElement('div');
+                    hBarWrapper.style.width = "100%";
+                    hBarWrapper.style.height = "100%"; // Fill height
+                    hBarWrapper.style.background = "#efefef"; // Match main timeline track
+                    hBarWrapper.style.border = "1px solid #ccc";
+                    hBarWrapper.style.borderRadius = "3px";
+                    hBarWrapper.style.overflow = "hidden";
+
+                    const hFill = document.createElement('div');
+                    hFill.style.width = mainProgress + "%";
+                    hFill.style.height = "100%";
+                    hFill.style.background = accentColor;
+                    hFill.style.transition = "width 1s";
+
+                    // Add ticks to the main 1-year dummy bar for realism?
+                    const hTicks = document.createElement('div');
+                    hTicks.style.position = 'absolute';
+                    hTicks.style.left = '0';
+                    hTicks.style.bottom = '0';
+                    hTicks.style.width = '100%';
+                    hTicks.style.height = '50%';
+                    hTicks.style.backgroundImage = 'repeating-linear-gradient(90deg, #ccc, #ccc 1px, transparent 1px, transparent calc(100% / 12))';
+                    hTicks.style.zIndex = '2';
+                    hTicks.style.pointerEvents = 'none';
+
+                    hBarWrapper.appendChild(hFill);
+                    hBarWrapper.appendChild(hTicks);
+                    hCol2.appendChild(hBarWrapper);
+
+                    // Col 3: End Age + Buttons
+                    const hCol3 = document.createElement('div');
+                    hCol3.style.width = RIGHT_COL_WIDTH;
+                    hCol3.style.minWidth = RIGHT_COL_WIDTH;
+                    hCol3.style.paddingLeft = '8px';
+                    hCol3.style.boxSizing = 'border-box';
+                    hCol3.style.display = 'flex';
+                    hCol3.style.alignItems = 'center';
+                    hCol3.style.gap = '8px'; // Gap between label and buttons
+                    hCol3.style.justifyContent = 'flex-start'; // Left align content
+
+                    const endAgeLabel = document.createElement('span');
+                    endAgeLabel.innerText = `${nextAge}歳`;
+                    endAgeLabel.style.fontWeight = 'bold';
+                    endAgeLabel.style.color = '#555';
+                    endAgeLabel.style.fontSize = '0.85rem';
+                    endAgeLabel.style.whiteSpace = 'nowrap';
+
+                    hCol3.appendChild(endAgeLabel);
+
+                    // Move Buttons Here
+                    if (btnContainer) {
+                        // Ensure btnContainer is not already a child of hCol3 to prevent errors
+                        if (btnContainer.parentElement !== hCol3) {
+                            hCol3.appendChild(btnContainer);
+                        }
+                        // Reset styles for this context
+                        btnContainer.style.width = 'auto';
+                        btnContainer.style.marginBottom = '0';
+                        btnContainer.style.transform = 'scale(1)'; // Reset scale
+                        btnContainer.style.marginLeft = 'auto'; // Push to right
+                    }
+
+                    headerRow.appendChild(hCol1);
+                    headerRow.appendChild(hCol2);
+                    headerRow.appendChild(hCol3);
+                    projectContainer.appendChild(headerRow);
+
+
+                    // --- ROWS 2-8: Projects ---
+                    for (const key in PROJECT_STATUS) {
+                        const p = PROJECT_STATUS[key];
+                        if (!p.deadline) continue;
+                        const deadline = new Date(p.deadline);
+
+                        const projectDurationFromAxisStart = deadline - startDate;
+                        let deadlinePosPercent = (projectDurationFromAxisStart / axisDuration) * 100;
+
+                        const dStr = `${deadline.getFullYear()}.${(deadline.getMonth() + 1)}.${deadline.getDate()}`;
+                        const remainingDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                        let remainText = `あと${remainingDays}日`;
+                        if (remainingDays < 0) remainText = "期限切れ";
+
+                        const icon = p.icon || "🎯";
+                        const fullText = p.label || key;
+
+                        const row = document.createElement('div');
+                        row.style.display = 'flex';
+                        row.style.alignItems = 'center';
+                        row.style.marginBottom = '12px';
+                        row.style.height = '24px'; // Match header height
+
+                        // Col 1
+                        const col1 = document.createElement('div');
+                        col1.style.width = LEFT_COL_WIDTH;
+                        col1.style.minWidth = LEFT_COL_WIDTH;
+                        col1.style.fontSize = '0.85rem';
+                        col1.style.color = '#333';
+                        col1.style.paddingRight = '12px';
+                        col1.style.textAlign = 'right';
+                        col1.style.whiteSpace = 'nowrap';
+                        col1.style.overflow = 'hidden';
+                        col1.style.textOverflow = 'ellipsis';
+                        col1.style.boxSizing = 'border-box';
+                        col1.innerText = icon + " " + fullText;
+
+                        // Col 2
+                        const col2 = document.createElement('div');
+                        col2.style.flex = '1';
+                        col2.style.position = 'relative';
+                        col2.style.height = '10px'; // Bar height
+                        col2.style.display = 'flex';
+                        col2.style.alignItems = 'center';
+
+                        const barWrapper = document.createElement('div');
+                        barWrapper.style.width = "100%";
+                        barWrapper.style.height = "100%";
+                        barWrapper.style.background = "#e0e0e0";
+                        barWrapper.style.borderRadius = "5px";
+                        barWrapper.style.overflow = "hidden";
+                        barWrapper.style.position = "relative";
+
+                        const fillDiv = document.createElement('div');
+                        fillDiv.style.width = mainProgress + "%"; // Sync with main time
+                        fillDiv.style.height = "100%";
+                        fillDiv.style.background = accentColor || "#e94e77";
+                        fillDiv.style.transition = "width 1s";
+                        fillDiv.style.zIndex = "1";
+
+                        const marker = document.createElement('div');
+                        marker.style.position = 'absolute';
+                        marker.style.left = deadlinePosPercent + "%";
+                        marker.style.top = "0";
+                        marker.style.bottom = "0";
+                        marker.style.width = "0";
+                        marker.style.borderLeft = "2px dotted #555";
+                        marker.style.zIndex = "2";
+
+                        barWrapper.appendChild(fillDiv);
+                        if (deadlinePosPercent >= 0 && deadlinePosPercent <= 100) {
+                            barWrapper.appendChild(marker);
+                        }
+                        col2.appendChild(barWrapper);
+
+                        // Col 3
+                        const col3 = document.createElement('div');
+                        col3.style.width = RIGHT_COL_WIDTH;
+                        col3.style.minWidth = RIGHT_COL_WIDTH;
+                        col3.style.paddingLeft = '8px';
+                        col3.style.fontSize = '0.85rem';
+                        col3.style.color = '#666';
+                        col3.style.boxSizing = 'border-box';
+                        col3.style.display = 'flex';
+                        col3.style.alignItems = 'baseline';
+                        col3.style.gap = '8px';
+
+                        // Single Line Layout
+                        col3.innerHTML = `
+                            <span style="font-weight:bold; color:#555;">${dStr}まで</span>
+                            <span style="font-size:0.9em; color:#888;">(${remainText})</span>
+                        `;
+
+                        row.appendChild(col1);
+                        row.appendChild(col2);
+                        row.appendChild(col3);
+                        projectContainer.appendChild(row);
+                    }
+                }
+
+            } else {
+                // --- TOTAL / YEAR MODE (Standard) ---
+
+                // Restore elements
+                if (topWrapper) topWrapper.style.display = 'block';
+                if (mainContainer) mainContainer.style.display = 'block';
+                if (labelsEl) labelsEl.style.display = 'flex';
+                if (projectContainer) projectContainer.style.display = 'none';
+
+                // Restore Buttons to Top Wrapper standard position
+                // The original HTML structure has btnContainer as a direct child of topWrapper.
+                // We need to ensure it's moved back there if it was moved to hCol3.
+                if (topWrapper && btnContainer && btnContainer.parentElement !== topWrapper) {
+                    // Find the original position or a suitable one.
+                    // Assuming btnContainer should be before mainContainer within topWrapper.
+                    topWrapper.insertBefore(btnContainer, mainContainer);
+                }
+
+                // Reset Button Styles
+                if (btnContainer) {
+                    btnContainer.style.width = 'auto';
+                    btnContainer.style.marginBottom = '4px';
+                    btnContainer.style.transform = 'none';
+                    btnContainer.style.justifyContent = 'flex-end'; // Restore default alignment if changed
+                }
+
+                // Standard Mode Main Bar Logic (using existing variables)
+                if (labelsEl) labelsEl.innerHTML = labelHTML;
+                if (sepEl) sepEl.style.display = showSeparators ? 'block' : 'none';
+                document.getElementById('time-progress-bar').style.width = mainProgress + "%";
+            }
+        }
+
+        // Initialize Project Status Buttons
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+
+</html>
+
+</html>

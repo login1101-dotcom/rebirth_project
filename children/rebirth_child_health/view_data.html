@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1F416P0VQS');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ進捗 | Body Logic</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥗</text></svg>">
+    <style>
+        .data-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .data-header {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Summary Dashboard */
+        .summary-dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-card .label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .summary-card .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .summary-card .unit {
+            font-size: 0.9rem;
+            margin-left: 2px;
+            color: var(--text-light);
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .data-card {
+            background: #f8fafc;
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .data-card h3 {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .log-table th,
+        .log-table td {
+            padding: 0.6rem;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .log-table th {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .status-badge-mini {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .bg-ok {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .bg-ng {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .volume-tag {
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .focus-select {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            background: white;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        /* Session History Styling */
+        .session-history {
+            grid-column: span 2;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #e2e8f0;
+            display: none;
+            /* Hidden unless focused */
+        }
+
+        .session-date {
+            display: inline-block;
+            padding: 4px 10px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .session-date i {
+            color: var(--text-light);
+            margin-right: 4px;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="site-brand"><span>🥗</span> Body Logic<span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">見た目のいい健康な体を手にいれる</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a class="nav-diet" href="category_diet.html">食事</a></li>
+                    <li><a class="nav-muscle" href="category_muscle.html">筋トレ</a></li>
+                    <li><a class="nav-sleep" href="category_sleep.html">睡眠</a></li>
+                    <li><a class="nav-others" href="category_others.html">その他</a></li>
+                    <li><a class="nav-view-data active" href="view_data.html">データ表示</a></li>
+                    <li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-layout">
+        <main class="content-area">
+
+            <!-- サマリーダッシュボード -->
+            <div class="summary-dashboard">
+                <div class="summary-card" id="cardWeight">
+                    <span class="label">平均体重 (Weekly)</span>
+                    <div class="value">72.6<span class="unit">kg</span></div>
+                </div>
+                <div class="summary-card" id="cardSteps">
+                    <span class="label">平均歩数 (Weekly)</span>
+                    <div class="value">8,028<span class="unit">歩</span></div>
+                </div>
+                <div class="summary-card" id="cardSleep">
+                    <span class="label">平均睡眠 (Weekly)</span>
+                    <div class="value">6.9<span class="unit">h</span></div>
+                </div>
+                <div class="summary-card" id="cardTraining">
+                    <span class="label">トレーニング状況</span>
+                    <div class="value" style="font-size:1.2rem;">最終: 昨日<span class="unit"></span></div>
+                </div>
+            </div>
+
+            <!-- 食事データセクション -->
+            <section class="data-section">
+                <div class="data-header">🍳 食事・継続ログ</div>
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3>直近の食事内容 <span>自炊率: 85%</span></h3>
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>日時</th>
+                                    <th>内容</th>
+                                    <th>自炊</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>12/27</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（マヨ・ケチャップ・シーチキン）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/26 13:20</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            &lt;朝食&gt;<br>
+                                            サンドイッチ（ハンバーグ・野菜・マヨ・ケチャップ・チーズ・キャベツ）<br>
+                                            おにぎり（しゃけフレーク・しょうゆ・のり）<br>
+                                            <br>
+                                            &lt;間食&gt;<br>
+                                            04:30 みかん<br>
+                                            09:00頃 バナナ<br>
+                                            10:24 みかん<br>
+                                            13:20 バナナ<br>
+                                            <br>
+                                            &lt;夕食 19:00頃&gt;<br>
+                                            とんかつ1、からあげ1、こめx2、たまねぎあげ、あたま
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/25 08:30</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（マヨ・ケチャップ・チーズ・キャベツ）<br>
+                                            おにぎり（しゃけフレーク・しょうゆ・のり）<br>
+                                            オートミール、納豆、卵
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/24 11:00</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（シーチキンマヨ・チーズ・レタス）<br>
+                                            おにぎり（シーチキン・塩）<br>
+                                            バナナ 1
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/24 12:30</td>
+                                    <td>鯖の塩焼き定食</td>
+                                    <td><span class="status-badge-mini bg-ng">外食</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/23</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（シーチキンマヨ）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12/22</td>
+                                    <td>
+                                        <div style="font-size:0.85rem; line-height:1.4;">
+                                            サンドイッチ（シーチキンマヨ）<br>
+                                            おにぎり（塩）
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge-mini bg-ok">OK</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-card">
+                        <h3>継続トラッカー
+                            <div class="toggle-group" style="display:inline-flex; gap:5px; float:right;">
+                                <button onclick="renderHabitCalendar('week')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">週間</button>
+                                <button onclick="renderHabitCalendar('month')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">月間</button>
+                                <button onclick="renderHabitCalendar('year')" class="focus-select"
+                                    style="padding:2px 8px; font-size:0.8rem;">年間</button>
+                            </div>
+                        </h3>
+                        <div id="habitCalendar" style="display:grid; gap:8px; margin-top:10px;">
+                            <!-- JSで生成 -->
+                        </div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:10px; text-align:right;">
+                            <span style="margin-right:10px;">🙆 記録あり</span>
+                            <span>🍳 自炊OK</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 筋トレデータセクション -->
+            <section class="data-section">
+                <div class="data-header">
+                    <span>💪 部位別・トレーニング分析</span>
+                    <select class="focus-select" id="muscleFocus" onchange="updateMuscleFocus()">
+                        <option value="all">全体を表示</option>
+                        <option value="chest">胸 (Chest) に集中</option>
+                        <option value="legs">脚 (Legs) に集中</option>
+                        <option value="back">背中 (Back) に集中</option>
+                    </select>
+                </div>
+
+                <!-- 胸 (Chest) ブロック -->
+                <div class="data-card muscle-block chest"
+                    style="margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <div>
+                        <h4
+                            style="border-left: 4px solid #ef4444; padding-left: 12px; margin-bottom: 1rem; color: var(--text-main); font-size: 1.1rem;">
+                            胸 (Chest)</h4>
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>種目</th>
+                                    <th>内容</th>
+                                    <th>Vol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ベンチプレス</td>
+                                    <td>60kg x 8 x 3</td>
+                                    <td><span class="volume-tag">1440kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>ダンベルフライ</td>
+                                    <td>12kg x 12 x 3</td>
+                                    <td><span class="volume-tag">432kg</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="chestTrendChart" height="260"></canvas>
+                    </div>
+                    <!-- セッション履歴 (個別選択時のみ表示) -->
+                    <div class="session-history chest-history">
+                        <h5 style="font-size: 0.9rem; margin-bottom: 0.8rem; color: var(--text-light);">実施セッション履歴</h5>
+                        <div class="session-date"><i>🗓</i> 12/25 07:15</div>
+                        <div class="session-date"><i>🗓</i> 12/21 19:30</div>
+                        <div class="session-date"><i>🗓</i> 12/17 06:45</div>
+                        <div class="session-date"><i>🗓</i> 12/13 20:15</div>
+                    </div>
+                </div>
+
+                <!-- 脚 (Legs) ブロック -->
+                <div class="data-card muscle-block legs"
+                    style="margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <div>
+                        <h4
+                            style="border-left: 4px solid #3b82f6; padding-left: 12px; margin-bottom: 1rem; color: var(--text-main); font-size: 1.1rem;">
+                            脚 (Legs)</h4>
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>種目</th>
+                                    <th>内容</th>
+                                    <th>Vol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>スクワット</td>
+                                    <td>85kg x 10 x 3</td>
+                                    <td><span class="volume-tag">2550kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>レッグプレス</td>
+                                    <td>120kg x 12 x 3</td>
+                                    <td><span class="volume-tag">4320kg</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="legsTrendChart" height="260"></canvas>
+                    </div>
+                    <!-- セッション履歴 (個別選択時のみ表示) -->
+                    <div class="session-history legs-history">
+                        <h5 style="font-size: 0.9rem; margin-bottom: 0.8rem; color: var(--text-light);">実施セッション履歴</h5>
+                        <div class="session-date"><i>🗓</i> 12/24 07:00</div>
+                        <div class="session-date"><i>🗓</i> 12/20 18:45</div>
+                        <div class="session-date"><i>🗓</i> 12/16 07:15</div>
+                    </div>
+                </div>
+
+                <!-- 背中 (Back) ブロック -->
+                <div class="data-card muscle-block back"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <div>
+                        <h4
+                            style="border-left: 4px solid #eab308; padding-left: 12px; margin-bottom: 1rem; color: var(--text-main); font-size: 1.1rem;">
+                            背中 (Back)</h4>
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>種目</th>
+                                    <th>内容</th>
+                                    <th>Vol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>デッドリフト</td>
+                                    <td>110kg x 5 x 2</td>
+                                    <td><span class="volume-tag">1100kg</span></td>
+                                </tr>
+                                <tr>
+                                    <td>ラットプルダウン</td>
+                                    <td>45kg x 10 x 3</td>
+                                    <td><span class="volume-tag">1350kg</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="backTrendChart" height="260"></canvas>
+                    </div>
+                    <!-- セッション履歴 (個別選択時のみ表示) -->
+                    <div class="session-history back-history">
+                        <h5 style="font-size: 0.9rem; margin-bottom: 0.8rem; color: var(--text-light);">実施セッション履歴</h5>
+                        <div class="session-date"><i>🗓</i> 12/23 19:00</div>
+                        <div class="session-date"><i>🗓</i> 12/19 06:30</div>
+                        <div class="session-date"><i>🗓</i> 12/15 20:00</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 体重・歩数セクション -->
+            <section class="data-section">
+                <div class="data-header">📉 体重・活動量推移</div>
+                <div class="data-grid">
+                    <div class="data-card">
+                        <canvas id="bodyMetricsChart" height="250"></canvas>
+                    </div>
+                    <div class="data-card">
+                        <canvas id="stepsChart" height="250"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 睡眠セクション -->
+            <section class="data-section">
+                <div class="data-header">😴 睡眠クオリティ</div>
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3>直近1週間の睡眠時間</h3>
+                        <div style="height: 220px;">
+                            <canvas id="sleepDurationChart"></canvas>
+                        </div>
+                        <div
+                            style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                            <span style="font-size: 0.9rem; color: var(--text-light);">一週間平均睡眠時間</span>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: #8b5cf6;">7h 08m</div>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <h3>就寝・起床時刻の安定性</h3>
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>日付</th>
+                                    <th>就寝</th>
+                                    <th>起床</th>
+                                    <th>時間</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>12/26</td>
+                                    <td>21:30</td>
+                                    <td>05:30</td>
+                                    <td>8h 0m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/25</td>
+                                    <td>23:30</td>
+                                    <td>06:30</td>
+                                    <td>7h 0m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/24</td>
+                                    <td>23:15</td>
+                                    <td>06:15</td>
+                                    <td>7h 0m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/23</td>
+                                    <td>00:10</td>
+                                    <td>07:00</td>
+                                    <td>6h 50m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/22</td>
+                                    <td>23:45</td>
+                                    <td>06:30</td>
+                                    <td>6h 45m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/21</td>
+                                    <td>23:00</td>
+                                    <td>06:00</td>
+                                    <td>7h 0m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/20</td>
+                                    <td>00:30</td>
+                                    <td>07:45</td>
+                                    <td>7h 15m</td>
+                                </tr>
+                                <tr>
+                                    <td>12/19</td>
+                                    <td>23:15</td>
+                                    <td>05:45</td>
+                                    <td>6h 30m</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- デイリー詳細セクション（ドリルダウン） -->
+            <section class="data-section" style="background: var(--bg-card); border: 2px solid var(--primary);">
+                <div class="data-header">
+                    <span>🔍 本日の詳細分析 (12/26)</span>
+                    <input type="date" class="focus-select" value="2025-12-26">
+                </div>
+                <div class="data-grid">
+                    <div class="data-card" style="background: white;">
+                        <h4 style="margin-bottom:1rem; color:var(--primary);">本日のハイライト</h4>
+                        <ul style="list-style:none; line-height:1.8; font-size:0.95rem;">
+                            <li>⏳ <strong>歩数:</strong> 計測中...</li>
+                            <li>running <strong>活動:</strong> 日中活動中</li>
+                            <li>✅ <strong>食事:</strong> サンドイッチ、バナナ等 (小分け食)、夜:とんかつ・からあげ等</li>
+                            <li>✅ <strong>睡眠:</strong> 21:30 - 05:30 (8h) ※23:30に中途覚醒</li>
+                        </ul>
+                    </div>
+                    <div class="data-card" style="background: white;">
+                        <h4 style="margin-bottom:1rem; color:var(--primary);">体感・メモ</h4>
+                        <p style="font-size:0.9rem; color:var(--text-main); line-height:1.6;">
+                            ベンチプレスの最終セットで粘りが効いた。体重は微減傾向だがパワーは落ちていない。明日は背中の日なのでしっかりと睡眠を確保したい。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            function updateMuscleFocus() {
+                const focus = document.getElementById('muscleFocus').value;
+                const blocks = document.querySelectorAll('.muscle-block');
+                const histories = document.querySelectorAll('.session-history');
+
+                blocks.forEach(block => {
+                    if (focus === 'all' || block.classList.contains(focus)) {
+                        block.style.display = 'grid';
+
+                        // 個別選択時は履歴を表示
+                        const history = block.querySelector('.session-history');
+                        if (history) {
+                            history.style.display = (focus === 'all') ? 'none' : 'block';
+                        }
+                    } else {
+                        block.style.display = 'none';
+                    }
+                });
+            }
+
+            // --- Habit Tracker Logic ---
+            // 仮想データ（本来はサーバーやテーブルから取得）
+            const mealLogs = {
+                "2025-12-27": { hasLog: true, isCook: true },
+                "2025-12-26": { hasLog: true, isCook: true },
+                "2025-12-25": { hasLog: true, isCook: true },
+                "2025-12-24": { hasLog: true, isCook: true },
+                "2025-12-23": { hasLog: true, isCook: true },
+                "2025-12-22": { hasLog: true, isCook: true },
+                "2025-12-21": { hasLog: true, isCook: true },
+                "2025-12-20": { hasLog: true, isCook: true },
+            };
+
+            function renderHabitCalendar(range) {
+                const container = document.getElementById('habitCalendar');
+                container.innerHTML = '';
+
+                const now = new Date("2025-12-26T12:00:00"); // 基準日固定
+
+                if (range === 'year') {
+                    // --- 年間ビュー（月ごとの達成率） ---
+                    container.style.cssText = `display:grid; gap:8px; margin-top:10px; grid-template-columns: repeat(4, 1fr);`;
+
+                    // 1月〜12月のダミーデータ生成（12月だけリアルっぽく）
+                    const months = [
+                        { m: 1, rate: 0 }, { m: 2, rate: 0 }, { m: 3, rate: 0 },
+                        { m: 4, rate: 0 }, { m: 5, rate: 20 }, { m: 6, rate: 45 },
+                        { m: 7, rate: 60 }, { m: 8, rate: 80 }, { m: 9, rate: 75 },
+                        { m: 10, rate: 90 }, { m: 11, rate: 85 }, { m: 12, rate: 95 }
+                    ];
+
+                    months.forEach(d => {
+                        let bgColor = "#f8fafc";
+                        let borderColor = "#e2e8f0";
+                        let textColor = "#94a3b8";
+
+                        // 達成率に応じた色分け（緑＝高、黄＝中、赤オレ＝低）
+                        if (d.rate > 0) {
+                            textColor = "#0f172a";
+
+                            if (d.rate >= 80) {
+                                // High: Light Green
+                                bgColor = "#dcfce7";
+                                borderColor = "#86efac";
+                                textColor = "#14532d";
+                            }
+                            else if (d.rate >= 60) {
+                                // Mid: Yellow
+                                bgColor = "#fef9c3";
+                                borderColor = "#fde047";
+                                textColor = "#854d0e";
+                            }
+                            else {
+                                // Low: Red-Orange
+                                bgColor = "#ffedd5";
+                                borderColor = "#fdba74";
+                                textColor = "#9a3412";
+                            }
+                        }
+
+                        const cell = document.createElement('div');
+                        cell.style.cssText = `
+                            background: ${bgColor};
+                            border: 1px solid ${borderColor};
+                            border-radius: 8px;
+                            padding: 8px 2px;
+                            text-align: center;
+                            font-weight: bold;
+                            color: ${textColor};
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 50px;
+                        `;
+                        cell.innerHTML = `
+                            <div style="font-size:0.75rem; opacity:0.8;">${d.m}月</div>
+                            <div style="font-size:1.1rem;">${d.rate > 0 ? d.rate + '%' : '-'}</div>
+                        `;
+                        container.appendChild(cell);
+                    });
+
+                } else {
+                    // --- 週間・月間ビュー（日次ログ） ---
+                    let daysToShow = 7;
+                    let gridStyle = "grid-template-columns: repeat(7, 1fr);";
+
+                    if (range === 'month') {
+                        daysToShow = 30;
+                        gridStyle = "grid-template-columns: repeat(7, 1fr);";
+                    }
+
+                    container.style.cssText = `display:grid; gap:8px; margin-top:10px; ${gridStyle}`;
+
+                    for (let i = daysToShow - 1; i >= 0; i--) {
+                        const d = new Date(now);
+                        d.setDate(d.getDate() - i);
+                        const dateStr = d.toISOString().split('T')[0];
+                        const dayNum = d.getDate();
+
+                        const log = mealLogs[dateStr];
+                        let content = `<div style="color:#ccc;">-</div>`;
+                        let bgColor = "#f8fafc";
+                        let borderColor = "#e2e8f0";
+
+                        if (log) {
+                            if (log.isCook) {
+                                content = "🍳";
+                                bgColor = "#dcfce7"; // Green Light
+                                borderColor = "#86efac";
+                            } else {
+                                content = "🙆"; // 記録はあるが外食
+                                bgColor = "#fff7ed"; // Orange Light
+                                borderColor = "#fdba74";
+                            }
+                        }
+
+                        const cell = document.createElement('div');
+                        cell.style.cssText = `
+                            background: ${bgColor};
+                            border: 1px solid ${borderColor};
+                            border-radius: 8px;
+                            padding: 8px 4px;
+                            text-align: center;
+                            font-weight: bold;
+                        `;
+                        cell.innerHTML = `
+                            <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">${d.getMonth() + 1}/${dayNum}</div>
+                            <div style="font-size:1.2rem;">${content}</div>
+                        `;
+                        container.appendChild(cell);
+                    }
+                }
+            }
+
+            // 初期表示
+            renderHabitCalendar('week'); // デフォルトは週間表示
+
+            function updateSummaryColors() {
+                // Helper to set color
+                const setCardColor = (id, hue) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    // HSL Colors
+                    // Bg: Light (L=96%), Border: Medium (L=80%), Text: Dark (L=25%)
+                    el.style.backgroundColor = `hsl(${hue}, 80%, 96%)`;
+                    el.style.border = `1px solid hsl(${hue}, 80%, 80%)`;
+
+                    // Main Text Color
+                    el.style.color = `hsl(${hue}, 90%, 20%)`;
+
+                    // Adjust value text color specifically
+                    const valEl = el.querySelector('.value');
+                    if (valEl) valEl.style.color = `hsl(${hue}, 90%, 25%)`;
+                    const labelEl = el.querySelector('.label');
+                    if (labelEl) labelEl.style.color = `hsl(${hue}, 50%, 40%)`;
+                };
+
+                // 1. Weight (Target 70kg)
+                // 70 -> Green (120), 90 -> Red (0)
+                const weight = 72.6;
+                const weightBest = 70;
+                const weightWorst = 90;
+                let wHue = 120;
+                if (weight > weightBest) {
+                    const diff = weight - weightBest;
+                    const range = weightWorst - weightBest;
+                    let ratio = diff / range; // 2.6 / 20 = 0.13
+                    if (ratio > 1) ratio = 1;
+                    wHue = 120 * (1 - ratio); // 120 * 0.87 = 104
+                }
+                setCardColor('cardWeight', wHue);
+
+                // 2. Steps (Target 6000)
+                // 6000 -> Green (120), 0 -> Red (0)
+                const steps = 8028;
+                const stepsBest = 6000;
+                let sHue = 120;
+                if (steps < stepsBest) {
+                    const ratio = steps / stepsBest;
+                    sHue = 120 * ratio;
+                }
+                setCardColor('cardSteps', sHue);
+
+                // 3. Sleep (Target 8h)
+                // 8 -> Green (120), 0 -> Red (0)
+                const sleep = 6.9;
+                const sleepBest = 8;
+                let slHue = 120;
+                if (sleep < sleepBest) {
+                    const ratio = sleep / sleepBest;
+                    slHue = 120 * ratio; // 6.9/8 * 120 ~= 103
+                }
+                setCardColor('cardSleep', slHue);
+
+                // 4. Training (Recency)
+                // Since data is hardcoded "昨日" -> Green (120)
+                setCardColor('cardTraining', 120);
+            }
+            updateSummaryColors();
+
+            // 2-1. Chest Exercise Trends
+
+            // 2-1. Chest Exercise Trends
+            new Chart(document.getElementById('chestTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12/10', '12/11', '12/12', '12/13', '12/14', '12/15', '12/16', '12/17', '12/18', '12/19', '12/20', '12/21', '12/22', '12/23', '12/24', '12/25'],
+                    datasets: [
+                        { label: 'ベンチプレス', data: [1200, null, null, null, null, 1300, null, null, null, null, 1400, null, null, null, null, 1440], borderColor: '#f43f5e', borderWidth: 3, tension: 0.3, spanGaps: true },
+                        { label: 'ダンベルフライ', data: [300, null, null, null, null, 350, null, null, null, null, 400, null, null, null, null, 432], borderColor: '#8b5cf6', borderWidth: 3, tension: 0.3, spanGaps: true }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { weight: 'bold' } } } },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                callback: function (val, index) {
+                                    const tickLabel = ['12/10', '12/15', '12/20', '12/25'];
+                                    const currentLabel = this.chart.data.labels[index];
+                                    return tickLabel.includes(currentLabel) ? currentLabel : '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2-2. Legs Exercise Trends
+            new Chart(document.getElementById('legsTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12/10', '12/11', '12/12', '12/13', '12/14', '12/15', '12/16', '12/17', '12/18', '12/19', '12/20', '12/21', '12/22', '12/23', '12/24', '12/25'],
+                    datasets: [
+                        { label: 'スクワット', data: [2100, null, null, null, null, 2300, null, null, null, null, 2450, null, null, null, null, 2550], borderColor: '#2563eb', borderWidth: 3, tension: 0.3, spanGaps: true },
+                        { label: 'レッグプレス', data: [3100, null, null, null, null, 3500, null, null, null, null, 3950, null, null, null, null, 4320], borderColor: '#0ea5e9', borderWidth: 3, tension: 0.3, spanGaps: true }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { weight: 'bold' } } } },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                callback: function (val, index) {
+                                    const tickLabel = ['12/10', '12/15', '12/20', '12/25'];
+                                    const currentLabel = this.chart.data.labels[index];
+                                    return tickLabel.includes(currentLabel) ? currentLabel : '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2-3. Back Exercise Trends
+            new Chart(document.getElementById('backTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12/10', '12/11', '12/12', '12/13', '12/14', '12/15', '12/16', '12/17', '12/18', '12/19', '12/20', '12/21', '12/22', '12/23', '12/24', '12/25'],
+                    datasets: [
+                        { label: 'デッドリフト', data: [800, null, null, null, null, 950, null, null, null, null, 1050, null, null, null, null, 1100], borderColor: '#d97706', borderWidth: 3, tension: 0.3, spanGaps: true },
+                        { label: 'ラットプルダウン', data: [1100, null, null, null, null, 1200, null, null, null, null, 1300, null, null, null, null, 1350], borderColor: '#10b981', borderWidth: 3, tension: 0.3, spanGaps: true }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { weight: 'bold' } } } },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                callback: function (val, index) {
+                                    const tickLabel = ['12/10', '12/15', '12/20', '12/25'];
+                                    const currentLabel = this.chart.data.labels[index];
+                                    return tickLabel.includes(currentLabel) ? currentLabel : '';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 3. Body Metrics
+            new Chart(document.getElementById('bodyMetricsChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12/19', '12/20', '12/21', '12/22', '12/23', '12/24', '12/25'],
+                    datasets: [{
+                        label: '体重(kg)',
+                        data: [72.9, 72.8, 72.7, 72.8, 72.6, 72.5, 72.4],
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 4,
+                        yAxisID: 'y',
+                        tension: 0.3
+                    },
+                    {
+                        label: '体脂肪(%)',
+                        data: [23.7, 23.8, 23.6, 23.7, 23.6, 23.5, 23.5],
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 4,
+                        yAxisID: 'y1',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    plugins: { title: { display: true, text: '体重・体脂肪の推移（日次）' } },
+                    scales: {
+                        y: {
+                            position: 'left',
+                            title: { display: true, text: '体重(kg)' },
+                            min: 65,
+                            max: 90
+                        },
+                        y1: {
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            title: { display: true, text: '体脂肪(%)' },
+                            min: 15,
+                            max: 30
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 4. Steps
+            new Chart(document.getElementById('stepsChart'), {
+                data: {
+                    labels: ['月', '火', '水', '木', '金', '土', '日'],
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: '歩数',
+                            data: [7200, 8402, 6500, 9100, 8000, 12000, 5000],
+                            backgroundColor: '#3b82f6',
+                            order: 2
+                        },
+                        {
+                            type: 'line',
+                            label: '目標基準値 (6000歩)',
+                            data: [6000, 6000, 6000, 6000, 6000, 6000, 6000],
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0,
+                            pointStyle: 'dash',
+                            order: 1
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        title: { display: true, text: '週間歩数の推移' },
+                        legend: {
+                            labels: {
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 13000
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 5. Sleep Duration
+            new Chart(document.getElementById('sleepDurationChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12/20', '12/21', '12/22', '12/23', '12/24', '12/25', '12/26'],
+                    datasets: [{
+                        label: '睡眠時間(h)',
+                        data: [7.2, 7.0, 6.8, 6.9, 7.0, 7.0, 8.0],
+                        borderColor: '#8b5cf6',
+                        fill: true,
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 8,
+                            ticks: {
+                                callback: function (value) { return value + 'h'; }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
+                                color: '#94a3b8',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        </script>
+
+        <style>
+            .main-layout {
+                grid-template-columns: 1fr !important;
+            }
+        </style>
+    </div>
+
+    <footer class="child-footer">
+        <div class="container">
+            <p>&copy; 2025 Body Logic | Re:Birth 55 Project <span id="visit-counter" style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+        </div>
+    </footer>
+<script src="counter.js"></script>
+</body>
+
+</html>

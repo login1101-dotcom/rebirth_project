@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1F416P0VQS');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Board | Re:Birth 55</title>
+    <meta name="description" content="Re:Birth 55への応援コメント、感想などはこちらへ。交流掲示板。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .comment-list {
+            margin-top: 4rem;
+            text-align: left;
+        }
+
+        .comment-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comment-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* delete btn */
+        .delete-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            /* Ensure it's on top */
+        }
+
+        .delete-btn:hover {
+            color: red;
+        }
+
+        body.is-admin .delete-btn {
+            display: block;
+        }
+
+        /* Admin Login Button Style */
+        .admin-login-wrapper {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .admin-login-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-login-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Re:Birth <span>55</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#manifesto">挑戦の覚悟</a></li>
+                    <li><a href="index.html#projects">挑戦している事</a></li>
+                    <li><a href="index.html#bucketlist">やりたい事リスト</a></li>
+                    <li><a href="index.html#achieved-list">達成したこと</a></li>
+                    <li><a href="policy.html">サイトポリシー</a></li>
+                    <li><a href="contact.html">連絡先</a></li>
+                    <li><a href="board.html" style="color:var(--primary);">BBS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="display:block; max-width: 800px; padding-top: 2rem; padding-bottom: 6rem;">
+
+        <h1 class="section-title" style="margin-bottom: 2rem;">Comment Board</h1>
+        <p style="text-align:center; margin-bottom: 3rem; color: var(--text-light);">
+            Re:Birth 55への応援、ご感想などを自由に書き込んでください。<br>
+            <span style="font-size: 0.9rem;">※誹謗中傷や不適切な内容は管理人の判断で削除されます。</span>
+        </p>
+
+        <!-- Post Form -->
+        <div
+            style="background: #f8fafc; padding: 2rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 4rem;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">コメントを投稿する</h3>
+            <form action="#" method="get" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label" for="name">お名前 (Name)</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="匿名でもOKです">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="comment">コメント (Comment)</label>
+                    <textarea id="comment" name="comment" class="form-textarea"
+                        placeholder="ここにコメントを入力してください..."></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button type="button" class="btn js-submit-btn">送信する</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Comment List -->
+        <div class="comment-list js-comment-list">
+            <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">最新のコメント
+            </h3>
+            <!-- Comments will be loaded here by JS -->
+        </div>
+
+        <!-- Admin Login Button -->
+        <div class="admin-login-wrapper">
+            <button id="admin-login-btn" class="admin-login-btn">
+                🔒 管理者ログイン
+            </button>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container" style="display:block;">
+            <div class="footer-links">
+                <a href="profile.html">Profile</a>
+                <a href="contact.html">Contact</a>
+                <a href="policy.html">Site Policy</a>
+            </div>
+            <p class="copyright">&copy; 2025 Re:Birth 55 Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Static BBS System with LocalStorage ---
+
+        // Config
+        const ADMIN_PASS = "rebirth2025";
+
+        // Initial Default Comments (Sakura)
+        const DEFAULT_COMMENTS = [
+            { id: 4, name: "匿名希望", date: "2025.12.23", content: "更新お疲れ様です。デザインが見やすくていいですね。<br>「Deep Reading」のコーナー、続きを期待しています。" },
+            { id: 3, name: "Yama さん", date: "2025.12.23", content: "英語学習のコンテンツ楽しみにしています。お互い頑張りましょう。" },
+            { id: 2, name: "K.T さん", date: "2025.12.23", content: "はじめまして。私も同じ50代で、最近プログラミングの勉強を始めました。<br>「挑戦の覚悟」を読んで、とても勇気をもらいました。応援しています！" },
+            { id: 1, name: "Re:Birth 55 管理人", date: "2025.12.23", content: "掲示板を設置しました。皆様からの応援メッセージをお待ちしています！" }
+        ];
+
+        // Elements
+        const commentListEl = document.querySelector('.js-comment-list');
+        const submitBtn = document.querySelector('.js-submit-btn');
+        const nameInput = document.getElementById('name');
+        const commentInput = document.getElementById('comment');
+        const loginBtn = document.getElementById('admin-login-btn');
+        const body = document.body;
+
+        // State
+        let comments = [];
+        let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+
+        // --- Functions ---
+
+        function loadComments() {
+            const stored = localStorage.getItem('rebirth_bbs_comments');
+            if (stored) {
+                comments = JSON.parse(stored);
+            } else {
+                comments = [...DEFAULT_COMMENTS]; // Copy default
+            }
+            renderComments();
+        }
+
+        function saveComments() {
+            localStorage.setItem('rebirth_bbs_comments', JSON.stringify(comments));
+        }
+
+        function renderComments() {
+            // Clear list except header
+            const header = commentListEl.querySelector('h3');
+            commentListEl.innerHTML = '';
+            commentListEl.appendChild(header);
+
+            comments.forEach(comment => {
+                const item = document.createElement('div');
+                item.className = "comment-item";
+                item.innerHTML = `
+                    <button class="delete-btn" onclick="deleteComment(${comment.id})">×</button>
+                    <div class="comment-meta">
+                        <span class="comment-author">${escapeHtml(comment.name)}</span>
+                        <span class="comment-date">${comment.date}</span>
+                    </div>
+                    <p>${comment.content}</p>
+                `;
+                commentListEl.appendChild(item);
+            });
+
+            updateAdminState();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function addComment() {
+            const name = nameInput.value.trim() || "匿名";
+            const rawBody = commentInput.value.trim();
+
+            if (!rawBody) {
+                alert("コメントを入力してください。");
+                return;
+            }
+
+            // Simple Date Format
+            const now = new Date();
+            const dateStr = now.getFullYear() + '.' + (now.getMonth() + 1).toString().padStart(2, '0') + '.' + now.getDate().toString().padStart(2, '0');
+
+            // Sanitize body for security (simple approach)
+            const safeBody = escapeHtml(rawBody).replace(/\n/g, '<br>');
+
+            const newComment = {
+                id: Date.now(), // timestamp as unique ID
+                name: name,
+                date: dateStr,
+                content: safeBody
+            };
+
+            // Add to top
+            comments.unshift(newComment);
+            saveComments();
+            renderComments();
+
+            // Reset form
+            nameInput.value = "";
+            commentInput.value = "";
+        }
+
+        // Global scope for onclick
+        window.deleteComment = function (id) {
+            if (!isAdmin) return;
+            if (!confirm("このコメントを削除しますか？")) return;
+
+            comments = comments.filter(c => c.id !== id);
+            saveComments();
+            renderComments();
+        }
+
+        function updateAdminState() {
+            if (isAdmin) {
+                body.classList.add('is-admin');
+                loginBtn.textContent = "🔓 管理者ログアウト";
+                loginBtn.style.color = "var(--primary)";
+                loginBtn.style.borderColor = "var(--primary)";
+            } else {
+                body.classList.remove('is-admin');
+                loginBtn.textContent = "🔒 管理者ログイン";
+                loginBtn.style.color = "";
+                loginBtn.style.borderColor = "";
+            }
+        }
+
+        // --- Event Listeners ---
+
+        submitBtn.addEventListener('click', addComment);
+
+        loginBtn.addEventListener('click', () => {
+            if (isAdmin) {
+                isAdmin = false;
+                sessionStorage.removeItem('isAdmin');
+                alert("ログアウトしました。");
+                updateAdminState();
+            } else {
+                const pass = prompt("管理者パスワードを入力してください:");
+                if (!pass) return;
+
+                // Direct Comparison
+                if (pass === ADMIN_PASS) {
+                    isAdmin = true;
+                    sessionStorage.setItem('isAdmin', 'true');
+                    alert("管理者ログインしました。削除が可能になります。");
+                    updateAdminState();
+                } else {
+                    alert("パスワードが違います。");
+                }
+            }
+        });
+
+        // Initialize
+        loadComments();
+        updateAdminState(); // Check session
+
+    </script>
+</body>
+
+</html>
