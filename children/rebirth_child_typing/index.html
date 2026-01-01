@@ -266,30 +266,25 @@
         function updateDashboard(results) {
             if (!results || results.length === 0) return;
 
-            // 集計処理
-            const daysSet = new Set();
             let totalTimeSec = 0;
-            let totalScore = 0;
-            let count = 0;
-
-            // WPM用（簡易計算：スコア/10 ≒ 文字数。文字数/60秒... 正確なWPMは保存されていないため、スコアベースで算出）
-            // ここでは簡易的に「直近のスコア」または「平均スコア」からWPMを擬似算出します。
-            // scoreは「打鍵数*10」。
-            // WPM (Words Per Minute) = (打鍵数 / 5) / (時間分) ... 一般的な定義
-            // TypingMasterNEOのスコアは「正解数×10」。
-            // 例: 300点 -> 30文字正解。
-            // 時間情報があればWPM出せるが、timeLimitを使う。
+            let count = results.length;
 
             results.forEach(r => {
-                if (r.date) daysSet.add(r.date.split('T')[0]);
-                totalTimeSec += (r.timeLimit || 0); // 1回のプレイ時間
+                totalTimeSec += (r.timeLimit || 0);
             });
 
-            // 直近のデータ
+            // 時間フォーマット
+            let timeStr = "0秒";
+            if (totalTimeSec < 60) {
+                timeStr = totalTimeSec + "秒";
+            } else {
+                const min = Math.floor(totalTimeSec / 60);
+                const sec = totalTimeSec % 60;
+                timeStr = min + "分" + (sec > 0 ? sec + "秒" : "");
+            }
+
+            // 直近のWPM (最後のスコアから算出)
             const latest = results[results.length - 1];
-            // 文字数 = latest.score / 10
-            // 時間 = latest.timeLimit (秒)
-            // WPM = (文字数) / (秒/60)
             let currentWPM = 0.0;
             if (latest && latest.timeLimit > 0) {
                 const chars = latest.score / 10;
@@ -297,15 +292,19 @@
                 currentWPM = (chars / mins).toFixed(1);
             }
 
-            const totalHours = Math.floor(totalTimeSec / 3600); // 時間単位（整数）
-
             // UI更新
-            document.getElementById('val-days').textContent = daysSet.size;
-            document.getElementById('val-time').textContent = totalHours;
-            document.getElementById('val-speed').textContent = currentWPM;
+            const valCount = document.getElementById('val-count');
+            if (valCount) valCount.textContent = count;
+
+            const valTime = document.getElementById('val-time-str');
+            if (valTime) valTime.textContent = timeStr;
+
+            const valSpeed = document.getElementById('val-speed');
+            if (valSpeed) valSpeed.textContent = currentWPM;
 
             // メッセージ非表示
-            document.getElementById('no-record-msg').style.display = 'none';
+            const msg = document.getElementById('no-record-msg');
+            if (msg) msg.style.display = 'none';
         }
     </script>
 
