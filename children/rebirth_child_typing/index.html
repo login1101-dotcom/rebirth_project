@@ -2,15 +2,15 @@
 <html lang="ja">
 
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-1F416P0VQS');
-</script>
+        gtag('config', 'G-1F416P0VQS');
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,14 +30,17 @@
     <header>
         <div class="container header-inner">
             <a class="active site-brand" href="index.html">
-                <span>⌨️</span> Typing Lab <span style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">ブラインドタッチを習得する</span></a>
+                <span>⌨️</span> Typing Lab <span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">ブラインドタッチを習得する</span></a>
             <nav class="main-nav">
                 <ul>
                     <li><a class="active" href="index.html">ホーム</a></li>
                     <li><a class="nav-daily " href="category_daily.html">練習</a></li>
                     <li><a class="nav-analysis " href="category_analysis.html">分析</a></li>
                     <li><a class="nav-tools " href="category_tools.html">Typing Master Neo</a></li>
-                    <li><a href="https://typingmasterneo.com" target="_blank" style="background:#00796b; color:white; padding:5px 12px; border-radius:4px; font-weight:bold; display:inline-block; line-height:normal; margin-left:5px;">NEO</a></li>
+                    <li><a href="https://typingmasterneo.com" target="_blank"
+                            style="background:#00796b; color:white; padding:5px 12px; border-radius:4px; font-weight:bold; display:inline-block; line-height:normal; margin-left:5px;">NEO</a>
+                    </li>
                     <li><a class="" href="../../rebirth_parent/index.html">← Project Hub</a></li>
                 </ul>
             </nav>
@@ -56,6 +59,46 @@
             <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
                 <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 記事一覧
             </div>
+
+            <!-- Dashboard Cards (Synced via Bridge) -->
+            <div class="dashboard-stats"
+                style="display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:10px; background:#f8fafc; padding:25px; border-radius:12px; border:1px solid #e2e8f0;">
+                <div class="stat-card" style="text-align:center; flex:1;">
+                    <div style="font-size:0.8rem; color:#64748b; font-weight:bold; margin-bottom:8px;">練習実施日数</div>
+                    <div style="font-size:2.2rem; color:#3b82f6; font-weight:800; line-height:1;"><span
+                            id="val-days">0</span><span
+                            style="font-size:0.9rem; margin-left:3px; color:#64748b; font-weight:normal;">日</span></div>
+                </div>
+                <div class="stat-card"
+                    style="text-align:center; flex:1; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0;">
+                    <div style="font-size:0.8rem; color:#64748b; font-weight:bold; margin-bottom:8px;">トータル練習時間</div>
+                    <div style="font-size:2.2rem; color:#3b82f6; font-weight:800; line-height:1;"><span
+                            id="val-time">0</span><span
+                            style="font-size:0.9rem; margin-left:3px; color:#64748b; font-weight:normal;">時間</span>
+                    </div>
+                </div>
+                <div class="stat-card" style="text-align:center; flex:1;">
+                    <div style="font-size:0.8rem; color:#64748b; font-weight:bold; margin-bottom:8px;">現在のWORDS/S</div>
+                    <div style="font-size:2.2rem; color:#3b82f6; font-weight:800; line-height:1;"><span
+                            id="val-speed">0.0</span></div>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <a href="https://typingmasterneo.com" target="_blank"
+                        style="background:#10b981; color:#fff; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.9rem; box-shadow:0 4px 6px rgba(16, 185, 129, 0.2); transition:transform 0.2s;">📊
+                        Typing Master NEO</a>
+                </div>
+            </div>
+
+            <!-- Empty State Message -->
+            <div id="no-record-msg"
+                style="text-align:center; color:#94a3b8; marginBottom:40px; font-size:0.9rem; padding:10px;">
+                記録がまだありません。これからの活動に期待！
+            </div>
+
+            <!-- Bridge Iframe (Hidden) -->
+            <iframe id="neo-bridge" src="https://typingmasterneo.com/bridge.html"
+                style="display:none; width:0; height:0;"></iframe>
+
             <div class="article-list">
 
                 <article class="article-item">
@@ -159,7 +202,7 @@
         </main>
 
         <!-- Sidebar (Right) -->
-                <aside class="sidebar">
+        <aside class="sidebar">
 
             <!-- Author Widget -->
             <div class="widget profile-widget">
@@ -191,39 +234,83 @@
 
     <footer class="child-footer">
         <div class="container">
-            <p>&copy; 2025 Typing Lab | Re:Birth 55 Project <span id="visit-counter" style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+            <p>&copy; 2025 Typing Lab | Re:Birth 55 Project <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
         </div>
     </footer>
 
     <script>
-        // タイピングデータの自動同期スクリプト
-        function syncTypingStats() {
-            try {
-                const rawData = localStorage.getItem('typingTestResults');
-                if (!rawData) return;
+        // --- Cross-Domain Data Bridge ---
+        const bridge = document.getElementById('neo-bridge');
 
-                const results = JSON.parse(rawData);
-                if (results.length === 0) return;
-
-                const scores = results.map(r => r.score);
-                const best = Math.max(...scores);
-                const count = results.length;
-                const latest = results[results.length - 1].score;
-
-                document.getElementById('live-best').textContent = best;
-                document.getElementById('live-count').textContent = count + '回';
-                document.getElementById('live-latest').textContent = latest;
-            } catch (e) {
-                console.error("Data sync failed:", e);
+        // 1. メッセージ受信 (Bridge -> Rebirth)
+        window.addEventListener('message', (e) => {
+            // 安全のため、送信元オリジンを確認しても良いが、現状は特定の処理のみ実行
+            if (e.data.action === 'returnTypingData') {
+                try {
+                    const results = JSON.parse(e.data.data);
+                    updateDashboard(results);
+                } catch (err) {
+                    console.error("Data parse error:", err);
+                }
             }
-        }
+        });
 
-        // 実行
-        window.addEventListener('DOMContentLoaded', syncTypingStats);
+        // 2. Iframe読み込み完了後にデータ要求 (Rebirth -> Bridge)
+        bridge.onload = () => {
+            // postMessageでNEOドメインへリクエスト送信
+            bridge.contentWindow.postMessage({ action: 'getTypingData' }, 'https://typingmasterneo.com');
+        };
+
+        // 3. ダッシュボード更新ロジック
+        function updateDashboard(results) {
+            if (!results || results.length === 0) return;
+
+            // 集計処理
+            const daysSet = new Set();
+            let totalTimeSec = 0;
+            let totalScore = 0;
+            let count = 0;
+
+            // WPM用（簡易計算：スコア/10 ≒ 文字数。文字数/60秒... 正確なWPMは保存されていないため、スコアベースで算出）
+            // ここでは簡易的に「直近のスコア」または「平均スコア」からWPMを擬似算出します。
+            // scoreは「打鍵数*10」。
+            // WPM (Words Per Minute) = (打鍵数 / 5) / (時間分) ... 一般的な定義
+            // TypingMasterNEOのスコアは「正解数×10」。
+            // 例: 300点 -> 30文字正解。
+            // 時間情報があればWPM出せるが、timeLimitを使う。
+
+            results.forEach(r => {
+                if (r.date) daysSet.add(r.date.split('T')[0]);
+                totalTimeSec += (r.timeLimit || 0); // 1回のプレイ時間
+            });
+
+            // 直近のデータ
+            const latest = results[results.length - 1];
+            // 文字数 = latest.score / 10
+            // 時間 = latest.timeLimit (秒)
+            // WPM = (文字数) / (秒/60)
+            let currentWPM = 0.0;
+            if (latest && latest.timeLimit > 0) {
+                const chars = latest.score / 10;
+                const mins = latest.timeLimit / 60;
+                currentWPM = (chars / mins).toFixed(1);
+            }
+
+            const totalHours = Math.floor(totalTimeSec / 3600); // 時間単位（整数）
+
+            // UI更新
+            document.getElementById('val-days').textContent = daysSet.size;
+            document.getElementById('val-time').textContent = totalHours;
+            document.getElementById('val-speed').textContent = currentWPM;
+
+            // メッセージ非表示
+            document.getElementById('no-record-msg').style.display = 'none';
+        }
     </script>
 
-<script src="sidebar.js"></script>
-<script src="counter.js"></script>
+    <script src="sidebar.js"></script>
+    <script src="counter.js"></script>
 </body>
 
 </html>
