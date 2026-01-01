@@ -84,7 +84,11 @@
                     <div style="font-size:2.2rem; color:#3b82f6; font-weight:800; line-height:1;"><span
                             id="val-best">0</span></div>
                 </div> -->
-                <div style="display:flex; align-items:center;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="syncNeoData()"
+                        style="background:#fff; color:#10b981; border:1px solid #10b981; padding:12px 20px; border-radius:8px; font-weight:bold; font-size:0.9rem; cursor:pointer; transition:all 0.2s;">
+                        🔄 同期
+                    </button>
                     <a href="https://typingmasterneo.com" target="_blank"
                         style="background:#10b981; color:#fff; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.9rem; box-shadow:0 4px 6px rgba(16, 185, 129, 0.2); transition:transform 0.2s;">📊
                         Typing Master NEO</a>
@@ -268,6 +272,9 @@
         function updateDashboard(results) {
             if (!results || results.length === 0) return;
 
+            // データの保存（キャッシュ用）
+            localStorage.setItem('cached_typing_data', JSON.stringify(results));
+
             let totalTimeSec = 0;
             let count = results.length;
 
@@ -308,6 +315,30 @@
             const msg = document.getElementById('no-record-msg');
             if (msg) msg.style.display = 'none';
         }
+
+        // 手動同期ボタン (ポップアップ経由で強制取得)
+        function syncNeoData() {
+            const width = 400;
+            const height = 300;
+            const left = (window.screen.width - width) / 2;
+            const top = (window.screen.height - height) / 2;
+
+            window.open(
+                'https://typingmasterneo.com/bridge.html?mode=popup',
+                'neo_sync_popup',
+                `width=${width},height=${height},top=${top},left=${left}`
+            );
+        }
+
+        // ページ読み込み時にキャッシュがあれば表示
+        window.addEventListener('load', () => {
+            const cached = localStorage.getItem('cached_typing_data');
+            if (cached) {
+                try {
+                    updateDashboard(JSON.parse(cached));
+                } catch (e) { }
+            }
+        });
     </script>
 
     <script src="sidebar.js"></script>
