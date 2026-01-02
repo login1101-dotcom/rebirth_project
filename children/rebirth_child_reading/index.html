@@ -2,79 +2,138 @@
 <html lang="ja">
 
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-1F416P0VQS');
-</script>
+        gtag('config', 'G-1F416P0VQS');
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deep Reading | Re:Birth 55</title>
     <meta name="description" content="50代からの難解書読破チャレンジ。">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
 </head>
 
 <body>
 
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="site-brand active">
-                <span>📖</span> Deep Reading
-            <span style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">難しい名著を理解する</span></a>
+            <a class="active site-brand" href="index.html">
+                <span>📖</span> Deep Reading <span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">難しい名著を理解する</span></a>
             <nav class="main-nav">
                 <ul>
+                    <li><a class="active" href="index.html">ホーム</a></li>
+                    <li><a class="nav-nishida" href="book_nishida.html">善の研究</a></li>
+                    <li><a class="nav-schrodinger" href="book_schrodinger.html">生命とは何か</a></li>
+                    <li><a class="nav-yamamoto" href="book_yamamoto.html">日本はなぜ</a></li>
                     <li><a href="view_data.html" class="nav-view-data">データ表示</a></li>
-                    <li><a href="../../rebirth_parent/index.html">← All Projects</a></li>
+                    <li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <div class="library">
-        <h1 class="shelf-title">難書の難所を掘り下げる</h1>
-        <div class="shelf-description">
-            <p>難しい本の難しい部分を掘り下げています。<br>
-                少しでも読みやすく、理解の一助になれば幸いです。</p>
-        </div>
+    <div class="container main-layout">
 
-        <div class="shelf">
-            <!-- Book 1 -->
-            <a href="book_nishida.html" class="book book-nishida">
-                <span class="book-title">善の研究</span>
-                <span class="book-author">西田幾多郎</span>
-            </a>
+        <!-- Main Content (Left) -->
+        <main class="content-area">
 
-            <!-- Book 2 -->
-            <a href="book_schrodinger.html" class="book book-schrodinger">
-                <span class="book-title">生命とは何か</span>
-                <span class="book-author">シュレーディンガー</span>
-            </a>
+            <!-- Dashboard Widget: Only on Home -->
+            <section class="dashboard-card">
+                <div class="stat-group">
+                    <div class="stat-label">Books Read</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-delta">In Progress</div>
+                </div>
+                <div class="stat-group">
+                    <div class="stat-label">Pages Logged</div>
+                    <div class="stat-value">450</div>
+                </div>
+                <div class="stat-group">
+                    <div class="stat-label">Current Book</div>
+                    <div class="stat-value" style="font-size:1.2rem; margin-top:0.5rem;">善の研究</div>
+                </div>
+                <div>
+                    <a href="view_data.html" class="btn-primary">データ表示</a>
+                </div>
+            </section>
 
-            <!-- Book 3 -->
-            <a href="book_yamamoto.html" class="book book-yamamoto">
-                <span class="book-title">日本はなぜ</span>
-                <span class="book-title">敗れるのか</span>
-                <span class="book-author">山本七平</span>
-            </a>
+            <!-- Compact Article List -->
+            <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
+                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 最新記事
+            </div>
+            <!-- Empty State -->
+            <div style="text-align:center; padding: 40px; color:#94a3b8;">
+                <p>現在、読書記録はありません。</p>
+            </div>
 
-            <!-- Empty Space (Future Books) -->
-            <div style="flex-grow: 1;"></div>
-        </div>
+            <div class="article-list">
+                <!-- Data will be here -->
+            </div>
 
-        <p class="library-footer">Tap a spine to read the log.</p>
+        </main>
+
+        <!-- Sidebar (Right) -->
+        <aside class="sidebar">
+
+            <!-- Author Widget -->
+            <div class="widget profile-widget">
+                <div class="profile-img"></div> <!-- Placeholder image -->
+                <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">Reader 55</h3>
+                <p style="font-size:0.9rem; color:var(--text-light); line-height:1.6;">
+                    難解書に挑む実験中。<br>現在の目標：年10冊読破
+                </p>
+            </div>
+
+            <!-- AdSense Widget (Top) -->
+            <div class="widget">
+                <h4 class="widget-label"
+                    style="font-size:0.7rem; color:#999; margin-bottom:0.5rem; text-transform:uppercase;">Sponsored</h4>
+                <div class="adsense-placeholder">
+                    Ads Display
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="widget">
+                <h3 class="widget-title">Books</h3>
+                <div id="category-list">
+                    <!-- Manual Links for Books -->
+                    <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem;">
+                        <li><a href="book_nishida.html" class="nav-nishida">善の研究</a></li>
+                        <li><a href="book_schrodinger.html" class="nav-schrodinger">生命とは何か</a></li>
+                        <li><a href="book_yamamoto.html" class="nav-yamamoto">日本はなぜ敗れるのか</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </aside>
+
     </div>
 
-<script src="counter.js"></script>
+    <footer class="child-footer">
+        <div class="container">
+            <p>&copy; 2025 Deep Reading | Re:Birth 55 Project <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+        </div>
+    </footer>
+
+    <script src="sidebar.js"></script>
+    <script src="counter.js"></script>
 </body>
 
 </html>
