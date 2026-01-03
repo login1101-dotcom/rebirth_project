@@ -1,5 +1,24 @@
 // English Gym Article Data
-const ARTICLES = [];
+const ARTICLES = [
+    {
+        link: "post_10.html",
+        date: "2026.01.03",
+        category: "reading",
+        categoryLabel: "Reading",
+        icon: "📚",
+        title: "Reading Data Log: Toki Soba & Climate Change",
+        excerpt: "Project Data Centerより。各スキルの学習データを記録・分析。"
+    },
+    {
+        link: "post_9.html",
+        date: "2026.01.01",
+        category: "listening",
+        categoryLabel: "Listening",
+        icon: "🇬🇧",
+        title: "Let It Be 聴解チャレンジ",
+        excerpt: "歌を聞いて書いて合ってるか確認。ビートルズ「Let It Be」"
+    }
+];
 
 // Article Renderer
 document.addEventListener('DOMContentLoaded', () => {
