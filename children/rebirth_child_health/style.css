@@ -532,22 +532,38 @@ footer.child-footer {
     border-left-color: var(--color-diet);
 }
 
+.article-item.diet:hover {
+    border-color: var(--color-diet);
+}
+
 .article-item.muscle {
     border-left-color: var(--color-muscle);
+}
+
+.article-item.muscle:hover {
+    border-color: var(--color-muscle);
 }
 
 .article-item.sleep {
     border-left-color: var(--color-sleep);
 }
 
+.article-item.sleep:hover {
+    border-color: var(--color-sleep);
+}
+
 .article-item.others {
     border-left-color: var(--color-others);
+}
+
+.article-item.others:hover {
+    border-color: var(--color-others);
 }
 
 .article-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-color: var(--primary);
+    /* border-color handled by category specific hover below */
 }
 
 .article-item a {

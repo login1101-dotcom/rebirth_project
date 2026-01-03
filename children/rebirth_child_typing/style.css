@@ -308,18 +308,30 @@ header {
     border-left-color: var(--color-daily);
 }
 
+.article-item.daily:hover {
+    border-color: var(--color-daily);
+}
+
 .article-item.analysis {
     border-left-color: var(--color-analysis);
+}
+
+.article-item.analysis:hover {
+    border-color: var(--color-analysis);
 }
 
 .article-item.tools {
     border-left-color: var(--color-tools);
 }
 
+.article-item.tools:hover {
+    border-color: var(--color-tools);
+}
+
 .article-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-color: var(--primary);
+    /* border-color replaced by category-specific hover below */
 }
 
 .article-item a {
