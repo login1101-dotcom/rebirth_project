@@ -523,6 +523,25 @@ footer.child-footer {
     margin-bottom: 0.5rem;
     transition: all 0.2s ease;
     overflow: hidden;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: transparent;
+}
+
+.article-item.diet {
+    border-left-color: var(--color-diet);
+}
+
+.article-item.muscle {
+    border-left-color: var(--color-muscle);
+}
+
+.article-item.sleep {
+    border-left-color: var(--color-sleep);
+}
+
+.article-item.others {
+    border-left-color: var(--color-others);
 }
 
 .article-item:hover {

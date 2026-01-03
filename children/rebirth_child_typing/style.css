@@ -294,9 +294,26 @@ header {
     border-radius: 12px;
     border: 1px solid var(--border);
     margin-bottom: 0.5rem;
-    /* Reduced from 0.75rem */
     transition: all 0.2s ease;
     overflow: hidden;
+    border-left-width: 5px;
+    /* Prepare for color coding */
+    border-left-style: solid;
+    border-left-color: transparent;
+    /* Default if no category */
+}
+
+/* Category Specific Card Borders */
+.article-item.daily {
+    border-left-color: var(--color-daily);
+}
+
+.article-item.analysis {
+    border-left-color: var(--color-analysis);
+}
+
+.article-item.tools {
+    border-left-color: var(--color-tools);
 }
 
 .article-item:hover {
