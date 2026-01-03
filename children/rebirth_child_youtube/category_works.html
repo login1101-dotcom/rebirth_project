@@ -14,7 +14,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>完成作品 | My YouTube Studio</title>
+    <title>作品集 | My YouTube Studio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon"
@@ -29,9 +29,9 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a class="nav-process" href="category_process.html">撮影編集過程記録</a></li>
-                    <li><a class="nav-tools" href="category_tools.html">使用ツール</a></li>
-                    <li><a class="nav-works active" href="category_works.html">完成作品</a></li>
+                    <li><a class="nav-process" href="category_process.html">制作プロセス</a></li>
+                    <li><a class="nav-tools" href="category_tools.html">機材・ツール</a></li>
+                    <li><a class="nav-works active" href="category_works.html">作品集</a></li>
                     <li><a href="view_data.html" class="nav-view-data">データ表示</a></li>
                     <li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>
                 </ul>
@@ -44,15 +44,40 @@
 
             <!-- Compact Article List -->
             <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
-                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 完成作品
-            </div>
-            <!-- Empty State -->
-            <div style="text-align:center; padding: 40px; color:#94a3b8;">
-                <p>現在、完成作品の記事はありません。</p>
+                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 作品集
             </div>
 
             <div class="article-list">
-                <!-- Data will be here -->
+                <article class="article-item works">
+                    <a href="post_5.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2025.06.01 • <span class="text-works">作品集</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">✨</div>
+                                <div class="item-click-hint">VIEW DETAILS</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">【初投稿】51歳からのRe:Birthプロジェクト始動動画</h3>
+                            <p class="item-excerpt">記念すべき1本目の動画。ここからすべてが始まる。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-item works">
+                    <a href="post_6.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2025.06.05 • <span class="text-works">作品集</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">🎬</div>
+                                <div class="item-click-hint">VIEW DETAILS</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">【Vlog】休日のルーティンと撮影の裏側</h3>
+                            <p class="item-excerpt">日常を切り取る、2本目の作品。</p>
+                        </div>
+                    </a>
+                </article>
             </div>
 
         </main>
@@ -79,7 +104,13 @@
             <!-- Categories -->
             <div class="widget">
                 <h3 class="widget-title">Categories</h3>
-                <div id="category-list"></div>
+                <div id="category-list">
+                    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem;">
+                        <li><a href="category_process.html" class="nav-process">制作プロセス</a></li>
+                        <li><a href="category_tools.html" class="nav-tools">機材・ツール</a></li>
+                        <li><a href="category_works.html" class="nav-works" style="font-weight:bold;">作品集</a></li>
+                    </ul>
+                </div>
             </div>
 
         </aside>

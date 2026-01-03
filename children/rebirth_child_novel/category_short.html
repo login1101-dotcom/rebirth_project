@@ -14,17 +14,19 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>物語 | Writer's Desk</title>
+    <title>小説 | The Writer's Desk</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖋️</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✒️</text></svg>">
 </head>
 
 <body>
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="site-brand"><span>🖋️</span> Writer's Desk<span
+            <a href="index.html" class="site-brand"><span>✒️</span> Writer's Desk <span
                     style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">小説家やエッセイストになる</span></a>
             <nav class="main-nav">
                 <ul>
@@ -46,13 +48,38 @@
             <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
                 <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 小説
             </div>
-            <!-- Empty State -->
-            <div style="text-align:center; padding: 40px; color:#94a3b8;">
-                <p>現在、小説カテゴリの記事はありません。</p>
-            </div>
 
             <div class="article-list">
-                <!-- Data will be here -->
+                <article class="article-item short">
+                    <a href="post_3.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2025.10.15 • <span class="text-short">短編小説</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">📖</div>
+                                <div class="item-click-hint">READ STORY</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">【短編】逆走する時計</h3>
+                            <p class="item-excerpt">失った時間を取り戻そうとする老人の物語。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-item short">
+                    <a href="post_5.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2025.11.01 • <span class="text-short">短編小説</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">📖</div>
+                                <div class="item-click-hint">READ STORY</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">影のない男</h3>
+                            <p class="item-excerpt">都会の喧騒に紛れた、奇妙な存在の記録。</p>
+                        </div>
+                    </a>
+                </article>
             </div>
 
         </main>
@@ -79,7 +106,13 @@
             <!-- Categories -->
             <div class="widget">
                 <h3 class="widget-title">Categories</h3>
-                <div id="category-list"></div>
+                <div id="category-list">
+                    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem;">
+                        <li><a href="category_essay.html" class="nav-essay">エッセイ</a></li>
+                        <li><a href="category_short.html" class="nav-short" style="font-weight:bold;">小説</a></li>
+                        <li><a href="category_others.html" class="nav-others">その他</a></li>
+                    </ul>
+                </div>
             </div>
 
         </aside>

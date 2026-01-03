@@ -196,12 +196,39 @@ header {
     margin-bottom: 0.5rem;
     transition: all 0.2s ease;
     overflow: hidden;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: transparent;
 }
 
 .article-item:hover {
-    transform: translateY(-2px);
+    transform: translateX(5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-color: var(--primary);
+}
+
+/* Category Specific Card Borders & Hover */
+.article-item.nishida {
+    border-left-color: var(--color-nishida);
+}
+
+.article-item.nishida:hover {
+    border-color: var(--color-nishida);
+}
+
+.article-item.schrodinger {
+    border-left-color: var(--color-schrodinger);
+}
+
+.article-item.schrodinger:hover {
+    border-color: var(--color-schrodinger);
+}
+
+.article-item.yamamoto {
+    border-left-color: var(--color-yamamoto);
+}
+
+.article-item.yamamoto:hover {
+    border-color: var(--color-yamamoto);
 }
 
 .article-item a {

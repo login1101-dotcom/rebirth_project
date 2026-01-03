@@ -14,7 +14,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading | English Gym</title>
+    <title>リーディング | English Gym</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon"
@@ -24,7 +24,7 @@
 <body>
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="site-brand"><span>🇬🇧</span> English Gym<span
+            <a href="index.html" class="site-brand"><span>🇬🇧</span> English Gym <span
                     style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">使える英語を身につける</span></a>
             <nav class="main-nav">
                 <ul>
@@ -48,13 +48,38 @@
                 <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; リーディング
             </div>
 
-            <!-- Dynamic Article Container -->
-            <div id="article-list-container" data-category="reading" class="article-list">
-                <!-- JS will fill this content -->
+            <div class="article-list">
+                <article class="article-item reading">
+                    <a href="post_10.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2026.01.03 • <span class="text-reading">リーディング</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">📖</div>
+                                <div class="item-click-hint">LEARN MORE</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">Reading Data Log: Toki Soba & Climate Change</h3>
+                            <p class="item-excerpt">学んだ単語と構文のまとめ記録。</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="article-item reading">
+                    <a href="post_1.html">
+                        <div class="item-meta-group">
+                            <div class="item-meta">2025.10.01 • <span class="text-reading">リーディング</span></div>
+                            <div class="item-logo-row">
+                                <div class="item-logo">📖</div>
+                                <div class="item-click-hint">LEARN MORE</div>
+                            </div>
+                        </div>
+                        <div class="item-title-box">
+                            <h3 class="article-title">【多読】簡単な洋書から始める習慣化</h3>
+                            <p class="item-excerpt">Graded Readersを活用した学習法。</p>
+                        </div>
+                    </a>
+                </article>
             </div>
-
-            <!-- Load Article Data & Renderer -->
-            <script src="articles_data.js"></script>
 
         </main>
         <aside class="sidebar">
@@ -80,7 +105,15 @@
             <!-- Categories -->
             <div class="widget">
                 <h3 class="widget-title">Categories</h3>
-                <div id="category-list"></div>
+                <div id="category-list">
+                    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem;">
+                        <li><a href="category_reading.html" class="nav-reading" style="font-weight:bold;">リーディング</a>
+                        </li>
+                        <li><a href="category_listening.html" class="nav-listening">リスニング</a></li>
+                        <li><a href="category_writing.html" class="nav-writing">ライティング</a></li>
+                        <li><a href="category_speaking.html" class="nav-speaking">スピーキング</a></li>
+                    </ul>
+                </div>
             </div>
 
         </aside>

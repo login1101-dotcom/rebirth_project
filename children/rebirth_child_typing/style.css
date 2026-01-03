@@ -297,10 +297,38 @@ header {
     transition: all 0.2s ease;
     overflow: hidden;
     border-left-width: 5px;
-    /* Prepare for color coding */
     border-left-style: solid;
     border-left-color: transparent;
-    /* Default if no category */
+}
+
+.article-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Category Specific Card Borders & Hover */
+.article-item.daily {
+    border-left-color: var(--color-daily);
+}
+
+.article-item.daily:hover {
+    border-color: var(--color-daily);
+}
+
+.article-item.analysis {
+    border-left-color: var(--color-analysis);
+}
+
+.article-item.analysis:hover {
+    border-color: var(--color-analysis);
+}
+
+.article-item.tools {
+    border-left-color: var(--color-tools);
+}
+
+.article-item.tools:hover {
+    border-color: var(--color-tools);
 }
 
 /* Category Specific Card Borders */
