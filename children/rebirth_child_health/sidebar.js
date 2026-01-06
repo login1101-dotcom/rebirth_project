@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "食事", link: "category_diet.html", count: 5, className: "text-diet" },
-        { name: "筋トレ", link: "category_muscle.html", count: 2, className: "text-muscle" },
-        { name: "睡眠", link: "category_sleep.html", count: 2, className: "text-sleep" },
+        { name: "食事", link: "category_diet.html", count: 4, className: "text-diet" },
+        { name: "筋トレ", link: "category_muscle.html", count: 0, className: "text-muscle" },
+        { name: "睡眠", link: "category_sleep.html", count: 0, className: "text-sleep" },
         { name: "その他", link: "category_others.html", count: 0, className: "text-others" },
     ];
 
