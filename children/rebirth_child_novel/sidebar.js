@@ -1,9 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "エッセイ", link: "category_essay.html", count: 2, className: "text-essay" },
-        { name: "物語", link: "category_short.html", count: 2, className: "text-short" },
-        { name: "その他", link: "category_others.html", count: 2, className: "text-other" },
-    ];
+    {
+        "name": "エッセイ",
+        "link": "category_essay.html",
+        "count": 3,
+        "className": "text-essay"
+    },
+    {
+        "name": "小説",
+        "link": "category_short.html",
+        "count": 0,
+        "className": "text-short"
+    },
+    {
+        "name": "その他",
+        "link": "category_others.html",
+        "count": 0,
+        "className": "text-others"
+    }
+];
 
     const currentPath = window.location.pathname.split('/').pop();
     const listContainer = document.getElementById('category-list');
@@ -20,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
             a.textContent = `${cat.name} (${cat.count})`;
             if (cat.className) a.className = cat.className;
 
-            // Simple active check
             if (currentPath === cat.link) {
                 a.classList.add('active');
             }

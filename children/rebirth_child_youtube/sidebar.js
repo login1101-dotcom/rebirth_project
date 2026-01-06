@@ -1,9 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "撮影編集過程記録", link: "category_process.html", count: 2, className: "text-process" },
-        { name: "使用ツール", link: "category_tools.html", count: 2, className: "text-tools" },
-        { name: "完成作品", link: "category_works.html", count: 2, className: "text-works" },
-    ];
+    {
+        "name": "動画",
+        "link": "category_movie.html",
+        "count": 0,
+        "className": "text-movie"
+    },
+    {
+        "name": "機材",
+        "link": "category_tools.html",
+        "count": 0,
+        "className": "text-tools"
+    },
+    {
+        "name": "分析",
+        "link": "category_analysis.html",
+        "count": 0,
+        "className": "text-analysis"
+    }
+];
 
     const currentPath = window.location.pathname.split('/').pop();
     const listContainer = document.getElementById('category-list');
@@ -20,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
             a.textContent = `${cat.name} (${cat.count})`;
             if (cat.className) a.className = cat.className;
 
-            // Simple active check
             if (currentPath === cat.link) {
                 a.classList.add('active');
             }
