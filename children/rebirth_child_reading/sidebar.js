@@ -3,19 +3,19 @@ document.addEventListener('DOMContentLoaded', function () {
     {
         "name": "善の研究",
         "link": "category_nishida.html",
-        "count": 5,
+        "count": 1,
         "className": "text-nishida"
     },
     {
         "name": "生命とは何か",
         "link": "category_schrodinger.html",
-        "count": 2,
+        "count": 1,
         "className": "text-schrodinger"
     },
     {
         "name": "日本はなぜ",
         "link": "category_yamamoto.html",
-        "count": 2,
+        "count": 1,
         "className": "text-yamamoto"
     }
 ];
