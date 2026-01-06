@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "リーディング", link: "category_reading.html", count: 3, className: "text-reading" },
-        { name: "リスニング", link: "category_listening.html", count: 3, className: "text-listening" },
-        { name: "ライティング", link: "category_writing.html", count: 3, className: "text-writing" },
-        { name: "スピーキング", link: "category_speaking.html", count: 2, className: "text-speaking" },
+        { name: "リーディング", link: "category_reading.html", count: 1, className: "text-reading" },
+        { name: "リスニング", link: "category_listening.html", count: 0, className: "text-listening" },
+        { name: "ライティング", link: "category_writing.html", count: 0, className: "text-writing" },
+        { name: "スピーキング", link: "category_speaking.html", count: 0, className: "text-speaking" },
     ];
 
     const currentPath = window.location.pathname.split('/').pop();

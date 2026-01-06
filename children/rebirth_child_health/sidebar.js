@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "食事", link: "category_diet.html", count: 6, className: "text-diet" },
-        { name: "筋トレ", link: "category_muscle.html", count: 3, className: "text-muscle" },
+        { name: "食事", link: "category_diet.html", count: 5, className: "text-diet" },
+        { name: "筋トレ", link: "category_muscle.html", count: 2, className: "text-muscle" },
         { name: "睡眠", link: "category_sleep.html", count: 2, className: "text-sleep" },
-        { name: "その他", link: "category_others.html", count: 1, className: "text-others" },
+        { name: "その他", link: "category_others.html", count: 0, className: "text-others" },
     ];
 
     const currentPath = window.location.pathname.split('/').pop();
