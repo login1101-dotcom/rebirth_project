@@ -13,7 +13,7 @@ def add_view_data_link(file_path):
         return
 
     # Look for the last navigation item or the Project Hub link
-    # Typical structure: <li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>
+    # Typical structure: <li><a href="../../index.html">← Project Hub</a></li>
     hub_link_pattern = r'<li><a href="\.\./\.\./rebirth_parent/index\.html">← Project Hub</a></li>'
     
     view_data_li = '<li><a href="view_data.html" class="nav-view-data">View Data</a></li>\n                    '
@@ -21,8 +21,8 @@ def add_view_data_link(file_path):
     if re.search(hub_link_pattern, content):
         new_content = re.sub(hub_link_pattern, view_data_li + r'\0', content)
         # Note: \0 or just repeat the pattern
-        new_content = content.replace('<li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>', 
-                                     f'<li><a href="view_data.html" class="nav-view-data">View Data</a></li>\n                    <li><a href="../../rebirth_parent/index.html">← Project Hub</a></li>')
+        new_content = content.replace('<li><a href="../../index.html">← Project Hub</a></li>', 
+                                     f'<li><a href="view_data.html" class="nav-view-data">View Data</a></li>\n                    <li><a href="../../index.html">← Project Hub</a></li>')
         
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(new_content)

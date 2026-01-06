@@ -21,7 +21,7 @@ def get_nav_items(current_filename):
         f'<li><a class="{analysis_cls}" href="category_analysis.html">分析</a></li>',
         f'<li><a class="{tools_cls}" href="category_tools.html">Typing Master Neo</a></li>',
         '<li><a href="http://localhost:8000" target="_blank" style="background:#00796b; color:white; padding:5px 12px; border-radius:4px; font-weight:bold; display:inline-block; line-height:normal; margin-left:5px;">NEO</a></li>',
-        f'<li><a class="" href="../../rebirth_parent/index.html">← Project Hub</a></li>'
+        f'<li><a class="" href="../../index.html">← Project Hub</a></li>'
     ]
     
     return "\n                    ".join(items)

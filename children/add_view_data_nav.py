@@ -22,10 +22,10 @@ def update_nav(filepath):
     # We look for the last <li> which is usually the Project Hub link, and insert before it
     # Or simply append to the list if we can find the closing </ul>
     
-    # Strategy: Find "<li><a href=\"../../rebirth_parent/index.html\">" and insert before it
+    # Strategy: Find "<li><a href=\"../../index.html\">" and insert before it
     # This assumes all child sites use the same relative path for the parent link
     
-    target_str = '<li><a href="../../rebirth_parent/index.html">'
+    target_str = '<li><a href="../../index.html">'
     
     if target_str in content:
         new_content = content.replace(target_str, f'{view_data_link}\n                    {target_str}')
