@@ -61,12 +61,12 @@ PROJECT_CONFIG = {
     },
     "rebirth_child_typing": {
         "categories": [
-            {"name": "記録", "id": "log", "keywords": ["記録", "スコア", "練習"]},
-            {"name": "上達のコツ", "id": "tips", "keywords": ["コツ", "手法", "指", "配置"]},
+            {"name": "練習", "id": "daily", "keywords": ["記録", "スコア", "練習", "苦戦", "矯正"]},
+            {"name": "分析", "id": "analysis", "keywords": ["分析", "データ", "推移", "効率化"]},
             {"name": "キーボード", "id": "hardware", "keywords": ["キーボード", "軸", "メカニカル"]}
         ],
-        "default_cat": "記録",
-        "logo_map": {"log": "⌨️", "tips": "💡", "hardware": "🔌"}
+        "default_cat": "練習",
+        "logo_map": {"daily": "⌨️", "analysis": "📈", "hardware": "🔌"}
     }
 }
 

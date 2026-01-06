@@ -17,17 +17,22 @@
 </head>
 <body>
     <header>
-        <div class="container header-inner">
-            <a href="index.html" class="site-brand"><span>📚</span> Story Forge<span style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">物語を紡ぎ出す</span></a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">ホーム</a></li>
-                    <li><a class="nav-series" href="category_series.html">連載</a></li> <li><a class="nav-short" href="category_short.html">短編</a></li> <li><a class="nav-memo" href="category_memo.html">メモ</a></li>
-                    <li><a href="../../index.html">← Project Hub</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+ <div class="container header-inner">
+ <a class="site-brand" href="index.html">
+ <span>✒️</span> Writer's Desk <span
+ style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">小説家やエッセイストになる</span></a>
+ <nav class="main-nav">
+ <ul>
+ <li><a href="index.html">ホーム</a></li>
+ <li><a class="nav-essay" href="category_essay.html">エッセイ</a></li>
+ <li><a class="nav-short" href="category_short.html">小説</a></li>
+ <li><a class="nav-others" href="category_others.html">その他</a></li>
+ <li><a href="view_data.html" class="nav-view-data">データ表示</a></li>
+ <li><a href="../../index.html">← Project Hub</a></li>
+ </ul>
+ </nav>
+ </div>
+ </header>
     <div class="container main-layout">
         <main class="content-area">
             <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
@@ -96,7 +101,10 @@
         </aside>
     </div>
     <footer class="child-footer">
-        <div class="container"><p>&copy; 2025 Story Forge | Re:Birth 55 Project</p></div>
+        <div class="container">
+            <p>&copy; 2025 Writer's Desk | Re:Birth 55 Project <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
+        </div>
     </footer>
     <script src="sidebar.js"></script>
 </body>
