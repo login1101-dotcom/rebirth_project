@@ -223,58 +223,7 @@
                 document.getElementById('calendar-wrapper').style.display = 'none';
                 document.getElementById('chart-view').style.display = 'block';
             }
-        </script> display: true,
-        position: 'right',
-        min: 0,
-        grid: { display: false },
-        ticks: { stepSize: 1, color: '#d97706' }
-        }
-        }
-        }
-        });
-
-        // --- Calendar Logic ---
-        function showCalendar(monthName, monthIndex) {
-        const wrapper = document.getElementById('calendar-wrapper');
-        const title = document.getElementById('calendar-title');
-        const grid = document.getElementById('calendar-grid');
-
-        wrapper.style.display = 'block';
-        wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        title.textContent = `📅 ${monthName} の執筆記録`;
-        title.innerHTML += `<br><span
-            style="font-size:0.8rem; font-weight:normal; color:#64748b;">(色の濃い日は執筆集中日)</span>`;
-
-        grid.innerHTML = '';
-
-        // Header (Mo, Tu, ...)
-        const days = ['月', '火', '水', '木', '金', '土', '日'];
-        days.forEach(d => {
-        const el = document.createElement('div');
-        el.className = 'cal-header';
-        el.textContent = d;
-        grid.appendChild(el);
-        });
-
-        // Generate random "activity" for demo
-        // Assuming 30 days for simplicity in this demo
-        const daysInMonth = 30;
-        const startOffset = (monthIndex * 2) % 7; // Fake offset shift
-
-        for (let i = 0; i < startOffset; i++) { const el=document.createElement('div'); el.className='cal-empty' ;
-            grid.appendChild(el); } for (let i=1; i <=daysInMonth; i++) { const el=document.createElement('div');
-            el.className='cal-day' ; el.textContent=i; // Demo Logic: Randomly assign activity levels if (Math.random()>
-            0.4) {
-            el.classList.add('cal-active');
-            // Random opacity for heatmap effect
-            const intensity = 0.4 + (Math.random() * 0.6);
-            el.style.backgroundColor = `rgba(2, 132, 199, ${intensity})`;
-            }
-
-            grid.appendChild(el);
-            }
-            }
-            </script>
+        </script>
 
             <aside class="sidebar">
 
@@ -311,8 +260,4 @@
                     style="margin-left:10px; font-size:0.8rem; color:#888;">訪問数：--</span></p>
         </div>
     </footer>
-    <script src="sidebar.js"></script>
-    <script src="counter.js"></script>
-</body>
-
-</html>
+    <script src="sidebar.js">
