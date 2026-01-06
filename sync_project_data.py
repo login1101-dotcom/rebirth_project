@@ -4,6 +4,13 @@ import re
 ROOT_DIR = "/Users/jono/.gemini/antigravity/scratch/Rebirth_Main_Work"
 CHILDREN_DIR = os.path.join(ROOT_DIR, "children")
 
+# Clean up temporary/junk files first
+print("Cleaning up junk files...")
+for root, dirs, files in os.walk(CHILDREN_DIR):
+    for f in files:
+        if any(x in f for x in ["_temp", "_update", "_fix2"]):
+            os.remove(os.path.join(root, f))
+
 PROJECT_CONFIG = {
     "rebirth_child_health": {
         "categories": [
@@ -18,7 +25,7 @@ PROJECT_CONFIG = {
     "rebirth_child_english": {
         "categories": [
             {"name": "リーディング", "id": "reading", "keywords": ["Reading", "多読", "洋書", "Kindle", "リーディング"]},
-            {"name": "リスニング", "id": "listening", "keywords": ["Listening", "リスニング", "聴", "Podcast", "ポッドキャスト", "Let It Be"]},
+            {"name": "リスニング", "id": "listening", "keywords": ["Listening", "リスニング", "聴", "Podcast", "ポッドキャスト", "Let It Be", "CNN"]},
             {"name": "ライティング", "id": "writing", "keywords": ["Writing", "ライティング", "書く", "日記", "To-Do", "Essay"]},
             {"name": "スピーキング", "id": "speaking", "keywords": ["Speaking", "スピーキング", "独り言", "会話"]}
         ],
@@ -73,17 +80,15 @@ def get_article_info(file_path, project_name):
     date_match = re.search(r'(\d{4}\.\d{2}\.\d{2})', content)
     date = date_match.group(1) if date_match else "2026.01.01"
     
-    # Excerpt
     excerpt_match = re.search(r'<div class="post-content">.*?<p.*?>(.*?)</p>', content, re.DOTALL)
     excerpt = re.sub(r'<.*?>', '', excerpt_match.group(1)).strip() if excerpt_match else ""
     if len(excerpt) > 80: excerpt = excerpt[:77] + "..."
 
-    # Infer Category
     config = PROJECT_CONFIG.get(project_name)
     category = None
     if config:
         for cat in config['categories']:
-            if any(kw in title for kw in cat['keywords']):
+            if any(kw.lower() in title.lower() for kw in cat['keywords']):
                 category = cat
                 break
         if not category:
@@ -118,6 +123,39 @@ def build_article_item_html(art, proj_name):
                     </a>
                 </article>"""
 
+def clean_and_update_file(file_path, articles, proj_name):
+    if not os.path.exists(file_path): return
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Identify the section to replace: from the first article-list div to the end of that main content area before sidebar
+    # Actually, let's just find the first article-list and replace everything until the first </main>
+    # BUT we need to avoid greediness.
+    
+    # Logic: 
+    # 1. Keep everything before <div class="article-list">
+    # 2. Add the new list.
+    # 3. Keep everything after the LAST </div> that belongs to the list, i.e., everything after </main> or <!-- Sidebar -->
+    
+    prefix_match = re.search(r'(.*?)<div class="article-list">', content, re.DOTALL)
+    if not prefix_match: return
+    prefix = prefix_match.group(1)
+    
+    suffix_match = re.search(r'</main>(.*)', content, re.DOTALL)
+    if not suffix_match:
+        suffix_match = re.search(r'<!-- Sidebar -->(.*)', content, re.DOTALL)
+    if not suffix_match:
+        suffix_match = re.search(r'<aside(.*)', content, re.DOTALL)
+    
+    if not suffix_match: return
+    suffix = suffix_match.group(0) # group(0) starts with </main> or <!-- Sidebar -->
+    
+    items_html = "\n".join([build_article_item_html(a, proj_name) for a in articles])
+    new_content = f"{prefix}<div class=\"article-list\">\n{items_html}\n            </div>\n\n        {suffix}"
+    
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+
 def update_project(project_path):
     project_name = os.path.basename(project_path)
     if project_name not in PROJECT_CONFIG: return
@@ -130,33 +168,20 @@ def update_project(project_path):
     
     articles.sort(key=lambda x: x['date'], reverse=True)
     
-    # 1. Update index.html
-    index_path = os.path.join(project_path, "index.html")
-    if os.path.exists(index_path):
-        with open(index_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        items_html = "\n".join([build_article_item_html(a, project_name) for a in articles[:8]])
-        new_list = f'<div class="article-list">\n{items_html}\n            </div>'
-        content = re.sub(r'<div class="article-list">.*?            </div>', new_list, content, flags=re.DOTALL)
-        with open(index_path, 'w', encoding='utf-8') as f: f.write(content)
+    # Update index.html
+    clean_and_update_file(os.path.join(project_path, "index.html"), articles[:8], project_name)
 
-    # 2. Update category_*.html
+    # Update category_*.html
     config = PROJECT_CONFIG[project_name]
     cat_counts = {}
     for cat in config['categories']:
         cat_file = os.path.join(project_path, f"category_{cat['id']}.html")
         cat_arts = [a for a in articles if a['category']['id'] == cat['id']]
         cat_counts[cat['name']] = len(cat_arts)
-        
         if os.path.exists(cat_file):
-            with open(cat_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-            items_html = "\n".join([build_article_item_html(a, project_name) for a in cat_arts])
-            new_list = f'<div class="article-list">\n{items_html}\n            </div>'
-            content = re.sub(r'<div class="article-list">.*?            </div>', new_list, content, flags=re.DOTALL)
-            with open(cat_file, 'w', encoding='utf-8') as f: f.write(content)
+            clean_and_update_file(cat_file, cat_arts, project_name)
 
-    # 3. Update sidebar.js
+    # Update sidebar.js
     sidebar_path = os.path.join(project_path, "sidebar.js")
     if os.path.exists(sidebar_path):
         with open(sidebar_path, 'r', encoding='utf-8') as f:
@@ -165,16 +190,13 @@ def update_project(project_path):
             content = re.sub(rf'{{ name: "{name}", (.*?) count: \d+,', f'{{ name: "{name}", \\1 count: {count},', content)
         with open(sidebar_path, 'w', encoding='utf-8') as f: f.write(content)
 
-    # 4. Update the actual post flies with correct category name
+    # Update posts metadata
     for art in articles:
-        file_path = os.path.join(project_path, art['filename'])
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        cat_name = art['category']['name']
-        # Try to find the category span in the mass-fixed layout
-        content = re.sub(r'(<div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">.*? • ).*?(</div>)', 
-                         f'\\1{cat_name}\\2', content)
-        with open(file_path, 'w', encoding='utf-8') as f: f.write(content)
+        f_path = os.path.join(project_path, art['filename'])
+        with open(f_path, 'r', encoding='utf-8') as f: c = f.read()
+        c = re.sub(r'(<div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">.*? • ).*?(</div>)', 
+                   f'\\1{art["category"]["name"]}\\2', c)
+        with open(f_path, 'w', encoding='utf-8') as f: f.write(c)
 
 for d in os.listdir(CHILDREN_DIR):
     p = os.path.join(CHILDREN_DIR, d)
