@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categories = [
-        { name: "リーディング", link: "category_reading.html", count: 4, className: "text-reading" },
+        { name: "リーディング", link: "category_reading.html", count: 3, className: "text-reading" },
         { name: "リスニング", link: "category_listening.html", count: 3, className: "text-listening" },
-        { name: "ライティング", link: "category_writing.html", count: 2, className: "text-writing" },
+        { name: "ライティング", link: "category_writing.html", count: 3, className: "text-writing" },
         { name: "スピーキング", link: "category_speaking.html", count: 2, className: "text-speaking" },
     ];
 
