@@ -2,77 +2,83 @@
 <html lang="ja">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1F416P0VQS');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>年末年始の暴食と逆流性食道炎 | Re:Birth Health</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Serif+JP:wght@400;700&display=swap"
-        rel="stylesheet">
+    <title>年末年始の暴食と逆流性食道炎 | Body Logic</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥗</text></svg>">
 </head>
 
 <body>
-    <div class="layout-container">
-        <header>
-            <div class="header-inner">
-                <a href="index.html" class="logo">Re:Birth <span>Health</span></a>
-                <nav class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="article.html">Articles</a>
-                    <a href="category_diet.html">Diet</a>
-                    <a href="../../index.html">Main Project</a>
-                </nav>
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="site-brand"><span>🥗</span> Body Logic<span
+                    style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">見た目のいい健康な体を手にいれる</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a class="nav-diet" href="category_diet.html">食事</a></li>
+                    <li><a class="nav-muscle" href="category_muscle.html">筋トレ</a></li>
+                    <li><a class="nav-sleep" href="category_sleep.html">睡眠</a></li>
+                    <li><a class="nav-others" href="category_others.html">その他</a></li>
+                    <li><a href="view_data.html" class="nav-view-data">データ表示</a></li>
+                    <li><a href="../../index.html">← Project Hub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-layout">
+        <main class="content-area">
+            <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
+                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; <a
+                    href="category_diet.html" style="color:inherit; text-decoration:none;">食事</a> &gt; 記事詳細
             </div>
-        </header>
 
-        <div class="main-content">
-            <aside class="sidebar">
-                <div class="profile-card">
-                    <div class="profile-icon">🥗</div>
-                    <h3 class="profile-name">Health 55</h3>
-                    <p class="profile-desc">見た目も中身も健康に。<br>ダイエットと筋トレの記録。</p>
-                </div>
-                <nav class="sidebar-nav">
-                    <ul id="category-list">
-                        <!-- JS populated -->
-                    </ul>
-                </nav>
-            </aside>
-
-            <article class="post-article">
-                <div class="post-header">
-                    <span class="post-category">Diet & Condition</span>
-                    <h1 class="post-title">年末年始の暴食と逆流性食道炎</h1>
-                    <div class="post-meta">
-                        <span class="post-date">2026.01.02</span>
+            <article class="single-post">
+                <header class="bg-styled bg-diet">
+                    <div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">2026.01.02 • Diet & Condition
                     </div>
-                </div>
+                    <h1>年末年始の暴食と逆流性食道炎</h1>
+                </header>
 
-                <div class="post-body">
-                    <h3>01.02 体調記録</h3>
+                <div class="post-content">
+                    <h2>01.02 体調記録</h2>
                     <p>07:57、自習室にて。天井ちらつき。</p>
                     <p>昨日、実家から帰って爆食して爆睡した。<br>
                         結果、<strong>逆流性食道炎、胸痛、声が低くなる</strong>という最悪のコンディション。</p>
 
-                    <h4>昨日の爆食メニュー (01.01夜)</h4>
-                    <p>UFO食べて満足できなくて、スイッチが入ってしまった。</p>
-                    <ul>
-                        <li>UFO焼きそば</li>
-                        <li>おにぎりせんべい</li>
-                        <li>お菓子のケーキ</li>
-                        <li>板チョコ 1/3</li>
-                        <li>どら焼き</li>
-                        <li>スパゲティ</li>
-                        <li>ご飯に「最強カレー」をかけて</li>
-                    </ul>
+                    <div class="data-notice">
+                        <h4>昨日の爆食メニュー (01.01夜)</h4>
+                        <p>UFO食べて満足できなくて、スイッチが入ってしまった。</p>
+                        <ul>
+                            <li>UFO焼きそば</li>
+                            <li>おにぎりせんべい</li>
+                            <li>お菓子のケーキ</li>
+                            <li>板チョコ 1/3</li>
+                            <li>どら焼き</li>
+                            <li>スパゲティ</li>
+                            <li>ご飯に「最強カレー」をかけて</li>
+                        </ul>
+                    </div>
+
                     <p>洗い物もせずにベッドでYouTubeショートに飲み込まれて、見ながら寝落ち。<br>
                         寝たのは19時〜21時くらい。で、寝付けない感じで朝起きたら7時。</p>
 
-                    <h3>01.02 朝食</h3>
+                    <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+                    <h2>01.02 朝食</h2>
                     <p>08:02 自習室2。頭が働いていない感じ。というか、やっと生きている感じ。<br>
                         まず、一応今日も朝、サンドイッチとおにぎりを作った。</p>
                     <ul>
@@ -81,24 +87,41 @@
                     </ul>
                     <p>涙出そう。</p>
 
-                    <h3>01.01 食事記録</h3>
-                    <ul>
-                        <li>08:15 ミックスサンド、カレーパン</li>
-                        <li>11:00 おせち、茶漬け</li>
-                        <li>11:30 ポテチ、落花生</li>
-                        <li>12:30 まんじゅう1</li>
-                    </ul>
-                    <p><strong>教訓：</strong><br>
-                        貪るように食わない。<br>
-                        大和和尚「煩悩解脱心」。</p>
-                </div>
-
-                <div class="post-navigation">
-                    <a href="post_9.html" class="prev-post">← Previous Article</a>
+                    <div style="margin-top: 3rem; display: flex; justify-content: space-between;">
+                        <a href="post_9.html" class="btn-primary" style="background-color: var(--secondary);">←
+                            前の記事へ</a>
+                        <a href="post_11.html" class="btn-primary">次の記事へ →</a>
+                    </div>
                 </div>
             </article>
-        </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget profile-widget">
+                <div class="profile-img"
+                    style="background: #cbd5e1; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                    🥗</div>
+                <h3 style="font-size:1.1rem; margin-bottom:0.5rem; text-align: center;">Bio 55</h3>
+                <p style="font-size:0.9rem; color:var(--text-light); line-height:1.6;">
+                    健康寿命を延ばす実験中。<br>
+                    現在の目標：体脂肪率 20%以下
+                </p>
+            </div>
+
+            <div class="widget">
+                <h3 class="widget-title">Categories</h3>
+                <div id="category-list"></div>
+            </div>
+        </aside>
     </div>
+
+    <footer class="child-footer">
+        <div class="container">
+            <p>&copy; 2025 Body Logic | Re:Birth 55 Project <span id="visit-counter"
+                    style="margin-left:10px; font-size:0.8rem;">訪問数：--</span></p>
+        </div>
+    </footer>
+
     <script src="sidebar.js"></script>
     <script src="counter.js"></script>
 </body>
