@@ -328,30 +328,6 @@ header {
     font-family: var(--font-heading);
 }
 
-.adsense-placeholder {
-    width: 100%;
-    height: 250px;
-    background-color: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #94a3b8;
-    font-size: 0.8rem;
-}
-
-.profile-widget {
-    text-align: center;
-}
-
-.profile-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: var(--border);
-    margin: 0 auto 1rem;
-}
-
 /* Footer */
 footer.child-footer {
     background-color: var(--bg-card);

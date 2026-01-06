@@ -29,6 +29,16 @@ PROJECT_CONFIG = {
         "default_cat": "リーディング",
         "logo_map": {"reading": "📖", "listening": "🎵", "writing": "✍️", "speaking": "🗣️"}
     },
+    "rebirth_child_reading": {
+        "title": "Deep Reading",
+        "categories": [
+            {"name": "善の研究", "id": "nishida", "keywords": ["善の研究", "西田", "純粋経験", "主客未分"]},
+            {"name": "生命とは何か", "id": "schrodinger", "keywords": ["生命とは何か", "シュレーディンガー", "エントロピー", "生命"]},
+            {"name": "日本はなぜ", "id": "yamamoto", "keywords": ["日本はなぜ", "山本七平", "精神主義", "合理的"]}
+        ],
+        "default_cat": "善の研究",
+        "logo_map": {"nishida": "📘", "schrodinger": "🧬", "yamamoto": "🇯🇵"}
+    },
     "rebirth_child_novel": {
         "title": "Writer's Desk",
         # Aligned with CSS (.essay, .short, .other) and Nav
