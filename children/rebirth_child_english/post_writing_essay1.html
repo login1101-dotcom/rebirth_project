@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
@@ -14,9 +13,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First English Essay: Why I Code | English Gym</title>
-    <meta name="description"
-        content="My first attempt at writing a full English essay. Sharing my passion for programming and why I started learning English at 51.">
+    
+    <meta name="description" content="50代からのやり直し英語学習。TOEICスコアと英会話実践の記録。">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,20 +22,20 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇬🇧</text></svg>">
+    <title>My First English Essay: Why I Code | English</title>
 </head>
-
 <body>
-
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="site-brand"><span>🇬🇧</span> English Gym<span
+            <a class="active site-brand" href="index.html">
+                <span>🇬🇧</span> English Gym <span
                     style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">使える英語を身につける</span></a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">ホーム</a></li>
+                    <li><a class="active" href="index.html">ホーム</a></li>
                     <li><a class="nav-reading" href="category_reading.html">リーディング</a></li>
                     <li><a class="nav-listening" href="category_listening.html">リスニング</a></li>
-                    <li><a class="nav-writing active" href="category_writing.html">ライティング</a></li>
+                    <li><a class="nav-writing" href="category_writing.html">ライティング</a></li>
                     <li><a class="nav-speaking" href="category_speaking.html">スピーキング</a></li>
                     <li><a href="view_data.html" class="nav-view-data">データ表示</a></li>
                     <li><a href="../../index.html">← Project Hub</a></li>
@@ -47,16 +45,18 @@
     </header>
 
     <div class="container main-layout">
-
-        <!-- Main Content (Left) -->
         <main class="content-area">
+            <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
+                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 記事詳細
+            </div>
 
             <article class="single-post">
-                <header class="bg-styled bg-writing">
-                    <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1rem;">
-                        <a href="index.html">ホーム</a> &gt; <a class="active" href="category_writing.html">ライティング</a>
-                    </div>
+                <header class="bg-styled bg-reading">
+                    <div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">2025.12.25 • Log</div>
                     <h1>My First English Essay: Why I Code</h1>
+                </header>
+
+                <div class="post-content">
                     <div class="article-meta">
                         <span class="date">2025.12.25</span> • <span class="cat text-writing">Writing (English)</span>
                     </div>
@@ -107,12 +107,14 @@
                         Activity: English Essay Writing<br>
                         Word Count: ~200 words
                     </div>
+
+                    <div style="margin-top: 3rem; display: flex; justify-content: flex-end;">
+                        <a href="index.html" class="btn-primary">一覧に戻る</a>
+                    </div>
                 </div>
             </article>
-
         </main>
 
-        <!-- Sidebar (Right) -->
         <aside class="sidebar">
 
             <!-- Author Widget -->
@@ -140,7 +142,6 @@
             </div>
 
         </aside>
-
     </div>
 
     <footer class="child-footer">
@@ -153,5 +154,4 @@
     <script src="sidebar.js"></script>
     <script src="counter.js"></script>
 </body>
-
 </html>

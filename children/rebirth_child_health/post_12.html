@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F416P0VQS"></script>
@@ -11,23 +10,29 @@
 
         gtag('config', 'G-1F416P0VQS');
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【記録】おにぎりと姿勢の因果関係 | Body Logic</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <meta name="description" content="50代からの健康管理と肉体改造。血糖値コントロールと運動の記録。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥗</text></svg>">
+    <title>【記録】おにぎりと姿勢の因果関係 | Health</title>
 </head>
-
 <body>
     <header>
         <div class="container header-inner">
-            <a href="index.html" class="site-brand"><span>🥗</span> Body Logic<span
+            <a class="active site-brand" href="index.html">
+                <span>🥗</span> Body Logic <span
                     style="font-size: 0.8rem; color: #64748b; margin-left: 10px; font-weight: normal;">見た目のいい健康な体を手にいれる</span></a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">ホーム</a></li>
+                    <li><a class="active" href="index.html">ホーム</a></li>
                     <li><a class="nav-diet" href="category_diet.html">食事</a></li>
                     <li><a class="nav-muscle" href="category_muscle.html">筋トレ</a></li>
                     <li><a class="nav-sleep" href="category_sleep.html">睡眠</a></li>
@@ -42,15 +47,17 @@
     <div class="container main-layout">
         <main class="content-area">
             <div class="breadcrumb" style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem;">
-                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; <a
-                    href="category_diet.html" style="color:inherit; text-decoration:none;">食事</a> &gt; 記事詳細
+                <a href="index.html" style="color:inherit; text-decoration:none;">ホーム</a> &gt; 記事詳細
             </div>
 
             <article class="single-post">
                 <header class="bg-styled bg-diet">
-                    <div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">2026.01.06 • Daily Log</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 0.5rem; opacity: 0.8;">Year.Month.Day • Log</div>
                     <h1>【記録】おにぎりと姿勢の因果関係</h1>
                 </header>
+
+                <div class="post-content">
+                    </header>
 
                 <div class="post-content">
                     <h2>01.06 ボディ計測</h2>
@@ -109,35 +116,41 @@
                             前の記事へ</a>
                         <a href="index.html" class="btn-primary">一覧に戻る</a>
                     </div>
+
+                    <div style="margin-top: 3rem; display: flex; justify-content: flex-end;">
+                        <a href="index.html" class="btn-primary">一覧に戻る</a>
+                    </div>
                 </div>
             </article>
         </main>
 
         <aside class="sidebar">
+
+            <!-- Author Widget -->
             <div class="widget profile-widget">
-                <div class="profile-img"
-                    style="background: #cbd5e1; width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                    🥗</div>
-                <h3 style="font-size:1.1rem; margin-bottom:0.5rem; text-align: center;">Bio 55</h3>
+                <div class="profile-img"></div> <!-- Placeholder image -->
+                <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">Bio 55</h3>
                 <p style="font-size:0.9rem; color:var(--text-light); line-height:1.6;">
                     健康寿命を延ばす実験中。<br>
                     現在の目標：体脂肪率 20%以下
                 </p>
             </div>
 
+            <!-- AdSense Widget (Top) -->
             <div class="widget">
                 <h4 class="widget-label"
                     style="font-size:0.7rem; color:#999; margin-bottom:0.5rem; text-transform:uppercase;">Sponsored</h4>
-                <div class="adsense-placeholder"
-                    style="background: #f8fafc; border: 1px dashed #cbd5e1; height: 200px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 0.8rem;">
+                <div class="adsense-placeholder">
                     Ads Display
                 </div>
             </div>
 
+            <!-- Categories -->
             <div class="widget">
                 <h3 class="widget-title">Categories</h3>
                 <div id="category-list"></div>
             </div>
+
         </aside>
     </div>
 
@@ -151,5 +164,4 @@
     <script src="sidebar.js"></script>
     <script src="counter.js"></script>
 </body>
-
 </html>
