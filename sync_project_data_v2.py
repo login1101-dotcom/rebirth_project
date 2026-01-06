@@ -219,7 +219,7 @@ def update_project(project_path):
     # 1. Gather all articles
     articles = []
     for f in os.listdir(project_path):
-        if f.startswith("post_") and f.endswith(".html"):
+        if (f.startswith("post_") or f.startswith("read_")) and f.endswith(".html"):
             articles.append(get_article_info(os.path.join(project_path, f), project_name))
     
     articles.sort(key=lambda x: x['date'], reverse=True)
