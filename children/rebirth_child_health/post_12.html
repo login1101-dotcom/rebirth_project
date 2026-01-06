@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【記録】おにぎりと姿勢の因果関係 | Re:Birth Health</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Serif+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥗</text></svg>">
+</head>
+
+<body>
+    <div class="layout-container">
+        <header>
+            <div class="header-inner">
+                <a href="index.html" class="logo">Re:Birth <span>Health</span></a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="view_data.html">Data</a>
+                    <a href="category_diet.html">Diet</a>
+                    <a href="../../rebirth_parent/index.html">Main Project</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="profile-card">
+                    <div class="profile-icon">🥗</div>
+                    <h3 class="profile-name">Health 55</h3>
+                    <p class="profile-desc">見た目も中身も健康に。<br>ダイエットと筋トレの記録。</p>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="category-list">
+                        <!-- JS populated -->
+                    </ul>
+                </nav>
+            </aside>
+
+            <article class="post-article">
+                <div class="post-header bg-diet">
+                    <span class="post-category">Daily Log</span>
+                    <h1 class="post-title">【記録】おにぎりと姿勢の因果関係</h1>
+                    <div class="post-meta">
+                        <span class="post-date">2026.01.06</span>
+                    </div>
+                </div>
+
+                <div class="post-body">
+                    <h3>01.06 ボディ計測</h3>
+                    <div class="summary-dashboard"
+                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                        <div class="summary-card" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <span style="font-size: 0.8rem; color: #666;">体重</span>
+                            <div style="font-size: 1.2rem; font-weight: bold;">82.4kg</div>
+                        </div>
+                        <div class="summary-card" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <span style="font-size: 0.8rem; color: #666;">体脂肪</span>
+                            <div style="font-size: 1.2rem; font-weight: bold;">28.8%</div>
+                        </div>
+                        <div class="summary-card" style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <span style="font-size: 0.8rem; color: #666;">筋肉量?</span>
+                            <div style="font-size: 1.2rem; font-weight: bold;">59</div>
+                        </div>
+                    </div>
+
+                    <h3>01.06 食事記録</h3>
+                    <ul class="timeline-log">
+                        <li><strong>07:19</strong> おにぎり 1 / さんどはーふ 3</li>
+                    </ul>
+
+                    <h3>思考メモ・エッセイ</h3>
+                    <p>
+                        腰が痛い。これはヘルニア系の可能性もある。長時間の座り仕事が原因だろう。<br>
+                        ちょくちょく散歩せざるを得ない。食後や1〜2時間に1回くらいのペースで歩くようにしてみよう。
+                    </p>
+                    <p>
+                        腹が出ているので姿勢が悪くなる。内臓脂肪・皮下脂肪を本気で減らす必要がある。<br>
+                        自炊は続いているが、スーパー「フレスコ」に行くと、安売りの誘惑に負けてお菓子などを買ってしまう。
+                    </p>
+                    <p>
+                        ふと見かけたインド系の人は、買い物が必要な物（玉ねぎ、缶詰、しめじ等）だけだった。それを見て、自分は51歳にもなって、まだ買い物がちゃんとできていないんだなと痛感した。
+                    </p>
+                    <p>
+                        一番の問題は、夜ご飯の爆食い。「漠（バク）こうしん」を抑えなければならない。
+                    </p>
+
+                    <hr>
+
+                    <h3>目標：Health Project</h3>
+                    <ul>
+                        <li><strong>最終目標：</strong> 70kg</li>
+                        <li><strong>アクション：</strong> 長時間座り仕事を避け、こまめに動く。</li>
+                    </ul>
+                </div>
+
+                <div class="post-navigation">
+                    <a href="post_11.html" class="prev-post" id="prev-link">← Previous Article</a>
+                </div>
+            </article>
+        </div>
+    </div>
+    <script src="sidebar.js"></script>
+    <script src="counter.js"></script>
+    <script>
+        // Adjust previous link based on actual file existence
+        fetch('post_11.html').then(res => {
+            if (!res.ok) document.getElementById('prev-link').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
